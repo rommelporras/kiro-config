@@ -74,7 +74,8 @@ kiro-config/
     └── reference/
         ├── skill-catalog.md               # All 11 skills: when to use, how they chain
         ├── security-model.md              # 3 defense layers: hooks, denied paths, denied commands
-        └── creating-agents.md             # Field reference, security baseline, agent recipes
+        ├── creating-agents.md             # Field reference, security baseline, agent recipes
+        └── CHANGELOG.md                   # Release history
 ```
 
 ## Skills
