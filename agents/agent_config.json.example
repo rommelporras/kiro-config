@@ -1,0 +1,103 @@
+{
+  "_comment": "Rename to <agent-name>.json to activate. Docs: https://kiro.dev/docs/cli/custom-agents/",
+
+  "name": "example",
+  "description": "Example agent — copy and customize for your use case",
+  "welcomeMessage": "Example agent active. Customize this message for your agent.",
+
+  "prompt": null,
+  "model": null,
+  "keyboardShortcut": null,
+
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "aws",
+    "report",
+    "introspect",
+    "knowledge",
+    "thinking",
+    "todo",
+    "delegate",
+    "grep",
+    "glob",
+    "web_fetch",
+    "web_search",
+    "@context7",
+    "@awslabs.aws-documentation-mcp-server",
+    "@awslabs.aws-diagram-mcp-server"
+  ],
+
+  "allowedTools": [
+    "read",
+    "grep",
+    "glob",
+    "web_fetch",
+    "web_search",
+    "@context7",
+    "@awslabs.aws-documentation-mcp-server",
+    "@awslabs.aws-diagram-mcp-server"
+  ],
+
+  "toolAliases": {},
+
+  "resources": [
+    "file://~/.kiro/steering/**/*.md",
+    "file://.kiro/steering/**/*.md",
+    "skill://.kiro/skills/*/SKILL.md",
+    "skill://~/.kiro/skills/*/SKILL.md"
+  ],
+
+  "mcpServers": {},
+  "includeMcpJson": true,
+
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/scan-secrets.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/protect-sensitive.sh",
+        "timeout_ms": 3000,
+        "cache_ttl_seconds": 60
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/bash-write-protect.sh",
+        "timeout_ms": 5000
+      }
+    ],
+    "stop": [
+      {
+        "command": "bash ~/.kiro/hooks/notify.sh"
+      }
+    ]
+  },
+
+  "toolsSettings": {
+    "fs_read": {
+      "allowedPaths": ["~/.kiro", "~/personal", "~/eam"],
+      "deniedPaths": ["~/.ssh", "~/.aws/credentials", "~/.gnupg", "~/.config/gh"]
+    },
+    "fs_write": {
+      "allowedPaths": ["~/personal", "~/eam"],
+      "deniedPaths": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config/gh"]
+    },
+    "execute_bash": {
+      "autoAllowReadonly": true,
+      "deniedCommands": [
+        "rm -rf /",
+        "rm -rf /*",
+        "rm -rf ~",
+        "chmod -R 777 /"
+      ]
+    },
+    "use_aws": {
+      "autoAllowReadonly": true
+    }
+  }
+}

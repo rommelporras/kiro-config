@@ -1,0 +1,93 @@
+{
+  "name": "base",
+  "description": "Base agent with read-only tools pre-approved",
+  "prompt": null,
+  "welcomeMessage": "Base agent active — global steering, 11 skills, and security hooks loaded. Run /context show to verify.",
+  "mcpServers": {},
+  "tools": [
+    "fs_read",
+    "fs_write",
+    "execute_bash",
+    "use_aws",
+    "introspect",
+    "grep",
+    "glob",
+    "web_fetch",
+    "web_search",
+    "@context7",
+    "@awslabs.aws-documentation-mcp-server",
+    "@awslabs.aws-diagram-mcp-server"
+  ],
+  "toolAliases": {},
+  "allowedTools": [
+    "fs_read",
+    "grep",
+    "glob",
+    "introspect",
+    "web_fetch",
+    "web_search",
+    "@context7",
+    "@awslabs.aws-documentation-mcp-server",
+    "@awslabs.aws-diagram-mcp-server"
+  ],
+  "resources": [
+    "file://~/.kiro/steering/**/*.md",
+    "file://.kiro/steering/**/*.md",
+    "skill://.kiro/skills/*/SKILL.md",
+    "skill://~/.kiro/skills/*/SKILL.md"
+  ],
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/scan-secrets.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/protect-sensitive.sh",
+        "timeout_ms": 3000,
+        "cache_ttl_seconds": 60
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/bash-write-protect.sh",
+        "timeout_ms": 5000
+      }
+    ],
+    "stop": [
+      {
+        "command": "bash ~/.kiro/hooks/notify.sh",
+        "description": "Play notification sound when agent finishes"
+      }
+    ]
+  },
+  "toolsSettings": {
+    "fs_read": {
+      "allowedPaths": ["~/.kiro", "~/personal", "~/eam"],
+      "deniedPaths": ["~/.ssh", "~/.aws/credentials", "~/.gnupg", "~/.config/gh", "~/.kiro/settings/cli.json"]
+    },
+    "fs_write": {
+      "allowedPaths": ["~/personal", "~/eam"],
+      "deniedPaths": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config/gh", "~/.kiro/settings/cli.json"]
+    },
+    "execute_bash": {
+      "autoAllowReadonly": true,
+      "deniedCommands": [
+        "rm -rf /",
+        "rm -rf /*",
+        "rm -rf ~",
+        "chmod -R 777 /",
+        "mkfs.",
+        "dd if=/dev",
+        "> /dev/sd",
+        "> /dev/nvme"
+      ]
+    },
+    "use_aws": {
+      "autoAllowReadonly": true
+    }
+  },
+  "includeMcpJson": true,
+  "model": null
+}
