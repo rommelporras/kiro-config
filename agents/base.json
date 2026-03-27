@@ -73,12 +73,22 @@
     },
     "execute_bash": {
       "autoAllowReadonly": true,
+      "allowedCommands": [
+        "git add .*",
+        "git commit .*",
+        "git stash.*",
+        "git checkout .*",
+        "git switch .*",
+        "git branch.*",
+        "readlink .*",
+        "find .*"
+      ],
       "deniedCommands": [
-        "rm -rf /",
-        "rm -rf /*",
-        "rm -rf ~",
+        "rm .*",
+        "git push .*",
+        "git push",
         "chmod -R 777 /",
-        "mkfs.",
+        "mkfs\\.",
         "dd if=/dev",
         "> /dev/sd",
         "> /dev/nvme"
