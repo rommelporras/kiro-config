@@ -46,7 +46,15 @@ If a secret pattern is found, **stop immediately**. Report the file and pattern.
 
 ## Step 3 — Draft the commit message
 
-Conventional commit format — `type: short description`:
+Commit message format — `TICKET-ID - type: short description`
+
+Extract the ticket ID from the current branch name. For example:
+- Branch `feature/MTOPS-5324` → ticket ID is `MTOPS-5324`
+- Branch `feature/PROJ-123` → ticket ID is `PROJ-123`
+
+Pattern: strip the prefix before the last `/` to get the ticket ID.
+
+Format: `<TICKET-ID> - <type>: <description>`
 
 | Type | When to use |
 |---|---|
@@ -57,10 +65,32 @@ Conventional commit format — `type: short description`:
 | `chore:` | Build, tooling, config, dependencies |
 | `infra:` | Infrastructure, deployment, CI/CD |
 
+Examples:
+- `MTOPS-5324 - feat: add eam-ecs-bounce safe ECS rolling restart tool`
+- `MTOPS-5324 - docs: restructure README and add per-script docs`
+- `MTOPS-4450 - fix: correct NiFi pod restart timeout handling`
+
 Rules:
-- Subject line: max 72 characters, lowercase after the colon, no trailing period
-- Body (optional): explain **why**, not what — blank line after subject, wrap at 72 chars
+- Subject line: max 72 characters, lowercase after the type colon, no trailing period
+- Wrap body lines at 72 chars
 - **NEVER add AI attribution** — no "Co-Authored-By" AI lines, no "Generated with" AI tool names, no AI references of any kind
+
+### When to add a commit body
+
+Use the diff size and nature to decide — not every commit needs a body.
+
+| Condition | Body? | Why |
+|---|---|---|
+| 1-3 files, simple change | No | Subject line is enough |
+| 4+ files or new feature/tool | Yes | Summarize what it does and key capabilities |
+| Bug fix with non-obvious root cause | Yes | Explain what was wrong and why the fix works |
+| Refactor touching many files | Yes | Explain the motivation and what changed structurally |
+| Docs-only reorganization | No | The diff is self-explanatory |
+
+Body format — blank line after subject, then:
+- **feat/refactor**: 2-4 lines summarizing capabilities or structural changes
+- **fix**: 1-2 lines explaining root cause and fix approach
+- Stats line (optional): test count, file count, or other concrete metrics if significant
 
 ## Step 4 — Stage specific files
 
