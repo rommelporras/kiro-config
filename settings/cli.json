@@ -2,5 +2,6 @@
   "chat.defaultModel": "auto",
   "mcp.loadedBefore": true,
   "chat.enableCheckpoint": true,
-  "chat.defaultAgent": "base"
+  "chat.defaultAgent": "base",
+  "chat.enableSubagent": true
 }

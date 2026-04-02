@@ -69,7 +69,7 @@
     },
     "fs_write": {
       "allowedPaths": ["~/personal", "~/eam"],
-      "deniedPaths": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config/gh", "~/.kiro/settings/cli.json"]
+      "deniedPaths": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config/gh", "~/.kiro/settings/cli.json", "~/.kiro/agents", "~/.kiro/hooks", "~/.kiro/steering"]
     },
     "execute_bash": {
       "autoAllowReadonly": true,

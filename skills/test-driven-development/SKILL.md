@@ -115,7 +115,11 @@ Vague name, tests mock not code
 **MANDATORY. Never skip.**
 
 ```bash
+# TypeScript
 npm test path/to/test.test.ts
+
+# Python
+uv run pytest tests/test_module.py::TestClass::test_name -v
 ```
 
 Confirm:
@@ -170,7 +174,11 @@ Don't add features, refactor other code, or "improve" beyond the test.
 **MANDATORY.**
 
 ```bash
+# TypeScript
 npm test path/to/test.test.ts
+
+# Python
+uv run pytest tests/ -q
 ```
 
 Confirm:
@@ -323,6 +331,36 @@ PASS
 
 **REFACTOR**
 Extract validation for multiple fields if needed.
+
+## Example: Python Bug Fix
+
+**Bug:** Batch size calculation allows 0 tasks killed
+
+**RED**
+```python
+def test_batch_size_minimum_one():
+    """Capacity 90 with 2 tasks should still kill at least 1."""
+    assert calculate_batch_size(2, 90) == 1
+```
+
+**Verify RED**
+```bash
+$ uv run pytest tests/test_types.py::test_batch_size_minimum_one -v
+FAILED: assert 0 == 1
+```
+
+**GREEN**
+```python
+def calculate_batch_size(task_count: int, capacity: int) -> int:
+    keep_alive = math.ceil(task_count * capacity / 100)
+    return max(1, task_count - keep_alive)
+```
+
+**Verify GREEN**
+```bash
+$ uv run pytest tests/ -q
+230 passed
+```
 
 ## Verification Checklist
 

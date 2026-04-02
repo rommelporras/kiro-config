@@ -27,6 +27,14 @@
 - Bug fixes require a regression test that reproduces the bug before writing the fix.
 - Tests use real code — mocks only when unavoidable (external APIs, etc.).
 
+## Skill Execution
+
+- When a skill is triggered (commit, push, audit, etc.), execute ALL steps
+  in one pass. Don't split across messages or stop halfway.
+- Follow the skill's step order exactly. Don't skip steps, reorder, or
+  "already know" the answer from earlier context.
+- If a step fails or blocks, stop and report — don't silently skip it.
+
 ## Systematic Debugging
 
 - No fixes without root cause investigation first. Read error messages completely.
