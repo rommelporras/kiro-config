@@ -25,7 +25,7 @@ kiro-cli doctor
 
 ## Steering not loading
 
-**Symptom:** `/context show` doesn't list global steering files (`engineering.md`, `tooling.md`, `universal-rules.md`).
+**Symptom:** `/context show` doesn't list global steering files (`engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`).
 
 **Cause:** Custom agents don't load steering automatically. The `resources` field must explicitly include them.
 

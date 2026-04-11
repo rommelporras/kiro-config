@@ -55,11 +55,3 @@ archive_promoted() {
   grep -v '\[promoted\]\|| resolved |' "$EPISODES" > "${EPISODES}.tmp"
   mv "${EPISODES}.tmp" "$EPISODES"
 }
-
-section_cap_enforce() {
-  # Cap each rules section at 5 rules, remove oldest (topmost) excess
-  [[ ! -f "$RULES" ]] && return
-  # Simple: count lines starting with "- " under each section, trim if >5
-  # Deferred — sections unlikely to exceed 5 in normal usage
-  :
-}

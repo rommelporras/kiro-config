@@ -77,6 +77,13 @@
         "command": "bash ~/.kiro/hooks/notify.sh",
         "description": "Play notification sound when agent finishes"
       }
+    ],
+    "agentSpawn": [
+      {
+        "command": "bash ~/.kiro/hooks/workspace-context.sh",
+        "description": "Inject workspace context at session start",
+        "timeout_ms": 5000
+      }
     ]
   },
   "toolsSettings": {

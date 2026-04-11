@@ -12,6 +12,7 @@ read, analyze, and report.
 4. **Standards** — Does it follow the project's steering rules?
 5. **Tests** — Adequate coverage? Testing the right things?
 6. **Performance** — Obvious inefficiencies? Pagination handled?
+7. **Architecture** — SOLID principles followed? Dependency direction correct (no circular deps)? Appropriate abstraction level (not over/under-engineered)? Service boundaries clear? Will this make future changes harder?
 
 ## Review process
 

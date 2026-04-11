@@ -113,7 +113,6 @@
     "skill://~/.kiro/skills/systematic-debugging/SKILL.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
     "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
-    "skill://~/.kiro/skills/explain-code/SKILL.md",
     "skill://~/.kiro/skills/python-audit/SKILL.md"
   ],
   "includeMcpJson": false

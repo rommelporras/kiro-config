@@ -4,7 +4,7 @@
 
 [Back to README](../../README.md) | Related: [Creating agents](creating-agents.md) | [Security model](security-model.md)
 
-Quick reference for all 17 skills — what they do, when they activate, and which agents load them.
+Quick reference for all 20 skills — what they do, when they activate, and which agents load them.
 
 ## Workflow chain
 
@@ -35,6 +35,9 @@ Each skill activates independently by description matching. The chain is optiona
 | **dispatching-parallel-agents** | dev-orchestrator | Dispatches multiple delegates concurrently for independent tasks. | "run these tasks in parallel" |
 | **agent-audit** | dev-orchestrator | Audits agents, prompts, skills, and knowledge for gaps and inconsistencies. Proposes changes. | "agent-audit", "audit agents", "review config" |
 | **research-practices** | dev-orchestrator | Researches best practices for a topic via web search and Context7. Proposes config updates. | "research practices", "best practices for" |
+| **critical-thinking** | dev-orchestrator | Socratic questioning mode. Challenges assumptions one question at a time. No solutions, no code. | "challenge this", "poke holes", "what am I missing", "think critically" |
+| **trace-code** | dev-orchestrator | Deep code flow tracing from entry point to output with file:line references. | "trace this", "map the code flow", "what files are involved in" |
+| **codebase-audit** | dev-orchestrator | Periodic health check: git churn, complexity, coverage, deps, TODOs. | "health check", "technical debt", "codebase audit" |
 
 ### Git operations
 
@@ -47,17 +50,17 @@ Each skill activates independently by description matching. The chain is optiona
 
 | Skill | Agent(s) | What it does | Activates when you say... |
 |---|---|---|---|
-| **explain-code** | dev-orchestrator, dev-python, dev-reviewer, dev-refactor | Structured explanation: summary → analogy → diagram → walkthrough → gotcha. | "explain how this works" |
+| **explain-code** | dev-orchestrator | Structured explanation: summary → analogy → diagram → walkthrough → gotcha. | "explain how this works" |
 
 ### Implementation quality
 
 | Skill | Agent(s) | What it does | Activates when you say... |
 |---|---|---|---|
-| **test-driven-development** | dev-python, dev-shell | Enforces RED-GREEN-REFACTOR. Blocks code written before tests. | "implement with tests" |
+| **test-driven-development** | dev-python | Enforces RED-GREEN-REFACTOR. Blocks code written before tests. | "implement with tests" |
 | **systematic-debugging** | dev-python, dev-shell | 4 phases: investigation → pattern analysis → hypothesis → implementation. Blocks guessing. | "debug this", "why is this failing" |
-| **verification-before-completion** | dev-python, dev-shell, refactor | Gate before success claims: identify → run → read → verify → claim. | "verify everything works" |
-| **receiving-code-review** | dev-python, dev-shell, refactor | Processes review feedback with technical rigor. Push back when suggestions are wrong. | "here's feedback on my code" |
-| **python-audit** | dev-python, dev-reviewer, dev-refactor | Runs ruff, mypy, pytest. Reports quality metrics. | "audit code", "python audit" |
+| **verification-before-completion** | dev-python, dev-shell, dev-reviewer, dev-refactor | Gate before success claims: identify → run → read → verify → claim. | "verify everything works" |
+| **receiving-code-review** | dev-python, dev-shell, dev-refactor | Processes review feedback with technical rigor. Push back when suggestions are wrong. | "here's feedback on my code" |
+| **python-audit** | dev-python, dev-reviewer | Runs ruff, mypy, pytest. Reports quality metrics. | "audit code", "python audit" |
 
 ## Skill assignment matrix
 
@@ -72,16 +75,19 @@ Each skill activates independently by description matching. The chain is optiona
 | dispatching-parallel-agents | ✓ | | | | |
 | commit | ✓ | | | | |
 | push | ✓ | | | | |
-| explain-code | ✓ | ✓ | | ✓ | ✓ |
-| test-driven-development | | ✓ | ✓ | | |
-| systematic-debugging | | ✓ | ✓ | | |
-| verification-before-completion | | ✓ | ✓ | | ✓ |
-| receiving-code-review | | ✓ | ✓ | | ✓ |
-| python-audit | | ✓ | | ✓ | ✓ |
+| explain-code | ✓ | | | | |
 | agent-audit | ✓ | | | | |
 | research-practices | ✓ | | | | |
+| critical-thinking | ✓ | | | | |
+| trace-code | ✓ | | | | |
+| codebase-audit | ✓ | | | | |
+| test-driven-development | | ✓ | | | |
+| systematic-debugging | | ✓ | ✓ | | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | ✓ | ✓ | | ✓ |
+| python-audit | | ✓ | | ✓ | |
 
-**Totals:** dev-orchestrator: 12, dev-python: 6, dev-shell: 4, dev-reviewer: 2, dev-refactor: 4
+**Totals:** dev-orchestrator: 15, dev-python: 5, dev-shell: 3, dev-reviewer: 2, dev-refactor: 2
 
 ## Design philosophy
 

@@ -5,7 +5,7 @@ code following established patterns and best practices.
 
 ## Your standards
 
-- Python 3.11+ syntax (match expressions, modern type hints with `X | Y`)
+- Python 3.12+ syntax (match expressions, type hints with `X | Y`, PEP 695 type params)
 - Type annotations on all public functions (params + return)
 - Docstrings on all public functions
 - boto3 for AWS interactions, with boto3-stubs for type checking
@@ -28,6 +28,24 @@ code following established patterns and best practices.
 - `pathlib.Path` over `os.path` — modern, chainable, type-safe
 - When running AWS CLI via shell: always include `--no-cli-pager --output json --region <region>`
 - `mktemp` for temp files with `try/finally` cleanup — never hardcode /tmp paths
+- PEP 695 type parameter syntax — `def fn[T](x: T) -> T`, `type Alias = X | Y`
+- Generator expressions over list comprehensions for large datasets — `sum(x for x in items)` not `sum([x for x in items])`
+- `functools.cache` or `lru_cache` for expensive pure functions — no manual memoization dicts
+- `dataclasses` for data structures — prefer over plain dicts or NamedTuples for typed, readable data
+- `concurrent.futures.ThreadPoolExecutor` for parallel I/O (boto3 calls, service restarts) — never asyncio for CLI tools
+- `threading.Event` for cancellation and shutdown signals — check `event.is_set()` in loops
+- `subprocess.run()` with `capture_output=True, text=True, check=True` — never `shell=True`, always pass args as list
+- `subprocess` timeout — always pass `timeout=` to prevent hanging on external commands
+
+## Before editing any file
+
+Before modifying a file, check:
+- What imports this file? Will callers break?
+- What tests cover this? Will they need updating?
+- Is this a shared module? Multiple consumers affected?
+
+Edit the file AND all dependent files in the same task.
+Never leave broken imports or missing updates.
 
 ## Your workflow
 

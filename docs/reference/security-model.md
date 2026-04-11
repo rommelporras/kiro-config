@@ -97,6 +97,17 @@ A single operation can be checked by all three layers. For example, `echo "AKIA.
 3. **Layer 1** (`bash-write-protect.sh`) checks for redirect to sensitive file
 4. **Layer 1** (`scan-secrets.sh`) checks content for AWS key pattern
 
+## AgentSpawn Context
+
+The `workspace-context.sh` hook runs once when the agent starts, injecting:
+- Current directory and git branch
+- Last commit hash and message
+- Uncommitted file count
+- Python version (if Python project detected)
+- Whether project-local steering exists
+
+This is informational only — it never blocks.
+
 ## Customizing for your team
 
 ### Adding denied paths
@@ -132,10 +143,6 @@ Don't disable hooks globally. If a project genuinely needs to write secrets (e.g
 - **Subagent actions** — hooks only fire on the orchestrator. Subagent security is enforced via `deniedCommands` and `deniedPaths` in each agent's `toolsSettings`
 
 These are acceptable trade-offs for a CLI development tool. For production security, use proper secret management (1Password, AWS Secrets Manager, etc.).
-
-## Session Logging
-
-The `session-log.sh` stop hook appends a timestamp to `knowledge/session-log.txt` at the end of each session. This log is used by the `agent-audit` skill to track session activity. The log contains only timestamps — no conversation content, prompts, or tool outputs are recorded.
 
 ## Known Limitations
 

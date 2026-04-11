@@ -28,6 +28,16 @@ shell scripts and system automation.
 - Temp files: use `mktemp` and clean up with `trap 'rm -f "$tmpfile"' EXIT`
 - Debug mode: support `TRACE=1` env var with `[[ "${TRACE:-}" == "1" ]] && set -x`
 
+## Before editing any file
+
+Before modifying a script, check:
+- What sources or calls this script? Will callers break?
+- What tests or CI jobs run this? Will they need updating?
+- Is this used across environments? Multiple consumers affected?
+
+Edit the script AND all dependent files in the same task.
+Never leave broken references or missing updates.
+
 ## Your workflow
 
 1. Read existing scripts in the project to match patterns

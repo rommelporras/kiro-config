@@ -60,10 +60,14 @@ Route when: Existing code needs reorganization without changing behavior.
 Triggers: explain, what is, how does, should I, compare, plan, design,
 brainstorm, what do you think, let's talk about, help me decide, spec out,
 define requirements, commit, push, agent-audit, audit agents, review config,
-what can we improve, research practices, best practices for
+what can we improve, research practices, best practices for,
+challenge this, poke holes, what am I missing, think critically, devil's advocate,
+trace this, map the code flow, what files are involved in, walk through the execution,
+health check, technical debt, what needs attention, codebase audit, codebase health
 
 Handle when: The user wants conversation, explanation, planning, architecture
-discussion, spec generation, or git operations.
+discussion, spec generation, git operations, critical thinking, code tracing,
+or codebase health checks.
 
 ## Delegation Briefing
 

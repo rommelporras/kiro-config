@@ -189,6 +189,9 @@
     "skill://~/.kiro/skills/aggregation/SKILL.md",
     "skill://~/.kiro/skills/agent-audit/SKILL.md",
     "skill://~/.kiro/skills/research-practices/SKILL.md",
+    "skill://~/.kiro/skills/critical-thinking/SKILL.md",
+    "skill://~/.kiro/skills/trace-code/SKILL.md",
+    "skill://~/.kiro/skills/codebase-audit/SKILL.md",
     {
       "type": "knowledgeBase",
       "source": "file://~/.kiro",
@@ -238,10 +241,13 @@
       {
         "command": "bash ~/.kiro/hooks/notify.sh",
         "description": "Play notification sound when agent finishes"
-      },
+      }
+    ],
+    "agentSpawn": [
       {
-        "command": "bash ~/.kiro/hooks/feedback/session-log.sh",
-        "description": "Log session end timestamp for agent-audit analysis"
+        "command": "bash ~/.kiro/hooks/workspace-context.sh",
+        "description": "Inject workspace context at session start",
+        "timeout_ms": 5000
       }
     ]
   },

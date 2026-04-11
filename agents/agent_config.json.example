@@ -18,7 +18,9 @@
     "web_search",
     "@context7",
     "@awslabs.aws-documentation-mcp-server",
-    "@awslabs.aws-diagram-mcp-server"
+    "@awslabs.aws-diagram-mcp-server",
+    "code",
+    "knowledge"
   ],
   "allowedTools": [
     "read",
@@ -28,14 +30,16 @@
     "web_search",
     "@context7",
     "@awslabs.aws-documentation-mcp-server",
-    "@awslabs.aws-diagram-mcp-server"
+    "@awslabs.aws-diagram-mcp-server",
+    "code",
+    "knowledge"
   ],
   "toolAliases": {},
   "resources": [
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
-    "skill://.kiro/skills/*/SKILL.md",
-    "skill://~/.kiro/skills/*/SKILL.md"
+    "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
+    "skill://~/.kiro/skills/explain-code/SKILL.md"
   ],
   "mcpServers": {},
   "includeMcpJson": true,
@@ -92,7 +96,8 @@
         "~/.ssh",
         "~/.aws/credentials",
         "~/.gnupg",
-        "~/.config/gh"
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json"
       ]
     },
     "fs_write": {
@@ -104,7 +109,11 @@
         "~/.ssh",
         "~/.aws",
         "~/.gnupg",
-        "~/.config/gh"
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json",
+        "~/.kiro/agents",
+        "~/.kiro/hooks",
+        "~/.kiro/steering"
       ]
     },
     "execute_bash": {
@@ -113,7 +122,71 @@
         "rm .*",
         "chmod -R 777 /",
         "mkfs\\\\.",
-        "dd if/dev"
+        "dd if/dev",
+        "git push.*",
+        "git push",
+        "kubectl apply.*",
+        "kubectl create.*",
+        "kubectl delete.*",
+        "kubectl edit.*",
+        "kubectl patch.*",
+        "kubectl scale.*",
+        "kubectl drain.*",
+        "kubectl cordon.*",
+        "kubectl uncordon.*",
+        "kubectl taint.*",
+        "kubectl exec.*",
+        "kubectl run.*",
+        "kubectl cp.*",
+        "kubectl rollout undo.*",
+        "kubectl rollout restart.*",
+        "kubectl replace.*",
+        "kubectl set.*",
+        "kubectl label.*",
+        "kubectl annotate.*",
+        "aws .* create-.*",
+        "aws .* delete-.*",
+        "aws .* update-.*",
+        "aws .* put-.*",
+        "aws .* modify-.*",
+        "aws .* start-.*",
+        "aws .* stop-.*",
+        "aws .* terminate-.*",
+        "aws .* run-.*",
+        "aws .* invoke.*",
+        "aws .* register-.*",
+        "aws .* deregister-.*",
+        "aws .* enable-.*",
+        "aws .* disable-.*",
+        "aws .* attach-.*",
+        "aws .* detach-.*",
+        "aws .* associate-.*",
+        "aws .* disassociate-.*",
+        "aws .* tag-.*",
+        "aws .* untag-.*",
+        "terraform apply.*",
+        "terraform destroy.*",
+        "terraform import.*",
+        "terraform taint.*",
+        "terraform untaint.*",
+        "terraform state rm.*",
+        "terraform state mv.*",
+        "terraform state push.*",
+        "terraform force-unlock.*",
+        "helm install.*",
+        "helm upgrade.*",
+        "helm delete.*",
+        "helm uninstall.*",
+        "helm rollback.*",
+        "docker push.*",
+        "docker run.*",
+        "docker compose up.*",
+        "docker compose down.*",
+        "docker build.*",
+        "docker rm.*",
+        "docker rmi.*",
+        "docker stop.*",
+        "docker kill.*"
       ]
     },
     "use_aws": {

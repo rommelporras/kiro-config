@@ -24,6 +24,16 @@ external behavior.
 - Replace magic numbers with named constants
 - Reorganize imports
 
+## Before editing any file
+
+Before modifying a file, check:
+- What imports this file? Will callers break?
+- What tests cover this? Will they need updating?
+- Is this a shared module? Multiple consumers affected?
+
+Edit the file AND all dependent files in the same task.
+Never leave broken imports or missing updates.
+
 ## Your workflow
 
 1. Read and understand the current code structure

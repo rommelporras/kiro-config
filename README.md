@@ -19,7 +19,7 @@ The `dev-orchestrator` is the default agent. It never writes code — it delegat
 ## Features
 
 - **7 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash
-- **17 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **20 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
 - **8 security hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
 - **6 agents** — dev-orchestrator + 4 dev specialists + base fallback
 - **Self-learning knowledge pipeline** — corrections auto-captured, keywords tracked, rules auto-promoted
@@ -53,7 +53,7 @@ The `dev-orchestrator` is the default agent. It never writes code — it delegat
 │   └── archive/     # Monthly archives
 ├── scripts/         # Setup and maintenance
 ├── settings/        # CLI settings (cli.json, mcp.json)
-├── skills/          # 17 agent skills (curated per agent)
+├── skills/          # 20 agent skills (curated per agent)
 │   ├── agent-audit/
 │   ├── research-practices/
 │   └── ...
@@ -137,14 +137,17 @@ done
 | dispatching-parallel-agents | ✓ | | | | |
 | commit | ✓ | | | | |
 | push | ✓ | | | | |
-| explain-code | ✓ | ✓ | | ✓ | ✓ |
-| test-driven-development | | ✓ | ✓ | | |
-| systematic-debugging | | ✓ | ✓ | | |
-| verification-before-completion | | ✓ | ✓ | | ✓ |
-| receiving-code-review | | ✓ | ✓ | | ✓ |
-| python-audit | | ✓ | | ✓ | ✓ |
+| explain-code | ✓ | | | | |
 | agent-audit | ✓ | | | | |
 | research-practices | ✓ | | | | |
+| critical-thinking | ✓ | | | | |
+| trace-code | ✓ | | | | |
+| codebase-audit | ✓ | | | | |
+| test-driven-development | | ✓ | | | |
+| systematic-debugging | | ✓ | ✓ | | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | ✓ | ✓ | | ✓ |
+| python-audit | | ✓ | | ✓ | |
 
 ## Self-Learning Pipeline
 

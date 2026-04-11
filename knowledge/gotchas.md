@@ -21,6 +21,12 @@ Operational lessons learned. Updated manually or by the agent-audit skill.
 - stop hooks run after agent finishes — lightweight only, no blocking operations
 - Shell commands in TUI are buffered (no streaming) — commands like npm install show no progress until done
 
+## WSL + 1Password SSH Agent
+- On WSL session resume, the 1Password SSH agent socket may be stale — npiperelay bridge runs but socket is dead
+- Opening a new terminal tab re-runs .zshrc which recreates the socat/npiperelay bridge and restores the socket
+- Kiro CLI runs commands via bash, not zsh — the .zshrc bridge setup never executes in shell tool context
+- SSH_AUTH_SOCK is inherited from the parent zsh session, so it works as long as the socket was created before launching Kiro
+
 ## Knowledge System
 - Episodes auto-promote to rules after 3 keyword occurrences (via distill.sh)
 - Max 30 active episodes enforced by auto-capture.sh
