@@ -26,6 +26,7 @@ Multi-agent orchestrator, self-learning knowledge system, curated skill assignme
 - Python 3.12+ patterns: PEP 695 type params, generator expressions, functools.cache
 - Personalization guide in README for team onboarding
 - `agent_config.json.example` with curated resources, full deny lists, and security deniedPaths
+- Project-local `ship` skill (`.kiro/skills/ship/`) for release automation with branch cleanup
 
 ### Changed
 - Subagents pinned to `claude-sonnet-4.6`; orchestrator and base remain on `auto`
