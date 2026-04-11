@@ -65,8 +65,8 @@ even if no hook would catch the content.
 
 | Scope | Allowed paths |
 |---|---|
-| **Read** | `~/.kiro`, `~/personal`, `~/eam` |
-| **Write** | `~/personal`, `~/eam` |
+| **Read** | `~/.kiro`, plus user-configured project directories (see README) |
+| **Write** | User-configured project directories (see README) |
 
 Files outside allowed paths require user approval per operation.
 
@@ -129,6 +129,24 @@ Don't disable hooks globally. If a project genuinely needs to write secrets (e.g
 - **Network requests** — no hook validates URLs or prevents data exfiltration
 - **Runtime secrets** — hooks check file content, not environment variables passed to commands
 - **MCP tool output** — hooks don't inspect what MCP servers return
-- **Subagent actions** — subagents inherit the agent config but may have different tool access
+- **Subagent actions** — hooks only fire on the orchestrator. Subagent security is enforced via `deniedCommands` and `deniedPaths` in each agent's `toolsSettings`
 
 These are acceptable trade-offs for a CLI development tool. For production security, use proper secret management (1Password, AWS Secrets Manager, etc.).
+
+## Session Logging
+
+The `session-log.sh` stop hook appends a timestamp to `knowledge/session-log.txt` at the end of each session. This log is used by the `agent-audit` skill to track session activity. The log contains only timestamps — no conversation content, prompts, or tool outputs are recorded.
+
+## Known Limitations
+
+### Deny List Bypass via Indirection
+
+The `deniedCommands` regex patterns match against the top-level command string.
+Commands wrapped in `bash -c '...'`, `sh -c '...'`, or executed via script
+files are not inspected for denied patterns. This is a known limitation of
+regex-based command filtering.
+
+**Mitigation:** Subagents are trusted agents operating within a controlled
+environment. The deny lists catch accidental violations, not adversarial
+bypass attempts. For defense-in-depth, the `preToolUse` hooks on the
+orchestrator provide an additional layer of protection.

@@ -39,7 +39,7 @@ digraph process {
         "Dispatch implementer delegate" [shape=box];
         "Implementer asks questions?" [shape=diamond];
         "Answer questions, provide context" [shape=box];
-        "Implementer implements, tests, commits, self-reviews" [shape=box];
+        "Implementer implements, tests, self-reviews" [shape=box];
         "Dispatch spec reviewer delegate" [shape=box];
         "Spec reviewer confirms code matches spec?" [shape=diamond];
         "Implementer fixes spec gaps" [shape=box];
@@ -58,8 +58,8 @@ digraph process {
     "Dispatch implementer delegate" -> "Implementer asks questions?";
     "Implementer asks questions?" -> "Answer questions, provide context" [label="yes"];
     "Answer questions, provide context" -> "Dispatch implementer delegate";
-    "Implementer asks questions?" -> "Implementer implements, tests, commits, self-reviews" [label="no"];
-    "Implementer implements, tests, commits, self-reviews" -> "Dispatch spec reviewer delegate";
+    "Implementer asks questions?" -> "Implementer implements, tests, self-reviews" [label="no"];
+    "Implementer implements, tests, self-reviews" -> "Dispatch spec reviewer delegate";
     "Dispatch spec reviewer delegate" -> "Spec reviewer confirms code matches spec?";
     "Spec reviewer confirms code matches spec?" -> "Implementer fixes spec gaps" [label="no"];
     "Implementer fixes spec gaps" -> "Dispatch spec reviewer delegate" [label="re-review"];
@@ -129,7 +129,7 @@ Implementer: "Got it. Implementing now..."
   - Implemented install-hook command
   - Added tests, 5/5 passing
   - Self-review: Found I missed --force flag, added it
-  - Committed
+  - Reported DONE
 
 [Dispatch spec compliance reviewer delegate]
 Spec reviewer: Spec compliant - all requirements met, nothing extra
@@ -148,7 +148,7 @@ Implementer:
   - Added verify/repair modes
   - 8/8 tests passing
   - Self-review: All good
-  - Committed
+  - Reported DONE
 
 [Dispatch spec compliance reviewer delegate]
 Spec reviewer: Issues:
@@ -223,6 +223,7 @@ Done!
 - Let implementer self-review replace actual review (both are needed)
 - **Start code quality review before spec compliance passes** (wrong order)
 - Move to next task while either review has open issues
+- Let subagents run git commit or git push (orchestrator handles all git operations)
 
 **If delegate asks questions:**
 - Answer clearly and completely

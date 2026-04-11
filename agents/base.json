@@ -1,34 +1,34 @@
 {
   "name": "base",
-  "description": "Base agent with read-only tools pre-approved",
+  "description": "Standalone fallback agent with read-only tools pre-approved. Use when you want to work without the orchestrator pattern.",
   "prompt": null,
-  "welcomeMessage": "Base agent active — global steering, 11 skills, and security hooks loaded. Run /context show to verify.",
+  "welcomeMessage": "Base agent active — global steering, 12 skills, security hooks, and self-learning knowledge system loaded. Run /context show to verify.",
   "mcpServers": {},
   "tools": [
-    "fs_read",
-    "fs_write",
-    "execute_bash",
-    "use_aws",
+    "read",
+    "write",
+    "shell",
+    "aws",
     "introspect",
     "grep",
     "glob",
     "web_fetch",
     "web_search",
     "@context7",
-    "@awslabs.aws-documentation-mcp-server",
-    "@awslabs.aws-diagram-mcp-server"
+    "@awslabs.aws-diagram-mcp-server",
+    "knowledge"
   ],
   "toolAliases": {},
   "allowedTools": [
-    "fs_read",
+    "read",
     "grep",
     "glob",
     "introspect",
     "web_fetch",
     "web_search",
     "@context7",
-    "@awslabs.aws-documentation-mcp-server",
-    "@awslabs.aws-diagram-mcp-server"
+    "@awslabs.aws-diagram-mcp-server",
+    "knowledge"
   ],
   "resources": [
     "file://~/.kiro/steering/**/*.md",
@@ -53,6 +53,23 @@
         "matcher": "execute_bash",
         "command": "bash ~/.kiro/hooks/bash-write-protect.sh",
         "timeout_ms": 5000
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/security/block-sed-json.sh",
+        "timeout_ms": 3000
+      }
+    ],
+    "userPromptSubmit": [
+      {
+        "command": "bash ~/.kiro/hooks/feedback/context-enrichment.sh",
+        "description": "Inject relevant knowledge rules into agent context",
+        "timeout_ms": 5000
+      },
+      {
+        "command": "bash ~/.kiro/hooks/feedback/correction-detect.sh",
+        "description": "Detect user corrections and auto-capture to knowledge base",
+        "timeout_ms": 3000
       }
     ],
     "stop": [
@@ -64,12 +81,34 @@
   },
   "toolsSettings": {
     "fs_read": {
-      "allowedPaths": ["~/.kiro", "~/personal", "~/eam"],
-      "deniedPaths": ["~/.ssh", "~/.aws/credentials", "~/.gnupg", "~/.config/gh", "~/.kiro/settings/cli.json"]
+      "allowedPaths": [
+        "~/.kiro",
+        "~/personal",
+        "~/eam"
+      ],
+      "deniedPaths": [
+        "~/.ssh",
+        "~/.aws/credentials",
+        "~/.gnupg",
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json"
+      ]
     },
     "fs_write": {
-      "allowedPaths": ["~/personal", "~/eam"],
-      "deniedPaths": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config/gh", "~/.kiro/settings/cli.json", "~/.kiro/agents", "~/.kiro/hooks", "~/.kiro/steering"]
+      "allowedPaths": [
+        "~/personal",
+        "~/eam"
+      ],
+      "deniedPaths": [
+        "~/.ssh",
+        "~/.aws",
+        "~/.gnupg",
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json",
+        "~/.kiro/agents",
+        "~/.kiro/hooks",
+        "~/.kiro/steering"
+      ]
     },
     "execute_bash": {
       "autoAllowReadonly": true,
@@ -88,7 +127,7 @@
         "git push .*",
         "git push",
         "chmod -R 777 /",
-        "mkfs\\.",
+        "mkfs\\\\.",
         "dd if=/dev",
         "> /dev/sd",
         "> /dev/nvme"

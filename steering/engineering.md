@@ -27,14 +27,6 @@
 - Bug fixes require a regression test that reproduces the bug before writing the fix.
 - Tests use real code — mocks only when unavoidable (external APIs, etc.).
 
-## Skill Execution
-
-- When a skill is triggered (commit, push, audit, etc.), execute ALL steps
-  in one pass. Don't split across messages or stop halfway.
-- Follow the skill's step order exactly. Don't skip steps, reorder, or
-  "already know" the answer from earlier context.
-- If a step fails or blocks, stop and report — don't silently skip it.
-
 ## Systematic Debugging
 
 - No fixes without root cause investigation first. Read error messages completely.
@@ -43,3 +35,20 @@
   Don't fix multiple things at once.
 - If 3+ fix attempts fail, STOP — it's likely an architectural problem, not a bug.
   Discuss with the user before attempting more fixes.
+
+## Delegation and Subagent Work
+
+- When receiving a delegated task, read the full briefing before starting.
+  If anything is unclear, report NEEDS_CONTEXT — don't guess.
+- Stay within scope. Only modify files listed in the task. If you discover
+  something that needs fixing outside your scope, report it — don't fix it.
+- Report completion status: DONE, DONE_WITH_CONCERNS, NEEDS_CONTEXT, or BLOCKED.
+- Never push to git. The orchestrator handles all git operations.
+
+## Skill Execution
+
+- When a skill is triggered, execute ALL steps in one pass. Don't split across
+  messages or stop halfway.
+- Follow the skill's step order exactly. Don't skip steps, reorder, or
+  "already know" the answer from earlier context.
+- If a step fails or blocks, stop and report — don't silently skip it.

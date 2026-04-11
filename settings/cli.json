@@ -1,7 +1,32 @@
 {
   "chat.defaultModel": "auto",
   "mcp.loadedBefore": true,
+  "mcp.initTimeout": 60,
+  "mcp.noInteractiveTimeout": 60,
   "chat.enableCheckpoint": true,
-  "chat.defaultAgent": "base",
-  "chat.enableSubagent": true
+  "chat.defaultAgent": "dev-orchestrator",
+  "chat.enableSubagent": true,
+  "chat.ui": "tui",
+  "chat.enableThinking": true,
+  "chat.enableTodoList": true,
+  "chat.enableKnowledge": true,
+  "knowledge.indexType": "Best",
+  "knowledge.chunkSize": 1024,
+  "knowledge.chunkOverlap": 256,
+  "knowledge.defaultExcludePatterns": [
+    "*.tfstate",
+    "*.tfstate.backup",
+    ".terraform/**",
+    "node_modules/**",
+    "__pycache__/**",
+    ".git/**",
+    "*.pyc",
+    ".venv/**",
+    "venv/**",
+    "dist/**",
+    "build/**",
+    ".cache/**",
+    "target/**",
+    "*.egg-info/**"
+  ]
 }
