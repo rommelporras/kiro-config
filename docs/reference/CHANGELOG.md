@@ -28,8 +28,9 @@ Multi-agent orchestrator, self-learning knowledge system, curated skill assignme
 - `agent_config.json.example` with curated resources, full deny lists, and security deniedPaths
 
 ### Changed
+- Subagents pinned to `claude-sonnet-4.6`; orchestrator and base remain on `auto`
 - Skill assignments curated per agent (20 skills total, each agent gets only what it needs)
-- README updated: 20 skills, 7 steering docs, updated skill assignment matrix
+- README updated: 20 skills, 7 steering docs, updated skill assignment matrix, added Documentation section with links to all docs, added agentSpawn to hook chain, fixed stale structure tree
 - Install checklist: 7 steering files, 20 skills
 - Troubleshooting: 7 steering files listed
 - Skill catalog: 20 skills with 3 new orchestrator entries

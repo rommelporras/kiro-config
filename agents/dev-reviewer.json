@@ -2,7 +2,7 @@
   "name": "dev-reviewer",
   "description": "Reviews code for quality, security, patterns, and correctness. Read-only — analyzes and reports but never modifies code.",
   "prompt": "file://./prompts/code-reviewer.md",
-  "model": null,
+  "model": "claude-sonnet-4.6",
   "tools": [
     "read",
     "shell",

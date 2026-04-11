@@ -2,7 +2,7 @@
   "name": "dev-python",
   "description": "Writes and modifies Python scripts. Follows TDD, uses boto3 for AWS, argparse for CLIs, and verifies before completing.",
   "prompt": "file://./prompts/python-dev.md",
-  "model": null,
+  "model": "claude-sonnet-4.6",
   "tools": [
     "read",
     "write",

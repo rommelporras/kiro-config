@@ -41,6 +41,7 @@ The `dev-orchestrator` is the default agent. It never writes code — it delegat
 │   ├── security/    # PreToolUse gates
 │   ├── feedback/    # Self-learning pipeline
 │   ├── _lib/        # Shared libraries
+│   ├── workspace-context.sh
 │   ├── scan-secrets.sh
 │   ├── protect-sensitive.sh
 │   ├── bash-write-protect.sh
@@ -49,7 +50,6 @@ The `dev-orchestrator` is the default agent. It never writes code — it delegat
 │   ├── rules.md     # Permanent rules (🔴 critical + 🟡 relevant)
 │   ├── episodes.md  # Captured corrections
 │   ├── gotchas.md   # Known gotchas and edge cases
-│   ├── session-log.txt  # Session activity log
 │   └── archive/     # Monthly archives
 ├── scripts/         # Setup and maintenance
 ├── settings/        # CLI settings (cli.json, mcp.json)
@@ -165,6 +165,7 @@ context-enrichment.sh ← distill.sh ← rules.md (auto-promoted)
 
 | Hook Type | Matcher | Script | Purpose |
 |-----------|---------|--------|---------|
+| agentSpawn | — | workspace-context.sh | Inject git branch, Python version, project context |
 | preToolUse | fs_write | scan-secrets.sh | Block hardcoded secrets |
 | preToolUse | fs_write | protect-sensitive.sh | Block writes to .env, .pem, etc. |
 | preToolUse | execute_bash | bash-write-protect.sh | Block destructive commands |
@@ -190,3 +191,14 @@ Kiro may write infrastructure code in files but **never executes mutating comman
 ## License
 
 MIT
+
+## Documentation
+
+- [Skill Catalog](docs/reference/skill-catalog.md) — all 20 skills with triggers and agent assignments
+- [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
+- [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
+- [Changelog](docs/reference/CHANGELOG.md) — version history and release notes
+- [Install Checklist](docs/setup/kiro-cli-install-checklist.md) — get running in 4 steps
+- [Troubleshooting](docs/setup/troubleshooting.md) — common issues and fixes
+- [IDE + WSL2 Setup](docs/setup/kiro-ide-wsl-setup.md) — Kiro IDE on WSL2 with Open Remote extension
+- [Personal Setup](docs/setup/rommel-porras-setup.md) — chezmoi integration and dotfiles layout
