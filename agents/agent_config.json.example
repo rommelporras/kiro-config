@@ -1,34 +1,27 @@
 {
   "_comment": "Rename to <agent-name>.json to activate. Docs: https://kiro.dev/docs/cli/custom-agents/",
-
   "name": "example",
   "description": "Example agent — copy and customize for your use case",
   "welcomeMessage": "Example agent active. Customize this message for your agent.",
-
   "prompt": null,
   "model": null,
   "keyboardShortcut": null,
-
   "tools": [
     "read",
     "write",
     "shell",
     "aws",
-    "report",
     "introspect",
-    "knowledge",
-    "thinking",
-    "todo",
-    "delegate",
     "grep",
     "glob",
     "web_fetch",
     "web_search",
     "@context7",
     "@awslabs.aws-documentation-mcp-server",
-    "@awslabs.aws-diagram-mcp-server"
+    "@awslabs.aws-diagram-mcp-server",
+    "code",
+    "knowledge"
   ],
-
   "allowedTools": [
     "read",
     "grep",
@@ -37,21 +30,19 @@
     "web_search",
     "@context7",
     "@awslabs.aws-documentation-mcp-server",
-    "@awslabs.aws-diagram-mcp-server"
+    "@awslabs.aws-diagram-mcp-server",
+    "code",
+    "knowledge"
   ],
-
   "toolAliases": {},
-
   "resources": [
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
-    "skill://.kiro/skills/*/SKILL.md",
-    "skill://~/.kiro/skills/*/SKILL.md"
+    "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
+    "skill://~/.kiro/skills/explain-code/SKILL.md"
   ],
-
   "mcpServers": {},
   "includeMcpJson": true,
-
   "hooks": {
     "preToolUse": [
       {
@@ -69,6 +60,23 @@
         "matcher": "execute_bash",
         "command": "bash ~/.kiro/hooks/bash-write-protect.sh",
         "timeout_ms": 5000
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/security/block-sed-json.sh",
+        "timeout_ms": 3000
+      }
+    ],
+    "userPromptSubmit": [
+      {
+        "command": "bash ~/.kiro/hooks/feedback/context-enrichment.sh",
+        "description": "Inject relevant knowledge rules into agent context",
+        "timeout_ms": 5000
+      },
+      {
+        "command": "bash ~/.kiro/hooks/feedback/correction-detect.sh",
+        "description": "Detect user corrections and auto-capture to knowledge base",
+        "timeout_ms": 3000
       }
     ],
     "stop": [
@@ -77,23 +85,108 @@
       }
     ]
   },
-
   "toolsSettings": {
     "fs_read": {
-      "allowedPaths": ["~/.kiro", "~/personal", "~/eam"],
-      "deniedPaths": ["~/.ssh", "~/.aws/credentials", "~/.gnupg", "~/.config/gh"]
+      "allowedPaths": [
+        "~/.kiro",
+        "~/personal",
+        "~/eam"
+      ],
+      "deniedPaths": [
+        "~/.ssh",
+        "~/.aws/credentials",
+        "~/.gnupg",
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json"
+      ]
     },
     "fs_write": {
-      "allowedPaths": ["~/personal", "~/eam"],
-      "deniedPaths": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config/gh"]
+      "allowedPaths": [
+        "~/personal",
+        "~/eam"
+      ],
+      "deniedPaths": [
+        "~/.ssh",
+        "~/.aws",
+        "~/.gnupg",
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json",
+        "~/.kiro/agents",
+        "~/.kiro/hooks",
+        "~/.kiro/steering"
+      ]
     },
     "execute_bash": {
       "autoAllowReadonly": true,
       "deniedCommands": [
-        "rm -rf /",
-        "rm -rf /*",
-        "rm -rf ~",
-        "chmod -R 777 /"
+        "rm .*",
+        "chmod -R 777 /",
+        "mkfs\\\\.",
+        "dd if/dev",
+        "git push.*",
+        "git push",
+        "kubectl apply.*",
+        "kubectl create.*",
+        "kubectl delete.*",
+        "kubectl edit.*",
+        "kubectl patch.*",
+        "kubectl scale.*",
+        "kubectl drain.*",
+        "kubectl cordon.*",
+        "kubectl uncordon.*",
+        "kubectl taint.*",
+        "kubectl exec.*",
+        "kubectl run.*",
+        "kubectl cp.*",
+        "kubectl rollout undo.*",
+        "kubectl rollout restart.*",
+        "kubectl replace.*",
+        "kubectl set.*",
+        "kubectl label.*",
+        "kubectl annotate.*",
+        "aws .* create-.*",
+        "aws .* delete-.*",
+        "aws .* update-.*",
+        "aws .* put-.*",
+        "aws .* modify-.*",
+        "aws .* start-.*",
+        "aws .* stop-.*",
+        "aws .* terminate-.*",
+        "aws .* run-.*",
+        "aws .* invoke.*",
+        "aws .* register-.*",
+        "aws .* deregister-.*",
+        "aws .* enable-.*",
+        "aws .* disable-.*",
+        "aws .* attach-.*",
+        "aws .* detach-.*",
+        "aws .* associate-.*",
+        "aws .* disassociate-.*",
+        "aws .* tag-.*",
+        "aws .* untag-.*",
+        "terraform apply.*",
+        "terraform destroy.*",
+        "terraform import.*",
+        "terraform taint.*",
+        "terraform untaint.*",
+        "terraform state rm.*",
+        "terraform state mv.*",
+        "terraform state push.*",
+        "terraform force-unlock.*",
+        "helm install.*",
+        "helm upgrade.*",
+        "helm delete.*",
+        "helm uninstall.*",
+        "helm rollback.*",
+        "docker push.*",
+        "docker run.*",
+        "docker compose up.*",
+        "docker compose down.*",
+        "docker build.*",
+        "docker rm.*",
+        "docker rmi.*",
+        "docker stop.*",
+        "docker kill.*"
       ]
     },
     "use_aws": {

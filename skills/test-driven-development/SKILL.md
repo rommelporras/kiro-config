@@ -73,34 +73,31 @@ digraph tdd_cycle {
 Write one minimal test showing what should happen.
 
 <Good>
-```typescript
-test('retries failed operations 3 times', async () => {
-  let attempts = 0;
-  const operation = () => {
-    attempts++;
-    if (attempts < 3) throw new Error('fail');
-    return 'success';
-  };
+```python
+def test_retries_failed_operations_3_times():
+    attempts = 0
+    def operation():
+        nonlocal attempts
+        attempts += 1
+        if attempts < 3:
+            raise RuntimeError("fail")
+        return "success"
 
-  const result = await retryOperation(operation);
+    result = retry_operation(operation)
 
-  expect(result).toBe('success');
-  expect(attempts).toBe(3);
-});
+    assert result == "success"
+    assert attempts == 3
 ```
 Clear name, tests real behavior, one thing
 </Good>
 
 <Bad>
-```typescript
-test('retry works', async () => {
-  const mock = jest.fn()
-    .mockRejectedValueOnce(new Error())
-    .mockRejectedValueOnce(new Error())
-    .mockResolvedValueOnce('success');
-  await retryOperation(mock);
-  expect(mock).toHaveBeenCalledTimes(3);
-});
+```python
+def test_retry_works(mocker):
+    mock = mocker.patch("module.operation",
+        side_effect=[RuntimeError(), RuntimeError(), "success"])
+    retry_operation(mock)
+    assert mock.call_count == 3
 ```
 Vague name, tests mock not code
 </Bad>
@@ -115,9 +112,6 @@ Vague name, tests mock not code
 **MANDATORY. Never skip.**
 
 ```bash
-# TypeScript
-npm test path/to/test.test.ts
-
 # Python
 uv run pytest tests/test_module.py::TestClass::test_name -v
 ```
@@ -136,33 +130,28 @@ Confirm:
 Write simplest code to pass the test.
 
 <Good>
-```typescript
-async function retryOperation<T>(fn: () => Promise<T>): Promise<T> {
-  for (let i = 0; i < 3; i++) {
-    try {
-      return await fn();
-    } catch (e) {
-      if (i === 2) throw e;
-    }
-  }
-  throw new Error('unreachable');
-}
+```python
+def retry_operation(fn, max_retries: int = 3):
+    for i in range(max_retries):
+        try:
+            return fn()
+        except Exception:
+            if i == max_retries - 1:
+                raise
 ```
 Just enough to pass
 </Good>
 
 <Bad>
-```typescript
-async function retryOperation<T>(
-  fn: () => Promise<T>,
-  options?: {
-    maxRetries?: number;
-    backoff?: 'linear' | 'exponential';
-    onRetry?: (attempt: number) => void;
-  }
-): Promise<T> {
-  // YAGNI
-}
+```python
+def retry_operation(
+    fn,
+    max_retries: int = 3,
+    backoff: str = "exponential",
+    on_retry: Callable | None = None,
+    jitter: bool = True,
+):
+    # YAGNI
 ```
 Over-engineered
 </Bad>
@@ -174,9 +163,6 @@ Don't add features, refactor other code, or "improve" beyond the test.
 **MANDATORY.**
 
 ```bash
-# TypeScript
-npm test path/to/test.test.ts
-
 # Python
 uv run pytest tests/ -q
 ```
@@ -296,43 +282,6 @@ Tests-first force edge case discovery before implementing. Tests-after verify yo
 **All of these mean: Delete code. Start over with TDD.**
 
 ## Example: Bug Fix
-
-**Bug:** Empty email accepted
-
-**RED**
-```typescript
-test('rejects empty email', async () => {
-  const result = await submitForm({ email: '' });
-  expect(result.error).toBe('Email required');
-});
-```
-
-**Verify RED**
-```bash
-$ npm test
-FAIL: expected 'Email required', got undefined
-```
-
-**GREEN**
-```typescript
-function submitForm(data: FormData) {
-  if (!data.email?.trim()) {
-    return { error: 'Email required' };
-  }
-  // ...
-}
-```
-
-**Verify GREEN**
-```bash
-$ npm test
-PASS
-```
-
-**REFACTOR**
-Extract validation for multiple fields if needed.
-
-## Example: Python Bug Fix
 
 **Bug:** Batch size calculation allows 0 tasks killed
 

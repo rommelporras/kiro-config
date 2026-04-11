@@ -1,180 +1,204 @@
-<!-- Author: Rommel Porras -->
-
 # kiro-config
 
-Opinionated global [Kiro CLI](https://kiro.dev/docs/cli/) configuration — steering rules, security hooks, 11 workflow skills, and MCP servers. Symlinked into `~/.kiro/`.
+Personal Kiro CLI configuration with multi-agent orchestrator, SRE-focused steering, security hooks, and a self-learning knowledge system.
 
-## Quick start
+## Architecture
 
-```bash
-git clone https://github.com/rommelporras/kiro-config.git ~/personal/kiro-config
+```
+User ↔ dev-orchestrator (plans, converses, coordinates, git ops)
+            ├── dev-python    (writes Python code, TDD, debugging)
+            ├── dev-shell     (writes Bash/shell, system automation)
+            ├── dev-reviewer  (read-only analysis, no write tool)
+            └── dev-refactor  (restructures code, preserves behavior)
 
-# Symlink into ~/.kiro/
-for dir in steering agents skills settings hooks; do
-  ln -sfn ~/personal/kiro-config/$dir ~/.kiro/$dir
-done
+base — standalone fallback for general questions (no orchestration)
 ```
 
-Then run `kiro-cli` in any project. Skills, steering, and hooks are active immediately.
-See the [full install checklist](docs/setup/kiro-cli-install-checklist.md) for prerequisites and verification.
+The `dev-orchestrator` is the default agent. It never writes code — it delegates to specialists. Skills are curated per agent (no global wildcard loading).
 
-## What's included
+## Features
 
-| Component | What it does | Docs |
-|---|---|---|
-| **Steering** | Persistent rules and engineering philosophy | [catalog](https://kiro.dev/docs/cli/steering/) |
-| **Skills** | 11 workflow skills ([Agent Skills](https://agentskills.io/specification) standard) | [catalog](docs/reference/skill-catalog.md) |
-| **Agents** | Base agent with pre-approved tools and security hooks | [guide](docs/reference/creating-agents.md) |
-| **Hooks** | Secret scanning, sensitive file protection, destructive command blocking | [model](docs/reference/security-model.md) |
-| **MCP servers** | Context7, AWS Documentation, AWS Diagram | [config](https://kiro.dev/docs/cli/mcp/) |
-
-## Prerequisites
-
-- [Kiro CLI](https://kiro.dev/docs/cli/installation/) installed
-- Node.js (for Context7 MCP via npx)
-- Python 3 + [uv](https://docs.astral.sh/uv/) (for AWS MCP servers via uvx)
+- **7 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash
+- **20 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **8 security hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
+- **6 agents** — dev-orchestrator + 4 dev specialists + base fallback
+- **Self-learning knowledge pipeline** — corrections auto-captured, keywords tracked, rules auto-promoted
+- **Knowledge base integration** — semantic search across config with auto-indexing
+- **Infrastructure is read-only** — Kiro writes code in files but never executes mutating infra commands
 
 ## Structure
 
 ```
-kiro-config/
-├── steering/                          # Global rules (loaded every session)
-│   ├── universal-rules.md             #   No AI attribution, feature-branch only, security review
-│   ├── engineering.md                 #   Evidence over assertions, TDD, plan before building
-│   └── tooling.md                     #   uv not pip, conventional commits, Context7 for docs
-├── agents/
-│   ├── base.json                   # Base agent: pre-approved tools, security hooks, path trust
-│   └── agent_config.json.example      # Template for creating new agents
-├── skills/                            # 11 skills (auto-discovered by description matching)
-│   ├── commit/                        #   Conventional commit with secret scan + branch safety
-│   ├── push/                          #   Push with feature-branch gate + MR reminder
-│   ├── explain-code/                  #   Explains code with analogies and ASCII diagrams
-│   ├── brainstorming/                 #   Explores intent and design before implementation
-│   ├── writing-plans/                 #   Decomposes work into tasks with verification steps
-│   ├── test-driven-development/       #   RED-GREEN-REFACTOR enforcement
-│   ├── systematic-debugging/          #   Root cause analysis before fixes
-│   ├── verification-before-completion/ #  Evidence before claiming success
-│   ├── receiving-code-review/         #   Technical rigor when processing feedback
-│   ├── dispatching-parallel-agents/   #   Parallel task delegation
-│   └── subagent-driven-development/   #   Per-task delegation with two-stage review
-├── settings/
-│   ├── cli.json                       # Model default (auto), checkpoints, base agent
-│   └── mcp.json                       # Global MCP servers (Context7, AWS Docs, AWS Diagram)
-├── hooks/
-│   ├── scan-secrets.sh                # Blocks writes containing AWS keys, PEM keys, API tokens
-│   ├── protect-sensitive.sh           # Blocks writes to .env, .pem, credentials files
-│   ├── bash-write-protect.sh          # Blocks rm -rf /, force push to main, disk writes
-│   └── notify.sh                      # Plays notification sound when agent completes a turn
-└── docs/
-    ├── setup/
-    │   ├── kiro-cli-install-checklist.md   # Installation and symlink setup
-    │   ├── kiro-ide-wsl-setup.md          # Kiro IDE + WSL2 remoting fix
-    │   ├── troubleshooting.md             # Common issues and fixes
-    │   └── rommel-porras-setup.md         # Maintainer's personal setup (chezmoi, dotfiles)
-    └── reference/
-        ├── skill-catalog.md               # All 11 skills: when to use, how they chain
-        ├── security-model.md              # 3 defense layers: hooks, denied paths, denied commands
-        ├── creating-agents.md             # Field reference, security baseline, agent recipes
-        └── CHANGELOG.md                   # Release history
+├── agents/          # Agent configurations
+│   ├── dev-orchestrator.json  # Default — plans, delegates, git ops
+│   ├── dev-python.json        # Python specialist subagent
+│   ├── dev-shell.json         # Shell/Bash specialist subagent
+│   ├── dev-reviewer.json      # Read-only reviewer subagent
+│   ├── dev-refactor.json      # Refactoring specialist subagent
+│   ├── base.json              # Standalone fallback (no orchestration)
+│   └── prompts/               # Markdown prompts for each agent
+├── hooks/           # Hook scripts
+│   ├── security/    # PreToolUse gates
+│   ├── feedback/    # Self-learning pipeline
+│   ├── _lib/        # Shared libraries
+│   ├── workspace-context.sh
+│   ├── scan-secrets.sh
+│   ├── protect-sensitive.sh
+│   ├── bash-write-protect.sh
+│   └── notify.sh
+├── knowledge/       # Self-evolving knowledge base
+│   ├── rules.md     # Permanent rules (🔴 critical + 🟡 relevant)
+│   ├── episodes.md  # Captured corrections
+│   ├── gotchas.md   # Known gotchas and edge cases
+│   └── archive/     # Monthly archives
+├── scripts/         # Setup and maintenance
+├── settings/        # CLI settings (cli.json, mcp.json)
+├── skills/          # 20 agent skills (curated per agent)
+│   ├── agent-audit/
+│   ├── research-practices/
+│   └── ...
+├── steering/        # 7 persistent context docs
+└── docs/            # Reference and setup docs
 ```
 
-## Skills
+## Setup
 
-Skills activate automatically — no slash commands needed. Describe what you want and Kiro
-matches your request to the right skill by description.
+```bash
+# Symlink into ~/.kiro
+for dir in steering agents skills settings hooks; do
+  ln -sfn /path/to/kiro-config/$dir ~/.kiro/$dir
+done
 
-| Skill | Triggers when you say... |
-|---|---|
-| `commit` | "commit these changes" |
-| `push` | "push to remote" |
-| `explain-code` | "explain how this works" |
-| `brainstorming` | "let's design a new feature" |
-| `writing-plans` | "plan how to implement this" |
-| `test-driven-development` | "implement this with tests" |
-| `systematic-debugging` | "I have a bug in..." |
-| `verification-before-completion` | "verify everything works" |
-| `receiving-code-review` | "here's feedback on my code" |
-| `dispatching-parallel-agents` | "run these tasks in parallel" |
-| `subagent-driven-development` | "implement the plan using delegates" |
-
-See the [skill catalog](docs/reference/skill-catalog.md) for details on each skill and how they chain together.
-
-## Security
-
-The base agent includes three layers of protection. See the [security model](docs/reference/security-model.md) for full details.
-
-**Hooks** (PreToolUse) — block dangerous operations before they execute:
-- Secret patterns in file content (AWS, GitHub, GitLab, Slack, GCP, Anthropic, OpenAI keys)
-- Writes to sensitive files (.env, .pem, credentials.json, SSH keys)
-- Destructive shell commands (rm -rf /, force push to main/master, disk writes)
-
-**Denied paths** — prevent reading/writing sensitive directories:
-- `~/.ssh`, `~/.aws/credentials`, `~/.gnupg`, `~/.config/gh`
-
-**Allowed paths** — restrict file operations to known-safe directories:
-- Read: `~/.kiro`, `~/personal`, `~/eam`
-- Write: `~/personal`, `~/eam`
-
-> Customize paths in `agents/base.json` → `toolsSettings` to match your directory layout.
-
-## MCP Servers
-
-Global servers (loaded for every project):
-
-| Server | Package | Purpose |
-|---|---|---|
-| Context7 | `@upstash/context7-mcp` | Library documentation lookup |
-| AWS Documentation | `awslabs.aws-documentation-mcp-server` | AWS docs and API references |
-| AWS Diagram | `awslabs.aws-diagram-mcp-server` | Architecture diagram generation |
-
-Add project-specific MCP servers in your project's `.kiro/settings/mcp.json`.
-Global servers load alongside project servers when `includeMcpJson: true` in the agent config.
-
-## Per-project config
-
-Create `.kiro/` in any project root for project-specific context:
-
-```
-your-project/
-└── .kiro/
-    ├── steering/          # Project rules (product.md, tech.md)
-    ├── agents/            # Project agents (e.g. sre.json)
-    ├── skills/            # Project skills
-    └── settings/
-        └── mcp.json       # Project MCP servers
+# Configure knowledge bases (run inside kiro-cli)
+bash scripts/setup-knowledge.sh
 ```
 
-Project config loads on top of global. Project steering and skills take priority on name
-conflicts. See [steering docs](https://kiro.dev/docs/cli/steering/) and
-[custom agents docs](https://kiro.dev/docs/cli/custom-agents/).
+## Personalizing for Your Setup
 
-## Customization
+This config ships with paths like `~/personal` and `~/eam` that are specific to the original author. You MUST update these to match your own directory structure before using it.
 
-**Fork this repo** and modify to fit your workflow:
+### What to change
 
-- Edit `steering/*.md` to change engineering rules
-- Add/remove skills in `skills/`
-- Modify `agents/base.json` for tool permissions, hooks, and path trust
-- Create new agents using `agents/agent_config.json.example` as a template (see [creating agents guide](docs/reference/creating-agents.md))
-- Add MCP servers to `settings/mcp.json`
+**Agent configs** — these control where agents can read/write files:
 
-## Docs
+| File | Settings to update |
+|------|-------------------|
+| `agents/base.json` | `fs_read.allowedPaths`, `fs_write.allowedPaths` |
+| `agents/dev-orchestrator.json` | `fs_read.allowedPaths`, `fs_write.allowedPaths` |
+| `agents/dev-python.json` | `fs_write.allowedPaths` |
+| `agents/dev-shell.json` | `fs_write.allowedPaths` |
+| `agents/dev-refactor.json` | `fs_write.allowedPaths` |
 
-| Doc | For | Purpose |
-|---|---|---|
-| [Install checklist](docs/setup/kiro-cli-install-checklist.md) | New users | Clone, symlink, verify — 4 steps |
-| [Skill catalog](docs/reference/skill-catalog.md) | Everyone | All 11 skills, when to use each, how they chain |
-| [Security model](docs/reference/security-model.md) | Customizers | 3 defense layers, how to add patterns/paths |
-| [Creating agents](docs/reference/creating-agents.md) | Power users | Field reference, recipes, security baseline |
-| [Troubleshooting](docs/setup/troubleshooting.md) | Everyone | Common issues and fixes |
-| [IDE + WSL2 setup](docs/setup/kiro-ide-wsl-setup.md) | WSL2 IDE users | Extension fix, `kiro .` launcher |
-| [Maintainer setup](docs/setup/rommel-porras-setup.md) | Maintainer | Chezmoi integration, dotfiles, AWS profiles |
+In each file, replace `~/personal` and `~/eam` with your own project directories. For example, if your projects live in `~/projects`:
 
-**Official Kiro docs:**
-[CLI](https://kiro.dev/docs/cli/) · [Installation](https://kiro.dev/docs/cli/installation/) · [Models](https://kiro.dev/docs/cli/models/) · [Steering](https://kiro.dev/docs/cli/steering/) · [Skills](https://kiro.dev/docs/cli/skills/) · [Custom agents](https://kiro.dev/docs/cli/custom-agents/) · [MCP](https://kiro.dev/docs/cli/mcp/) · [Hooks](https://kiro.dev/docs/cli/hooks/)
+```json
+"allowedPaths": [
+  "~/projects/**",
+  "./**"
+]
+```
 
-[Agent Skills specification](https://agentskills.io/specification)
+The `./**` entry allows agents to work in whatever directory you launch Kiro from.
+
+**Setup script:**
+
+| File | What to change |
+|------|---------------|
+| `scripts/setup-knowledge.sh` | Update knowledge base paths to your project directories |
+
+**Symlink command** — update the clone path in the setup step:
+
+```bash
+# Replace ~/personal/kiro-config with wherever you cloned this repo
+for dir in steering agents skills settings hooks; do
+  ln -sfn /path/to/your/kiro-config/$dir ~/.kiro/$dir
+done
+```
+
+### What NOT to change
+
+- `~/.kiro` paths — these are standard Kiro CLI paths, same for everyone
+- `deniedPaths` — these protect sensitive directories and should stay as-is
+- `deniedCommands` — these block dangerous operations and should stay as-is
+- `steering/` files — these are universal best practices, not path-dependent
+- `skills/` files — these are universal, not path-dependent
+- `hooks/` scripts — these use relative paths from `~/.kiro` and work for everyone
+
+## Agent Skill Assignments
+
+| Skill | dev-orchestrator | dev-python | dev-shell | dev-reviewer | dev-refactor |
+|-------|:---:|:---:|:---:|:---:|:---:|
+| spec-workflow | ✓ | | | | |
+| brainstorming | ✓ | | | | |
+| writing-plans | ✓ | | | | |
+| delegation-protocol | ✓ | | | | |
+| aggregation | ✓ | | | | |
+| subagent-driven-development | ✓ | | | | |
+| dispatching-parallel-agents | ✓ | | | | |
+| commit | ✓ | | | | |
+| push | ✓ | | | | |
+| explain-code | ✓ | | | | |
+| agent-audit | ✓ | | | | |
+| research-practices | ✓ | | | | |
+| critical-thinking | ✓ | | | | |
+| trace-code | ✓ | | | | |
+| codebase-audit | ✓ | | | | |
+| test-driven-development | | ✓ | | | |
+| systematic-debugging | | ✓ | ✓ | | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | ✓ | ✓ | | ✓ |
+| python-audit | | ✓ | | ✓ | |
+
+## Self-Learning Pipeline
+
+```
+User correction → correction-detect.sh → auto-capture.sh → episodes.md
+                                                                ↓
+                                              (3+ keyword occurrences)
+                                                                ↓
+context-enrichment.sh ← distill.sh ← rules.md (auto-promoted)
+        ↓
+  Injected into agent context on every prompt
+```
+
+## Hook Chain
+
+| Hook Type | Matcher | Script | Purpose |
+|-----------|---------|--------|---------|
+| agentSpawn | — | workspace-context.sh | Inject git branch, Python version, project context |
+| preToolUse | fs_write | scan-secrets.sh | Block hardcoded secrets |
+| preToolUse | fs_write | protect-sensitive.sh | Block writes to .env, .pem, etc. |
+| preToolUse | execute_bash | bash-write-protect.sh | Block destructive commands |
+| preToolUse | execute_bash | block-sed-json.sh | Block sed/awk on JSON files |
+| userPromptSubmit | * | context-enrichment.sh | Inject knowledge rules |
+| userPromptSubmit | * | correction-detect.sh | Detect and capture corrections |
+| stop | * | notify.sh | Notification sound |
+
+**Note:** Hooks only fire on the orchestrator (main agent). Subagent security is enforced via `toolsSettings` (deniedCommands, allowedPaths).
+
+## Infrastructure Read-Only Policy
+
+Kiro may write infrastructure code in files but **never executes mutating commands**.
+
+| Tool | Allowed (read-only) | Blocked (mutating) |
+|------|---------------------|--------------------|
+| Terraform | `plan`, `validate`, `fmt`, `state list`, `state show` | `apply`, `destroy`, `import`, `taint` |
+| Helm | `lint`, `template`, `diff`, `list`, `get`, `status` | `install`, `upgrade`, `delete`, `rollback` |
+| kubectl | `get`, `describe`, `logs`, `top`, `explain`, `diff` | `apply`, `delete`, `edit`, `patch`, `scale` |
+| Docker | `inspect`, `images`, `ps`, `scout`, `history` | `push`, `run`, `build`, `compose up` |
+| AWS CLI | `describe-*`, `list-*`, `get-*` | `create-*`, `update-*`, `delete-*`, `put-*`, `modify-*` |
 
 ## License
 
-[MIT](LICENSE)
+MIT
+
+## Documentation
+
+- [Skill Catalog](docs/reference/skill-catalog.md) — all 20 skills with triggers and agent assignments
+- [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
+- [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
+- [Changelog](docs/reference/CHANGELOG.md) — version history and release notes
+- [Install Checklist](docs/setup/kiro-cli-install-checklist.md) — get running in 4 steps
+- [Troubleshooting](docs/setup/troubleshooting.md) — common issues and fixes
+- [IDE + WSL2 Setup](docs/setup/kiro-ide-wsl-setup.md) — Kiro IDE on WSL2 with Open Remote extension
+- [Personal Setup](docs/setup/rommel-porras-setup.md) — chezmoi integration and dotfiles layout

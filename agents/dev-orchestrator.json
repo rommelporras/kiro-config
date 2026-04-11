@@ -1,0 +1,256 @@
+{
+  "name": "dev-orchestrator",
+  "description": "Primary agent — converses with user, plans work, delegates implementation to specialist subagents. Never writes code directly.",
+  "prompt": "file://./prompts/orchestrator.md",
+  "welcomeMessage": "Orchestrator active — I handle planning and conversation directly, and delegate coding to specialist subagents. What are we working on?",
+  "model": null,
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "aws",
+    "subagent",
+    "introspect",
+    "grep",
+    "glob",
+    "web_fetch",
+    "web_search",
+    "code",
+    "@context7",
+    "@awslabs.aws-documentation-mcp-server",
+    "@awslabs.aws-diagram-mcp-server",
+    "knowledge"
+  ],
+  "allowedTools": [
+    "read",
+    "grep",
+    "glob",
+    "introspect",
+    "web_fetch",
+    "web_search",
+    "code",
+    "subagent",
+    "aws",
+    "@context7",
+    "@awslabs.aws-documentation-mcp-server",
+    "@awslabs.aws-diagram-mcp-server",
+    "knowledge",
+    "shell",
+    "write"
+  ],
+  "toolAliases": {},
+  "toolsSettings": {
+    "fs_read": {
+      "allowedPaths": [
+        "~/.kiro",
+        "~/personal",
+        "~/eam"
+      ],
+      "deniedPaths": [
+        "~/.ssh",
+        "~/.aws/credentials",
+        "~/.gnupg",
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json"
+      ]
+    },
+    "fs_write": {
+      "allowedPaths": [
+        ".kiro/specs/**",
+        "docs/**",
+        "*.md",
+        "~/personal/**",
+        "~/eam/**"
+      ],
+      "deniedPaths": [
+        "~/.ssh",
+        "~/.aws",
+        "~/.gnupg",
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json",
+        "~/.kiro/agents",
+        "~/.kiro/hooks",
+        "~/.kiro/steering"
+      ]
+    },
+    "execute_bash": {
+      "autoAllowReadonly": true,
+      "allowedCommands": [
+        "git add .*",
+        "git commit .*",
+        "git stash.*",
+        "git checkout .*",
+        "git switch .*",
+        "git branch.*",
+        "git push .*",
+        "git push -u .*",
+        "readlink .*",
+        "find .*"
+      ],
+      "deniedCommands": [
+        "rm .*",
+        "chmod -R 777 /",
+        "mkfs\\\\.",
+        "dd if/dev",
+        "kubectl apply.*",
+        "kubectl create.*",
+        "kubectl delete.*",
+        "kubectl edit.*",
+        "kubectl patch.*",
+        "kubectl scale.*",
+        "kubectl drain.*",
+        "kubectl cordon.*",
+        "kubectl uncordon.*",
+        "kubectl taint.*",
+        "kubectl exec.*",
+        "kubectl run.*",
+        "kubectl cp.*",
+        "kubectl rollout undo.*",
+        "kubectl rollout restart.*",
+        "kubectl replace.*",
+        "kubectl set.*",
+        "kubectl label.*",
+        "kubectl annotate.*",
+        "aws .* create-.*",
+        "aws .* delete-.*",
+        "aws .* update-.*",
+        "aws .* put-.*",
+        "aws .* modify-.*",
+        "aws .* start-.*",
+        "aws .* stop-.*",
+        "aws .* terminate-.*",
+        "aws .* run-.*",
+        "aws .* invoke.*",
+        "aws .* register-.*",
+        "aws .* deregister-.*",
+        "aws .* enable-.*",
+        "aws .* disable-.*",
+        "aws .* attach-.*",
+        "aws .* detach-.*",
+        "aws .* associate-.*",
+        "aws .* disassociate-.*",
+        "aws .* tag-.*",
+        "aws .* untag-.*",
+        "terraform apply.*",
+        "terraform destroy.*",
+        "terraform import.*",
+        "terraform taint.*",
+        "terraform untaint.*",
+        "terraform state rm.*",
+        "terraform state mv.*",
+        "terraform state push.*",
+        "terraform force-unlock.*",
+        "helm install.*",
+        "helm upgrade.*",
+        "helm delete.*",
+        "helm uninstall.*",
+        "helm rollback.*",
+        "docker push.*",
+        "docker run.*",
+        "docker compose up.*",
+        "docker compose down.*",
+        "docker build.*",
+        "docker rm.*",
+        "docker rmi.*",
+        "docker stop.*",
+        "docker kill.*"
+      ]
+    },
+    "use_aws": {
+      "autoAllowReadonly": true
+    },
+    "subagent": {
+      "availableAgents": [
+        "dev-python",
+        "dev-shell",
+        "dev-reviewer",
+        "dev-refactor"
+      ],
+      "trustedAgents": [
+        "dev-python",
+        "dev-shell",
+        "dev-reviewer",
+        "dev-refactor"
+      ]
+    }
+  },
+  "resources": [
+    "file://~/.kiro/steering/**/*.md",
+    "file://.kiro/steering/**/*.md",
+    "skill://~/.kiro/skills/brainstorming/SKILL.md",
+    "skill://~/.kiro/skills/commit/SKILL.md",
+    "skill://~/.kiro/skills/push/SKILL.md",
+    "skill://~/.kiro/skills/explain-code/SKILL.md",
+    "skill://~/.kiro/skills/writing-plans/SKILL.md",
+    "skill://~/.kiro/skills/dispatching-parallel-agents/SKILL.md",
+    "skill://~/.kiro/skills/subagent-driven-development/SKILL.md",
+    "skill://~/.kiro/skills/spec-workflow/SKILL.md",
+    "skill://~/.kiro/skills/delegation-protocol/SKILL.md",
+    "skill://~/.kiro/skills/aggregation/SKILL.md",
+    "skill://~/.kiro/skills/agent-audit/SKILL.md",
+    "skill://~/.kiro/skills/research-practices/SKILL.md",
+    "skill://~/.kiro/skills/critical-thinking/SKILL.md",
+    "skill://~/.kiro/skills/trace-code/SKILL.md",
+    "skill://~/.kiro/skills/codebase-audit/SKILL.md",
+    {
+      "type": "knowledgeBase",
+      "source": "file://~/.kiro",
+      "name": "kiro-config",
+      "description": "Kiro CLI global configuration — agents, skills, steering, hooks, and docs. Search for agent configs, skill definitions, steering rules, and setup guides.",
+      "indexType": "best",
+      "autoUpdate": true
+    }
+  ],
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/scan-secrets.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/protect-sensitive.sh",
+        "timeout_ms": 3000,
+        "cache_ttl_seconds": 60
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/bash-write-protect.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/security/block-sed-json.sh",
+        "timeout_ms": 3000
+      }
+    ],
+    "userPromptSubmit": [
+      {
+        "command": "bash ~/.kiro/hooks/feedback/context-enrichment.sh",
+        "description": "Inject relevant knowledge rules into agent context",
+        "timeout_ms": 5000
+      },
+      {
+        "command": "bash ~/.kiro/hooks/feedback/correction-detect.sh",
+        "description": "Detect user corrections and auto-capture to knowledge base",
+        "timeout_ms": 3000
+      }
+    ],
+    "stop": [
+      {
+        "command": "bash ~/.kiro/hooks/notify.sh",
+        "description": "Play notification sound when agent finishes"
+      }
+    ],
+    "agentSpawn": [
+      {
+        "command": "bash ~/.kiro/hooks/workspace-context.sh",
+        "description": "Inject workspace context at session start",
+        "timeout_ms": 5000
+      }
+    ]
+  },
+  "includeMcpJson": true,
+  "keyboardShortcut": "ctrl+o"
+}

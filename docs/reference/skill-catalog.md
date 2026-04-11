@@ -4,68 +4,100 @@
 
 [Back to README](../../README.md) | Related: [Creating agents](creating-agents.md) | [Security model](security-model.md)
 
-Quick reference for all 11 global skills — what they do, when they activate, and how they connect.
+Quick reference for all 20 skills — what they do, when they activate, and which agents load them.
 
 ## Workflow chain
 
-Most skills are standalone, but the design-to-implementation flow chains them:
+The design-to-implementation flow chains skills through the orchestrator:
 
 ```
-brainstorming → writing-plans → subagent-driven-development
+spec-workflow → writing-plans → subagent-driven-development
      ↓                              ↓
-  writes spec              dispatches delegates
-  to docs/specs/           per task with two-stage
-                           review (spec + quality)
+  writes spec              dispatches delegates via
+  to .kiro/specs/          delegation-protocol, aggregates
+                           results via aggregation
 ```
 
-You don't have to follow the chain. Each skill activates independently by description matching.
+Each skill activates independently by description matching. The chain is optional.
 
 ## Skills by category
 
+### Orchestrator — planning and coordination
+
+| Skill | Agent(s) | What it does | Activates when you say... |
+|---|---|---|---|
+| **spec-workflow** | dev-orchestrator | Structured spec process: requirements → design → tasks → execution. Saves to `.kiro/specs/`. | "spec out", "define requirements", "write a spec" |
+| **brainstorming** | dev-orchestrator | Explores intent before implementation. Proposes 2-3 approaches with trade-offs. Hard gate: no code until design is approved. | "let's design", "brainstorm" |
+| **writing-plans** | dev-orchestrator | Decomposes a spec into bite-sized tasks. Each task is one action with exact file paths. | "plan how to implement this" |
+| **delegation-protocol** | dev-orchestrator | Structures subagent briefings: objective, context, constraints, definition of done, skill triggers. | (internal — triggers when orchestrator delegates) |
+| **aggregation** | dev-orchestrator | Presents subagent results: status, summary, concerns, next steps. | (internal — triggers when subagent returns) |
+| **subagent-driven-development** | dev-orchestrator | Executes a plan by dispatching one delegate per task with two-stage review. | "implement the plan using delegates" |
+| **dispatching-parallel-agents** | dev-orchestrator | Dispatches multiple delegates concurrently for independent tasks. | "run these tasks in parallel" |
+| **agent-audit** | dev-orchestrator | Audits agents, prompts, skills, and knowledge for gaps and inconsistencies. Proposes changes. | "agent-audit", "audit agents", "review config" |
+| **research-practices** | dev-orchestrator | Researches best practices for a topic via web search and Context7. Proposes config updates. | "research practices", "best practices for" |
+| **critical-thinking** | dev-orchestrator | Socratic questioning mode. Challenges assumptions one question at a time. No solutions, no code. | "challenge this", "poke holes", "what am I missing", "think critically" |
+| **trace-code** | dev-orchestrator | Deep code flow tracing from entry point to output with file:line references. | "trace this", "map the code flow", "what files are involved in" |
+| **codebase-audit** | dev-orchestrator | Periodic health check: git churn, complexity, coverage, deps, TODOs. | "health check", "technical debt", "codebase audit" |
+
 ### Git operations
 
-| Skill | What it does | Activates when you say... |
-|---|---|---|
-| **commit** | Conventional commit with branch safety gate (blocks main/master), secret scan, specific file staging. Never adds AI attribution. | "commit these changes", "commit" |
-| **push** | Push with branch safety gate (blocks main/master), auto `-u` on first push, merge request reminder. | "push to remote", "push" |
+| Skill | Agent(s) | What it does | Activates when you say... |
+|---|---|---|---|
+| **commit** | dev-orchestrator | Conventional commit with branch safety gate, secret scan, specific file staging. | "commit these changes" |
+| **push** | dev-orchestrator | Push with branch safety gate, auto `-u` on first push, merge request reminder. | "push to remote" |
 
 ### Understanding code
 
-| Skill | What it does | Activates when you say... |
-|---|---|---|
-| **explain-code** | Structured explanation: one-sentence summary → analogy → ASCII diagram → line-by-line walkthrough → common gotcha. | "explain how this works", "walk me through this" |
+| Skill | Agent(s) | What it does | Activates when you say... |
+|---|---|---|---|
+| **explain-code** | dev-orchestrator | Structured explanation: summary → analogy → diagram → walkthrough → gotcha. | "explain how this works" |
 
-### Design and planning
+### Implementation quality
 
-| Skill | What it does | Activates when you say... |
-|---|---|---|
-| **brainstorming** | Explores intent before implementation. Asks one question at a time, proposes 2-3 approaches with trade-offs, writes spec to `docs/specs/`, runs spec-reviewer delegate loop (max 3 iterations). Hard gate: no code until design is approved. | "let's design a new feature", "brainstorm" |
-| **writing-plans** | Decomposes a spec into bite-sized tasks (2-5 min each). Maps file structure, writes plan to `docs/plans/`, runs plan-reviewer delegate loop. Each task is one action with exact file paths and expected output. | "plan how to implement this", "write an implementation plan" |
+| Skill | Agent(s) | What it does | Activates when you say... |
+|---|---|---|---|
+| **test-driven-development** | dev-python | Enforces RED-GREEN-REFACTOR. Blocks code written before tests. | "implement with tests" |
+| **systematic-debugging** | dev-python, dev-shell | 4 phases: investigation → pattern analysis → hypothesis → implementation. Blocks guessing. | "debug this", "why is this failing" |
+| **verification-before-completion** | dev-python, dev-shell, dev-reviewer, dev-refactor | Gate before success claims: identify → run → read → verify → claim. | "verify everything works" |
+| **receiving-code-review** | dev-python, dev-shell, dev-refactor | Processes review feedback with technical rigor. Push back when suggestions are wrong. | "here's feedback on my code" |
+| **python-audit** | dev-python, dev-reviewer | Runs ruff, mypy, pytest. Reports quality metrics. | "audit code", "python audit" |
 
-### Implementation
+## Skill assignment matrix
 
-| Skill | What it does | Activates when you say... |
-|---|---|---|
-| **test-driven-development** | Enforces RED-GREEN-REFACTOR. Write failing test → watch it fail → write minimal code → verify green. Blocks code written before tests ("delete it, start over"). No mocks unless unavoidable. | "implement this with tests", "use TDD" |
-| **subagent-driven-development** | Executes a plan by dispatching one delegate per task. Two-stage review after each: spec compliance first, then code quality. Model selection guidance (cheap for mechanical, capable for design). | "implement the plan using delegates", "delegate-driven development" |
-| **dispatching-parallel-agents** | Dispatches multiple delegates concurrently for independent tasks. One delegate per problem domain, isolated context, results aggregated and checked for conflicts. | "run these tasks in parallel", "dispatch parallel agents" |
+| Skill | dev-orchestrator | dev-python | dev-shell | dev-reviewer | dev-refactor |
+|-------|:---:|:---:|:---:|:---:|:---:|
+| spec-workflow | ✓ | | | | |
+| brainstorming | ✓ | | | | |
+| writing-plans | ✓ | | | | |
+| delegation-protocol | ✓ | | | | |
+| aggregation | ✓ | | | | |
+| subagent-driven-development | ✓ | | | | |
+| dispatching-parallel-agents | ✓ | | | | |
+| commit | ✓ | | | | |
+| push | ✓ | | | | |
+| explain-code | ✓ | | | | |
+| agent-audit | ✓ | | | | |
+| research-practices | ✓ | | | | |
+| critical-thinking | ✓ | | | | |
+| trace-code | ✓ | | | | |
+| codebase-audit | ✓ | | | | |
+| test-driven-development | | ✓ | | | |
+| systematic-debugging | | ✓ | ✓ | | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | ✓ | ✓ | | ✓ |
+| python-audit | | ✓ | | ✓ | |
 
-### Quality gates
-
-| Skill | What it does | Activates when you say... |
-|---|---|---|
-| **systematic-debugging** | 4 mandatory phases: root cause investigation → pattern analysis → hypothesis testing → implementation. Blocks guessing. "3 attempts then STOP — it's architectural." | "I have a bug", "debug this", "why is this failing" |
-| **verification-before-completion** | Gate function before any success claim: IDENTIFY what proves it → RUN the command → READ full output → VERIFY it confirms the claim → ONLY THEN claim success. Blocks "should work" without evidence. | "verify everything works", "make sure it's working" |
-| **receiving-code-review** | Processes review feedback with technical rigor. Verify before implementing. Blocks performative agreement ("You're absolutely right!"). Push back when suggestions are wrong. YAGNI check on "implement properly" suggestions. | "here's feedback on my code", "process this code review" |
+**Totals:** dev-orchestrator: 15, dev-python: 5, dev-shell: 3, dev-reviewer: 2, dev-refactor: 2
 
 ## Design philosophy
 
-**Why these 11?** Each skill addresses a specific failure mode:
+Each skill addresses a specific failure mode:
 
 | Failure mode | Skill that prevents it |
 |---|---|
-| Building the wrong thing | brainstorming |
+| Building the wrong thing | brainstorming, spec-workflow |
 | Vague plans that can't be executed | writing-plans |
+| Vague delegation that produces vague results | delegation-protocol |
 | Code before tests | test-driven-development |
 | Guessing at bugs instead of investigating | systematic-debugging |
 | "It should work" without evidence | verification-before-completion |
@@ -75,8 +107,6 @@ You don't have to follow the chain. Each skill activates independently by descri
 | Committing to main, leaking secrets | commit |
 | Force-pushing, forgetting merge requests | push |
 | Jargon-heavy explanations | explain-code |
-
-**What's NOT here** (intentionally):
-- **executing-plans** — removed; subagent-driven-development supersedes it
-- **requesting-code-review** — removed; already embedded in subagent-driven-development
-- **finishing-a-development-branch** — deferred to project-specific config
+| Unclear subagent results | aggregation |
+| Stale config and drifting practices | agent-audit |
+| Outdated patterns, missing best practices | research-practices |

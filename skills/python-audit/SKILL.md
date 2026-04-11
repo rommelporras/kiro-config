@@ -53,6 +53,13 @@ After automated tools pass, check these (tools can't catch them):
 - [ ] No `print()` in tests — use assertions
 - [ ] No `time.sleep()` for synchronization — use events/polling
 
+**Concurrency:**
+- [ ] `ThreadPoolExecutor` has explicit `max_workers` — never unbounded
+- [ ] `threading.Event` checked in loops with `event.wait(timeout=)` — not busy-spinning
+- [ ] `subprocess.run()` has `timeout=` parameter — no hanging on external commands
+- [ ] No `subprocess` with `shell=True` — use args list for safety
+- [ ] No bare `thread.start()` without join or executor context manager
+
 ### 3. Report
 
 For each finding: file, line, what's wrong, suggested fix, priority (High/Medium/Low).

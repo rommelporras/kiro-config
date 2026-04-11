@@ -65,8 +65,8 @@ even if no hook would catch the content.
 
 | Scope | Allowed paths |
 |---|---|
-| **Read** | `~/.kiro`, `~/personal`, `~/eam` |
-| **Write** | `~/personal`, `~/eam` |
+| **Read** | `~/.kiro`, plus user-configured project directories (see README) |
+| **Write** | User-configured project directories (see README) |
 
 Files outside allowed paths require user approval per operation.
 
@@ -96,6 +96,17 @@ A single operation can be checked by all three layers. For example, `echo "AKIA.
 2. **Layer 2** checks if `~/.env` is in a denied path
 3. **Layer 1** (`bash-write-protect.sh`) checks for redirect to sensitive file
 4. **Layer 1** (`scan-secrets.sh`) checks content for AWS key pattern
+
+## AgentSpawn Context
+
+The `workspace-context.sh` hook runs once when the agent starts, injecting:
+- Current directory and git branch
+- Last commit hash and message
+- Uncommitted file count
+- Python version (if Python project detected)
+- Whether project-local steering exists
+
+This is informational only — it never blocks.
 
 ## Customizing for your team
 
@@ -129,6 +140,20 @@ Don't disable hooks globally. If a project genuinely needs to write secrets (e.g
 - **Network requests** — no hook validates URLs or prevents data exfiltration
 - **Runtime secrets** — hooks check file content, not environment variables passed to commands
 - **MCP tool output** — hooks don't inspect what MCP servers return
-- **Subagent actions** — subagents inherit the agent config but may have different tool access
+- **Subagent actions** — hooks only fire on the orchestrator. Subagent security is enforced via `deniedCommands` and `deniedPaths` in each agent's `toolsSettings`
 
 These are acceptable trade-offs for a CLI development tool. For production security, use proper secret management (1Password, AWS Secrets Manager, etc.).
+
+## Known Limitations
+
+### Deny List Bypass via Indirection
+
+The `deniedCommands` regex patterns match against the top-level command string.
+Commands wrapped in `bash -c '...'`, `sh -c '...'`, or executed via script
+files are not inspected for denied patterns. This is a known limitation of
+regex-based command filtering.
+
+**Mitigation:** Subagents are trusted agents operating within a controlled
+environment. The deny lists catch accidental violations, not adversarial
+bypass attempts. For defense-in-depth, the `preToolUse` hooks on the
+orchestrator provide an additional layer of protection.

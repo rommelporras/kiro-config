@@ -9,12 +9,17 @@
       "command": "uvx",
       "args": ["awslabs.aws-documentation-mcp-server@latest"],
       "env": { "FASTMCP_LOG_LEVEL": "ERROR" },
-      "disabled": false
+      "disabled": true
     },
     "awslabs.aws-diagram-mcp-server": {
       "command": "uvx",
       "args": ["awslabs.aws-diagram-mcp-server@latest"],
       "env": { "FASTMCP_LOG_LEVEL": "ERROR" },
+      "disabled": false
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--headless"],
       "disabled": false
     }
   }

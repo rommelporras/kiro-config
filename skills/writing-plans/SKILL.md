@@ -93,12 +93,9 @@ def function(input):
 Run: `pytest tests/path/test.py::test_name -v`
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 5: Report completion**
 
-```bash
-git add tests/path/test.py src/path/file.py
-git commit -m "feat: add specific feature"
-```
+Subagent reports DONE to orchestrator. Orchestrator handles staging and committing.
 ````
 
 ## Remember
