@@ -14,7 +14,7 @@ The design-to-implementation flow chains skills through the orchestrator:
 spec-workflow → writing-plans → subagent-driven-development
      ↓                              ↓
   writes spec              dispatches delegates via
-  to .kiro/specs/          delegation-protocol, aggregates
+  to docs/specs/           delegation-protocol, aggregates
                            results via aggregation
 ```
 
@@ -26,7 +26,7 @@ Each skill activates independently by description matching. The chain is optiona
 
 | Skill | Agent(s) | What it does | Activates when you say... |
 |---|---|---|---|
-| **spec-workflow** | dev-orchestrator | Structured spec process: requirements → design → tasks → execution. Saves to `.kiro/specs/`. | "spec out", "define requirements", "write a spec" |
+| **spec-workflow** | dev-orchestrator | Structured spec process: requirements → design → tasks → execution. Saves to `docs/specs/`. | "spec out", "define requirements", "write a spec" |
 | **brainstorming** | dev-orchestrator | Explores intent before implementation. Proposes 2-3 approaches with trade-offs. Hard gate: no code until design is approved. | "let's design", "brainstorm" |
 | **writing-plans** | dev-orchestrator | Decomposes a spec into bite-sized tasks. Each task is one action with exact file paths. | "plan how to implement this" |
 | **delegation-protocol** | dev-orchestrator | Structures subagent briefings: objective, context, constraints, definition of done, skill triggers. | (internal — triggers when orchestrator delegates) |
@@ -87,7 +87,9 @@ Each skill activates independently by description matching. The chain is optiona
 | receiving-code-review | | ✓ | ✓ | | ✓ |
 | python-audit | | ✓ | | ✓ | |
 
-**Totals:** dev-orchestrator: 15, dev-python: 5, dev-shell: 3, dev-reviewer: 2, dev-refactor: 2
+**Totals:** dev-orchestrator: 15, dev-python: 5, dev-shell: 3, dev-reviewer: 2, dev-refactor: 2, base: 16
+
+**base agent** loads 16 of the 20 skills - everything except the 4 orchestrator-only delegation skills (delegation-protocol, aggregation, subagent-driven-development, dispatching-parallel-agents).
 
 ## Design philosophy
 

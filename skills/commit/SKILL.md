@@ -44,6 +44,18 @@ Use `git diff` and `git diff --cached` output — do not scan binary files.
 
 If a secret pattern is found, **stop immediately**. Report the file and pattern. Do not proceed to staging.
 
+## Step 2.5 — Doc consistency check
+
+If any changed files are in `skills/`, `agents/`, `steering/`, `docs/`, or `README.md`, run:
+
+```bash
+bash ~/.kiro/hooks/doc-consistency.sh
+```
+
+If it reports drift, **stop and show the output**. Tell the user which doc files need updating before the commit can proceed.
+
+Skip this step if no changed files match those paths.
+
 ## Step 3 — Draft the commit message
 
 Commit message format — `TICKET-ID - type: short description`

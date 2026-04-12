@@ -2,13 +2,14 @@
   "name": "base",
   "description": "Standalone fallback agent with read-only tools pre-approved. Use when you want to work without the orchestrator pattern.",
   "prompt": null,
-  "welcomeMessage": "Base agent active — global steering, 12 skills, security hooks, and self-learning knowledge system loaded. Run /context show to verify.",
+  "welcomeMessage": "Base agent active — global steering, 16 skills, security hooks, and self-learning knowledge system loaded. Run /context show to verify.",
   "mcpServers": {},
   "tools": [
     "read",
     "write",
     "shell",
     "aws",
+    "code",
     "introspect",
     "grep",
     "glob",
@@ -16,11 +17,13 @@
     "web_search",
     "@context7",
     "@awslabs.aws-diagram-mcp-server",
-    "knowledge"
+    "knowledge",
+    "@awslabs.aws-documentation-mcp-server"
   ],
   "toolAliases": {},
   "allowedTools": [
     "read",
+    "code",
     "grep",
     "glob",
     "introspect",
@@ -28,13 +31,28 @@
     "web_search",
     "@context7",
     "@awslabs.aws-diagram-mcp-server",
-    "knowledge"
+    "knowledge",
+    "@awslabs.aws-documentation-mcp-server"
   ],
   "resources": [
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
-    "skill://.kiro/skills/*/SKILL.md",
-    "skill://~/.kiro/skills/*/SKILL.md"
+    "skill://~/.kiro/skills/brainstorming/SKILL.md",
+    "skill://~/.kiro/skills/commit/SKILL.md",
+    "skill://~/.kiro/skills/push/SKILL.md",
+    "skill://~/.kiro/skills/explain-code/SKILL.md",
+    "skill://~/.kiro/skills/writing-plans/SKILL.md",
+    "skill://~/.kiro/skills/spec-workflow/SKILL.md",
+    "skill://~/.kiro/skills/critical-thinking/SKILL.md",
+    "skill://~/.kiro/skills/trace-code/SKILL.md",
+    "skill://~/.kiro/skills/codebase-audit/SKILL.md",
+    "skill://~/.kiro/skills/agent-audit/SKILL.md",
+    "skill://~/.kiro/skills/research-practices/SKILL.md",
+    "skill://~/.kiro/skills/test-driven-development/SKILL.md",
+    "skill://~/.kiro/skills/systematic-debugging/SKILL.md",
+    "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
+    "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
+    "skill://~/.kiro/skills/python-audit/SKILL.md"
   ],
   "hooks": {
     "preToolUse": [

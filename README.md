@@ -149,6 +149,8 @@ done
 | receiving-code-review | | ✓ | ✓ | | ✓ |
 | python-audit | | ✓ | | ✓ | |
 
+**base agent** loads 16 of 20 skills (all except the 4 orchestrator-only delegation skills). See [Skill Catalog](docs/reference/skill-catalog.md) for details.
+
 ## Self-Learning Pipeline
 
 ```

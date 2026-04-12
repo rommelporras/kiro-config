@@ -56,7 +56,6 @@
     },
     "fs_write": {
       "allowedPaths": [
-        ".kiro/specs/**",
         "docs/**",
         "*.md",
         "~/personal/**",

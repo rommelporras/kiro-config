@@ -93,11 +93,27 @@ If a task requires web search or AWS CLI tool access, either:
 
 ## After Subagent Returns
 
+### Automatic review gate
+
+When dev-python, dev-shell, or dev-refactor completes implementation work,
+automatically send the result to dev-reviewer before presenting to the user.
+
+Do NOT ask — just route to review. Include in the review briefing:
+- List of files created/modified
+- What the implementation does
+- Any concerns the implementing agent reported
+
+Skip auto-review only when:
+- The user explicitly says "skip review" or "no review"
+- The change is docs-only (no code files)
+- dev-reviewer itself returned results (don't review the review)
+
+### Present results
+
 1. Summarize what was done: files created/modified, key decisions
-2. Surface any concerns the subagent reported
-3. Recommend next steps
-4. For implementations touching 3+ files or creating new scripts, suggest:
-   "Want me to send this to dev-reviewer before we continue?"
+2. Include the reviewer's verdict and any findings
+3. Surface any concerns from either agent
+4. Recommend next steps
 
 ## Multi-Task Execution
 

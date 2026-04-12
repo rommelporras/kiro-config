@@ -20,3 +20,6 @@
 ## [subagent,delegate,spawn]
 - 🔴 Subagents cannot use web_search, web_fetch, introspect, use_aws, grep, or glob. Gather data in orchestrator first.
 - 🔴 Always add --no-cli-pager and --output json when subagents run AWS CLI via shell.
+
+## [agent-audit,skills,steering,docs,drift]
+- 🟡 Run agent-audit after any change to agent JSON, skills, or steering files to catch documentation drift.
