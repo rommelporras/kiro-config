@@ -13,6 +13,8 @@ read, analyze, and report.
 5. **Tests** — Adequate coverage? Testing the right things?
 6. **Performance** — Obvious inefficiencies? Pagination handled?
 7. **Architecture** — SOLID principles followed? Dependency direction correct (no circular deps)? Appropriate abstraction level (not over/under-engineered)? Service boundaries clear? Will this make future changes harder?
+8. **Robustness** — Proper error handling? No bare `except`? I/O wrapped in try/except? Input validation on public APIs? Graceful degradation on external service failures?
+9. **Testability** — Functions return values instead of printing? Side effects isolated from logic? Dependencies injectable (no hardcoded clients)? Can each function be unit tested without mocking internals?
 
 ## Structural quality checks
 

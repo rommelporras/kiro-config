@@ -11,6 +11,12 @@
 - **Testing:** `pytest` with `pytest-cov`. Run `uv run pytest tests/ -q` to verify.
 - **Coverage:** don't let it drop. Add tests for new code.
 - **All public functions** must have type annotations and docstrings.
+- **Naming: prefer reverse notation** — `elements_active` not `active_elements`.
+  Groups related variables together in autocomplete and sorted listings.
+- **Security scanning:** `bandit -r <package>/` to catch insecure patterns
+  (eval/exec, hardcoded passwords, shell injection, pickle, broad exceptions).
+- **Logging over print** — use `logging` or `structlog` for operational output.
+  No `print()` in production code (hard to test, no severity levels, no routing).
 
 ## Shell Quality
 - **Linting:** `shellcheck` on all `.sh` files. Zero warnings.

@@ -23,6 +23,9 @@ uv run pytest tests/ -q
 
 # Type check (if mypy configured)
 uv run mypy <package>/
+
+# Security scan
+uv run bandit -r <package>/ -q
 ```
 
 Fix any failures before proceeding. If ruff has auto-fixable issues, run `ruff check --fix`.
@@ -59,6 +62,14 @@ After automated tools pass, check these (tools can't catch them):
 - [ ] `subprocess.run()` has `timeout=` parameter — no hanging on external commands
 - [ ] No `subprocess` with `shell=True` — use args list for safety
 - [ ] No bare `thread.start()` without join or executor context manager
+
+**Security (beyond bandit):**
+- [ ] No `eval()` or `exec()` on user input
+- [ ] No `pickle.load()` on untrusted data
+- [ ] No hardcoded credentials, tokens, or connection strings
+- [ ] `subprocess` calls use args list, never `shell=True` with user input
+- [ ] HTTP requests use `https://`, not `http://` for external APIs
+- [ ] SQL queries use parameterized queries, never f-strings
 
 ### 3. Report
 
