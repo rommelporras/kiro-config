@@ -5,6 +5,18 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.2.2] - 2026-04-12
+
+Python quality hardening — bandit security scanning, robustness/testability review dimensions, and codified style rules.
+
+### Added
+- `bandit` security scanning added to `steering/tooling.md` as required Python tool
+- `bandit -r <package>/ -q` step added to `python-audit` skill automated checks
+- Security manual checklist (beyond bandit) in `python-audit` skill: eval/exec, pickle, hardcoded creds, shell injection, HTTP vs HTTPS, SQL injection
+- Robustness (#8) and Testability (#9) review dimensions in code-reviewer prompt
+- Naming rule: prefer reverse notation (`elements_active` not `active_elements`) in `steering/tooling.md`
+- Logging rule: use `logging`/`structlog` over `print()` in production code in `steering/tooling.md`
+
 ## [v0.2.1] - 2026-04-12
 
 Post-release audit fixes for v0.2.0 — documentation drift prevention, auto-review gate, and structural quality checks.
