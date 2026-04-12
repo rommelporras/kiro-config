@@ -5,6 +5,31 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.2.1] - 2026-04-12
+
+Post-release audit fixes for v0.2.0 — documentation drift prevention, auto-review gate, and structural quality checks.
+
+### Added
+- `hooks/doc-consistency.sh` — pre-commit skill count drift checker (verifies docs match disk)
+- Commit skill Step 2.5 — runs doc-consistency check before staging when config files change
+- Structural quality checks in code-reviewer prompt (god objects >300 lines, SRP >10 methods, long functions >50 lines, deep nesting >3 levels, DRY >5 duplicate lines, parameter bloat >5 params)
+- Auto-review gate in orchestrator — dev-reviewer runs automatically after subagent implementations
+- Knowledge rule: run agent-audit after config changes to catch documentation drift
+
+### Changed
+- `agents/base.json` — curated 16 skills (replaced wildcard loading), added `code` tool, added `aws-documentation-mcp-server`
+- `skills/agent-audit/SKILL.md` — expanded to 5 phases with documentation consistency checks (skill counts, matrix parity, description drift, file path validation, tool alignment, welcome message accuracy)
+- `settings/mcp.json` — enabled `aws-documentation-mcp-server` (was disabled)
+- `docs/reference/skill-catalog.md` — fixed stale `.kiro/specs/` path in workflow diagram, added base agent totals and note
+
+### Fixed
+- Stale `.kiro/specs/` path in skill-catalog workflow diagram (actual: `docs/specs/`)
+- Dead `.kiro/specs/**` entry in orchestrator `fs_write.allowedPaths`
+- `grep` silent abort bug in `doc-consistency.sh` under `set -euo pipefail` (added `|| true` to all pipelines)
+
+### Removed
+- Empty `skills/ship/` directory (SKILL.md was never created)
+
 ## [v0.2.0] - 2026-04-12
 
 Multi-agent orchestrator, self-learning knowledge system, curated skill assignments, and AgentSpawn workspace context.
