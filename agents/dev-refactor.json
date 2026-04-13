@@ -102,7 +102,9 @@
         "docker rm.*",
         "docker rmi.*",
         "docker stop.*",
-        "docker kill.*"
+        "docker kill.*",
+        "git add.*",
+        "git commit.*"
       ]
     }
   },

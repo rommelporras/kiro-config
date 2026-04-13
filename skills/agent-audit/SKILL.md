@@ -90,6 +90,27 @@ Cross-reference documentation files against source-of-truth config files:
 - Gotchas that have been resolved by config changes
 - Agent prompts that reference deprecated patterns
 
+### Phase 4.6: Content duplication check
+
+Flag any section in `knowledge/gotchas.md` or `knowledge/rules.md` that is
+longer than 3 lines and substantially overlaps with content in steering docs
+or agent prompts. Gotchas and rules should be short pointers ("see X in Y"),
+not full copies of checklists that live elsewhere.
+
+### Phase 4.5: Project-level .kiro/ audit
+
+When the current workspace has a `.kiro/` directory (project-level config), also check:
+
+- **Path validity:** Do `allowedPaths` in agent JSON files reference directories that actually exist in the project?
+- **Knowledge base sources:** Do `knowledgeBase` `source` paths point to directories that exist?
+- **Prompt file references:** Do file paths mentioned in agent prompts (.md) reference files that exist?
+- **Stale structure references:** Do prompts or skills reference folder patterns from a previous project structure? (e.g., referencing `eam-ecs-bounce/` after it was renamed to `sre/`)
+- **docs/context/ alignment:** If `docs/context/` exists, check that steering docs point to it rather than duplicating its content.
+
+For each finding, include the file path, the stale reference, and what it should be.
+
+Skip this phase if the workspace has no `.kiro/` directory.
+
 ### Phase 5: Output structured report
 
 ## Agent Audit Report — YYYY-MM-DD

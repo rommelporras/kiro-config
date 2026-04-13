@@ -45,6 +45,9 @@ Include phrases that activate the subagent's skills:
 - "Debug systematically before fixing" → activates systematic-debugging
 - "Review the code quality after implementing" → activates python-audit
 
+Note: dev-docs has no TDD or linting skills. Do not include "implement
+with tests" in dev-docs briefings — use "verify before completing" instead.
+
 ## Subagent Tool Limitations
 
 Remember: subagents CANNOT use web_search, web_fetch, introspect, use_aws,
@@ -57,6 +60,22 @@ When dispatching multiple subagents in parallel:
 - Confirm tasks are independent (no shared files)
 - Include in each briefing: "This runs in parallel with other tasks.
   Do NOT modify files outside your scope."
+
+## File Deletions
+
+Subagents cannot delete files (shell deny lists block `rm`). Handle
+file deletions yourself with `git rm` before or after dispatching.
+If an execution plan includes file deletions, extract them into a
+pre-dispatch or post-dispatch step for the orchestrator.
+
+## Edge Cases (include for display/CLI work)
+
+When delegating CLI or display work, always include these in the briefing:
+- What does the output look like with zero items? (empty lists, no results)
+- What does --help show? Is the full command name correct?
+- What happens on Ctrl+C? Clean exit?
+- What happens with invalid/expired AWS credentials?
+- What does the output look like at narrow terminal widths?
 
 ## Anti-patterns
 

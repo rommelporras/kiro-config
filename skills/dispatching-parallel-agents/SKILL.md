@@ -44,6 +44,13 @@ digraph when_to_use {
 - Need to understand full system state
 - Delegates would interfere with each other
 
+**Pre-dispatch checklist:**
+Before dispatching, scan the task list for operations subagents can't perform:
+- File deletions → handle with `git rm` yourself
+- Web search / AWS CLI calls → gather data yourself, include in briefing
+- grep / glob searches → run yourself, pass results to subagent
+Extract these into a pre-dispatch step. Then dispatch the remaining tasks.
+
 ## The Pattern
 
 ### 1. Identify Independent Domains

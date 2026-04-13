@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-KIRO_CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+KIRO_CONFIG_DIR="${KIRO_CONFIG_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 
 total=$(find "${KIRO_CONFIG_DIR}/skills" -name "SKILL.md" | wc -l | tr -d ' ')
 base=$(jq '[.resources[] | select(type == "string" and startswith("skill://"))] | length' "${KIRO_CONFIG_DIR}/agents/base.json")

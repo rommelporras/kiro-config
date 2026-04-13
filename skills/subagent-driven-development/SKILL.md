@@ -214,7 +214,9 @@ Done!
 - Start implementation on main/master branch without explicit user consent
 - Skip reviews (spec compliance OR code quality)
 - Proceed with unfixed issues
-- Dispatch multiple implementation delegates in parallel (conflicts)
+- Dispatch multiple implementation delegates in parallel on SHARED files (conflicts).
+  Parallel dispatch is fine when tasks touch distinct files — use the execution-planning
+  skill to verify independence before parallelizing
 - Make delegate read plan file (provide full text instead)
 - Skip scene-setting context (delegate needs to understand where task fits)
 - Ignore delegate questions (answer before letting them proceed)

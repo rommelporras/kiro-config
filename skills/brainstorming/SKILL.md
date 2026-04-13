@@ -17,6 +17,23 @@ Do NOT invoke any implementation skill, write any code, scaffold any project, or
 
 Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.
 
+## Mode: Collaborative Design
+
+Use when the user brings a broad idea and wants to iterate (e.g., 'let's brainstorm restructuring this repo', 'I'm thinking about combining these tools').
+
+Differences from the standard checklist flow:
+- Present partial designs early and iterate — don't wait until you have the full picture
+- The user will add constraints mid-stream ('also think about X') — fold them in naturally
+- The spec grows incrementally through conversation rather than being written once at the end
+- Multiple choice questions are less useful here — prefer open discussion
+- Still propose 2-3 approaches when there's a real fork in the road
+
+How to detect: the user says 'brainstorm', 'let's think about', 'I'm leaning toward', or presents an open-ended structural question rather than a specific feature request.
+
+The standard checklist still applies for feature-level brainstorming. Collaborative mode is for architectural/structural work where the design space is wide.
+
+Transition: after each design iteration, ask the user: "Ready to formalize this into a spec, or keep exploring?" Don't auto-detect stabilization — let the user decide when the design is done.
+
 ## Checklist
 
 Complete these items in order:

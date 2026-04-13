@@ -4,18 +4,18 @@
 
 [Back to README](../../README.md) | Related: [Creating agents](creating-agents.md) | [Security model](security-model.md)
 
-Quick reference for all 20 skills — what they do, when they activate, and which agents load them.
+Quick reference for all 24 skills — what they do, when they activate, and which agents load them.
 
 ## Workflow chain
 
 The design-to-implementation flow chains skills through the orchestrator:
 
 ```
-spec-workflow → writing-plans → subagent-driven-development
-     ↓                              ↓
-  writes spec              dispatches delegates via
-  to docs/specs/           delegation-protocol, aggregates
-                           results via aggregation
+spec-workflow → writing-plans → execution-planning → subagent-driven-development
+     ↓                              ↓                        ↓
+  writes spec              generates parallel        dispatches delegates via
+  to docs/specs/           execution plans           delegation-protocol, aggregates
+                           with agent routing        results via aggregation
 ```
 
 Each skill activates independently by description matching. The chain is optional.
@@ -38,6 +38,10 @@ Each skill activates independently by description matching. The chain is optiona
 | **critical-thinking** | dev-orchestrator | Socratic questioning mode. Challenges assumptions one question at a time. No solutions, no code. | "challenge this", "poke holes", "what am I missing", "think critically" |
 | **trace-code** | dev-orchestrator | Deep code flow tracing from entry point to output with file:line references. | "trace this", "map the code flow", "what files are involved in" |
 | **codebase-audit** | dev-orchestrator | Periodic health check: git churn, complexity, coverage, deps, TODOs. | "health check", "technical debt", "codebase audit" |
+| **execution-planning** | dev-orchestrator | Generates parallel execution plans from spec phases with agent routing, dependency tracking, and review gates. | "plan execution", "generate execution plan" |
+| **meta-review** | dev-orchestrator | Analyzes kiro-config effectiveness — skill coverage, steering accuracy, knowledge hygiene, routing review. | "meta review", "improve kiro config", "self improve" |
+| **context-docs** | dev-orchestrator | Creates `docs/context/` AI knowledge base with structured markdown files for any AI tool. | "create context docs", "set up AI knowledge base" |
+| **project-architecture** | dev-orchestrator | Restructures project folder layouts with phased migration plans and cross-reference tracking. | "restructure", "reorganize repo", "project layout" |
 
 ### Git operations
 
@@ -64,32 +68,36 @@ Each skill activates independently by description matching. The chain is optiona
 
 ## Skill assignment matrix
 
-| Skill | dev-orchestrator | dev-python | dev-shell | dev-reviewer | dev-refactor |
-|-------|:---:|:---:|:---:|:---:|:---:|
-| spec-workflow | ✓ | | | | |
-| brainstorming | ✓ | | | | |
-| writing-plans | ✓ | | | | |
-| delegation-protocol | ✓ | | | | |
-| aggregation | ✓ | | | | |
-| subagent-driven-development | ✓ | | | | |
-| dispatching-parallel-agents | ✓ | | | | |
-| commit | ✓ | | | | |
-| push | ✓ | | | | |
-| explain-code | ✓ | | | | |
-| agent-audit | ✓ | | | | |
-| research-practices | ✓ | | | | |
-| critical-thinking | ✓ | | | | |
-| trace-code | ✓ | | | | |
-| codebase-audit | ✓ | | | | |
-| test-driven-development | | ✓ | | | |
-| systematic-debugging | | ✓ | ✓ | | |
-| verification-before-completion | | ✓ | ✓ | ✓ | ✓ |
-| receiving-code-review | | ✓ | ✓ | | ✓ |
-| python-audit | | ✓ | | ✓ | |
+| Skill | dev-orchestrator | dev-docs | dev-python | dev-shell | dev-reviewer | dev-refactor |
+|-------|:---:|:---:|:---:|:---:|:---:|:---:|
+| spec-workflow | ✓ | | | | | |
+| brainstorming | ✓ | | | | | |
+| writing-plans | ✓ | | | | | |
+| execution-planning | ✓ | | | | | |
+| delegation-protocol | ✓ | | | | | |
+| aggregation | ✓ | | | | | |
+| subagent-driven-development | ✓ | | | | | |
+| dispatching-parallel-agents | ✓ | | | | | |
+| commit | ✓ | | | | | |
+| push | ✓ | | | | | |
+| explain-code | ✓ | | | | | |
+| agent-audit | ✓ | | | | | |
+| research-practices | ✓ | | | | | |
+| critical-thinking | ✓ | | | | | |
+| trace-code | ✓ | | | | | |
+| codebase-audit | ✓ | | | | | |
+| meta-review | ✓ | | | | | |
+| context-docs | ✓ | | | | | |
+| project-architecture | ✓ | | | | | |
+| test-driven-development | | | ✓ | | | |
+| systematic-debugging | | | ✓ | ✓ | | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | | ✓ | ✓ | | ✓ |
+| python-audit | | | ✓ | | ✓ | |
 
-**Totals:** dev-orchestrator: 15, dev-python: 5, dev-shell: 3, dev-reviewer: 2, dev-refactor: 2, base: 16
+**Totals:** dev-orchestrator: 19, dev-docs: 1, dev-python: 5, dev-shell: 3, dev-reviewer: 2, dev-refactor: 2, base: 16
 
-**base agent** loads 16 of the 20 skills - everything except the 4 orchestrator-only delegation skills (delegation-protocol, aggregation, subagent-driven-development, dispatching-parallel-agents).
+**base agent** loads 16 of the 24 skills — everything except the 8 orchestrator-only skills (delegation-protocol, aggregation, subagent-driven-development, dispatching-parallel-agents, execution-planning, meta-review, context-docs, project-architecture).
 
 ## Design philosophy
 
@@ -112,3 +120,7 @@ Each skill addresses a specific failure mode:
 | Unclear subagent results | aggregation |
 | Stale config and drifting practices | agent-audit |
 | Outdated patterns, missing best practices | research-practices |
+| No execution plan for multi-agent work | execution-planning |
+| Unexamined config effectiveness | meta-review |
+| Scattered project context for AI tools | context-docs |
+| Messy project structure slowing AI agents | project-architecture |

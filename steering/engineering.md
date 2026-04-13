@@ -36,6 +36,14 @@
 - If 3+ fix attempts fail, STOP — it's likely an architectural problem, not a bug.
   Discuss with the user before attempting more fixes.
 
+## Quality Gate Before Commit
+
+- Run the FULL quality suite (lint, type check, tests) on the entire codebase,
+  not just changed files. Pre-existing errors are your responsibility.
+- For CLI tools: test every flag end-to-end against a real environment.
+- After file moves/renames: grep the entire repo for old paths. Zero stale refs.
+- For display/UI work: inspect actual rendered output, not just test assertions.
+
 ## Delegation and Subagent Work
 
 - When receiving a delegated task, read the full briefing before starting.

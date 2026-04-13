@@ -20,7 +20,7 @@ requirements document with:
 - **Constraints:** Performance, security, compatibility requirements
 - **Dependencies:** External services, libraries, APIs
 
-Save to: `docs/specs/{feature-name}/requirements.md`
+Save to: `docs/specs/{feature-name}/spec.md` (create the folder)
 
 Ask the user to review before proceeding. Do not advance until they approve.
 
@@ -36,17 +36,35 @@ Based on approved requirements, produce a design document with:
 
 Save to: `docs/specs/{feature-name}/design.md`
 
+**Skip this phase** if the spec already contains architecture and module
+breakdown (e.g., a single-file spec that covers both requirements and design).
+Ask the user: "The spec already includes design decisions. Create a separate
+design.md or proceed to implementation planning?"
+
 Ask the user to review before proceeding. Do not advance until they approve.
 
 ## Phase 3: Implementation Planning
 
 After requirements and design are approved, hand off to the writing-plans
 skill to produce the detailed implementation plan. Pass it the approved
-requirements and design documents as context.
+spec folder as context: `docs/specs/{feature-name}/`
 
 Do NOT produce your own task list — writing-plans is the single source
 of truth for implementation plans. It produces bite-sized tasks with
 exact file paths, code, test commands, and commit messages.
+
+The implementation plan is saved to: `docs/specs/{feature-name}/plan.md`
+
+## Phase 3.5: Execution Planning
+
+For each phase of the implementation plan, use the execution-planning
+skill to generate an execution plan with parallel stages, agent routing,
+and review gates.
+
+Execution plans are saved to: `docs/specs/{feature-name}/execution/phase-N.plan.md`
+
+This step can be done upfront for all phases or just-in-time before
+each phase executes.
 
 ## Phase 4: Execution (only on user approval)
 

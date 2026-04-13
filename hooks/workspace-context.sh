@@ -30,4 +30,11 @@ fi
 [[ -d "${CWD}/.kiro/steering" ]] && echo "- Project steering: yes"
 [[ -d "${CWD}/.kiro/agents" ]] && echo "- Project agents: yes"
 
+# First-run personalization check
+if grep -q '"~/personal"' "${HOME}/.kiro/agents/base.json" 2>/dev/null; then
+  if [[ ! -d "${HOME}/personal" ]]; then
+    echo "- ⚠️ Default paths detected — run: bash ~/.kiro/scripts/personalize.sh"
+  fi
+fi
+
 exit 0

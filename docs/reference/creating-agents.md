@@ -13,14 +13,16 @@ This config uses a multi-agent orchestrator pattern:
 
 ```
 User ↔ dev-orchestrator (plans, converses, coordinates)
+            ├── dev-docs     (edits config, docs, markdown)
             ├── dev-python   (writes Python code)
             ├── dev-shell    (writes Bash/shell code)
             ├── dev-reviewer  (read-only analysis)
             └── dev-refactor  (restructures code)
 ```
 
-The orchestrator is the default agent. It never writes code — it delegates
-to specialists. The user never swaps agents manually.
+The orchestrator is the default agent. It never writes executable code — config
+and markdown edits are handled directly for small scope. Everything else is
+delegated to specialists. The user never swaps agents manually.
 
 ### When to create a new subagent
 

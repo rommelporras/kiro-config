@@ -13,8 +13,10 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
-**Save plans to:** `docs/plans/YYYY-MM-DD-<feature-name>.md`
-- (User preferences for plan location override this default)
+**Save plans to:** `docs/specs/<feature-name>/plan.md`
+- If the spec folder already exists (`docs/specs/<feature-name>/spec.md`), save alongside it
+- If no spec folder exists, create one: `docs/specs/<feature-name>/plan.md`
+- Standalone plans (no spec) can still be flat files in `docs/specs/`
 
 ## Scope Check
 
@@ -104,6 +106,15 @@ Subagent reports DONE to orchestrator. Orchestrator handles staging and committi
 - Exact commands with expected output
 - DRY, YAGNI, TDD, frequent commits
 
+## Non-Code Tasks
+
+Not all work is TDD code. For file moves, path updates, config edits,
+and documentation changes:
+- Use exact before/after strings instead of TDD steps
+- Provide the literal `oldStr` and `newStr` for each replacement
+- Verification is grep-based (zero stale references) not test-based
+- These tasks route to dev-docs, not dev-python
+
 ## Plan Review Loop
 
 After writing the complete plan:
@@ -121,8 +132,13 @@ After writing the complete plan:
 
 After saving the plan, offer execution choice:
 
-**"Plan complete and saved to `docs/plans/<filename>.md`. Ready to execute?"**
+**"Plan complete and saved to `docs/specs/<name>/plan.md`. Ready to execute?"**
 
 **If yes:**
-- Use the subagent-driven-development skill
+- First, use the execution-planning skill to generate a phase execution
+  plan (`phase-N.plan.md`) with parallel stages, agent routing, and
+  review gates
+- Then dispatch according to the execution plan — parallel stages first,
+  review stage last
+- For tasks requiring TDD within a stage, use subagent-driven-development
 - Fresh delegate per task + two-stage review (spec compliance, then code quality)
