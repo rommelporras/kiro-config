@@ -76,8 +76,8 @@ Inside a Kiro CLI session, run:
 
 **Expected:**
 - 7 global steering files (`engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`)
-- 20 global skills
-- 3 global MCP servers (Context7, AWS Docs, AWS Diagram)
+- 24 global skills
+- 4 global MCP servers (Context7, AWS Docs, AWS Diagram, Playwright)
 
 Also check:
 
@@ -116,7 +116,7 @@ for the required extension fix.
 
 ## Next steps
 
-- [Skill catalog](../reference/skill-catalog.md) — understand the 20 available skills
+- [Skill catalog](../reference/skill-catalog.md) — understand the 24 available skills
 - [Security model](../reference/security-model.md) — how the 3 defense layers work
 - [Creating custom agents](../reference/creating-agents.md) — build project-specific agents
 - [Troubleshooting](troubleshooting.md) — when things break

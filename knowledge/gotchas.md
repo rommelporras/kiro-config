@@ -3,9 +3,7 @@
 Operational lessons learned. Updated manually or by the agent-audit skill.
 
 ## Subagent Limitations
-- Subagents CANNOT use: web_search, web_fetch, introspect, use_aws, grep, glob
-- Subagents CAN use: read, write, shell, code, and MCP tools
-- If a task needs web search or AWS data, the orchestrator must gather it first and include in the briefing
+- Tool availability and data-gathering rules: see "Subagent Tool Limitations" in orchestrator prompt and delegation-protocol skill.
 - Subagent shell output is buffered, not streamed — long-running commands appear stuck until complete
 - Interactive commands (rm -i, npm init, sudo, ssh host key prompts) don't work in subagent shell — no stdin
 - Subagents are NOT protected by preToolUse hooks — their safety comes from deniedCommands and deniedPaths in toolsSettings
@@ -32,3 +30,25 @@ Operational lessons learned. Updated manually or by the agent-audit skill.
 - Max 30 active episodes enforced by auto-capture.sh
 - Correction detection patterns are regex-based — subtle corrections may not trigger capture
 - context-enrichment.sh has a 60-second dedup — rapid corrections within 60s won't all inject rules
+
+## Agent Selection for Non-Code Tasks
+- Resolved in v0.3.0 — dev-docs agent added, orchestrator handles small config edits directly. See dev-docs routing in orchestrator prompt.
+
+## Orchestrator Direct Work vs Delegation
+- Now codified in orchestrator prompt: config/markdown edits on <10 files handled directly. See "What you never do" in orchestrator.md.
+
+## Subagent Dispatch Batching
+- 9 sequential dispatches for Phase 0 of eam-sre restructure was too many. Now addressed by execution-planning skill and proportionality rules in orchestrator prompt.
+
+## Post-Implementation Blind Spots
+- Learned the hard way: mocked tests ≠ working software. See "Quality Gate Before Commit" in steering/engineering.md for the full checklist.
+- argparse %(prog)s resolves to the entry point name, not the full subcommand. When using argv-stripping dispatchers (eam ecs {bounce|status}), hardcode the full command in epilog examples.
+
+## Orchestrator Self-Modification
+- When the orchestrator's deniedPaths blocks a write to its own config files, use a subagent silently. Don't explain the problem to the user or ask them to apply changes manually.
+- Self-modification (subagents writing to orchestrator prompt/config) is only allowed when the user explicitly asked for it, and only with exact before/after strings in the briefing — no creative freedom for the subagent.
+- Subagents must NEVER commit or push when modifying global config. The orchestrator handles all git operations.
+
+## Orchestrator Sequential Edit Anti-Pattern
+- When agent-audit or similar analysis produces 3+ text edits across multiple files, dispatch dev-docs with all edits in one briefing. Don't do sequential strReplace calls from the orchestrator — each is a round-trip that adds up.
+- The '<10 files do it directly' rule was too generous. 1-2 quick edits = direct. 3+ edits = dev-docs.

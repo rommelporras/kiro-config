@@ -1,0 +1,64 @@
+{
+  "name": "dev-docs",
+  "description": "Edits config files, documentation, and non-code text. Lightweight — no TDD, no linting. Use for markdown, JSON, YAML, TOML, path updates, and bulk replacements.",
+  "prompt": "file://./prompts/docs.md",
+  "model": "claude-sonnet-4.6",
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "code"
+  ],
+  "allowedTools": [
+    "read",
+    "write",
+    "code"
+  ],
+  "toolsSettings": {
+    "fs_write": {
+      "allowedPaths": [
+        "~/personal/**",
+        "~/eam/**",
+        "./**"
+      ],
+      "deniedPaths": [
+        "~/.ssh",
+        "~/.aws",
+        "~/.gnupg",
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json",
+        "~/.kiro/agents",
+        "~/.kiro/hooks",
+        "~/.kiro/steering",
+        "**/eam_sre/**/*.py",
+        "**/tests/**/*.py"
+      ]
+    },
+    "execute_bash": {
+      "autoAllowReadonly": true,
+      "deniedCommands": [
+        "rm .*",
+        "git push.*",
+        "git push",
+        "python3? .*",
+        "node .*",
+        "npm .*",
+        "uv .*",
+        "pip .*",
+        "terraform .*",
+        "helm .*",
+        "kubectl .*",
+        "docker .*",
+        "aws .*",
+        "git add.*",
+        "git commit.*"
+      ]
+    }
+  },
+  "resources": [
+    "file://~/.kiro/steering/**/*.md",
+    "file://.kiro/steering/**/*.md",
+    "skill://~/.kiro/skills/verification-before-completion/SKILL.md"
+  ],
+  "includeMcpJson": false
+}

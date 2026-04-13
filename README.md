@@ -6,6 +6,7 @@ Personal Kiro CLI configuration with multi-agent orchestrator, SRE-focused steer
 
 ```
 User ↔ dev-orchestrator (plans, converses, coordinates, git ops)
+            ├── dev-docs      (edits config, docs, markdown — no TDD)
             ├── dev-python    (writes Python code, TDD, debugging)
             ├── dev-shell     (writes Bash/shell, system automation)
             ├── dev-reviewer  (read-only analysis, no write tool)
@@ -14,14 +15,14 @@ User ↔ dev-orchestrator (plans, converses, coordinates, git ops)
 base — standalone fallback for general questions (no orchestration)
 ```
 
-The `dev-orchestrator` is the default agent. It never writes code — it delegates to specialists. Skills are curated per agent (no global wildcard loading).
+The `dev-orchestrator` is the default agent. It never writes executable code — config and markdown edits are handled directly for small scope (<10 files), everything else is delegated to specialists. Skills are curated per agent (no global wildcard loading).
 
 ## Features
 
 - **7 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash
-- **20 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
-- **8 security hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
-- **6 agents** — dev-orchestrator + 4 dev specialists + base fallback
+- **24 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **8 hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
+- **7 agents** — dev-orchestrator + 5 dev specialists + base fallback
 - **Self-learning knowledge pipeline** — corrections auto-captured, keywords tracked, rules auto-promoted
 - **Knowledge base integration** — semantic search across config with auto-indexing
 - **Infrastructure is read-only** — Kiro writes code in files but never executes mutating infra commands
@@ -31,6 +32,7 @@ The `dev-orchestrator` is the default agent. It never writes code — it delegat
 ```
 ├── agents/          # Agent configurations
 │   ├── dev-orchestrator.json  # Default — plans, delegates, git ops
+│   ├── dev-docs.json           # Config/docs editor subagent
 │   ├── dev-python.json        # Python specialist subagent
 │   ├── dev-shell.json         # Shell/Bash specialist subagent
 │   ├── dev-reviewer.json      # Read-only reviewer subagent
@@ -45,6 +47,7 @@ The `dev-orchestrator` is the default agent. It never writes code — it delegat
 │   ├── scan-secrets.sh
 │   ├── protect-sensitive.sh
 │   ├── bash-write-protect.sh
+│   ├── self-improve.sh
 │   └── notify.sh
 ├── knowledge/       # Self-evolving knowledge base
 │   ├── rules.md     # Permanent rules (🔴 critical + 🟡 relevant)
@@ -75,45 +78,13 @@ bash scripts/setup-knowledge.sh
 
 ## Personalizing for Your Setup
 
-This config ships with paths like `~/personal` and `~/eam` that are specific to the original author. You MUST update these to match your own directory structure before using it.
-
-### What to change
-
-**Agent configs** — these control where agents can read/write files:
-
-| File | Settings to update |
-|------|-------------------|
-| `agents/base.json` | `fs_read.allowedPaths`, `fs_write.allowedPaths` |
-| `agents/dev-orchestrator.json` | `fs_read.allowedPaths`, `fs_write.allowedPaths` |
-| `agents/dev-python.json` | `fs_write.allowedPaths` |
-| `agents/dev-shell.json` | `fs_write.allowedPaths` |
-| `agents/dev-refactor.json` | `fs_write.allowedPaths` |
-
-In each file, replace `~/personal` and `~/eam` with your own project directories. For example, if your projects live in `~/projects`:
-
-```json
-"allowedPaths": [
-  "~/projects/**",
-  "./**"
-]
-```
-
-The `./**` entry allows agents to work in whatever directory you launch Kiro from.
-
-**Setup script:**
-
-| File | What to change |
-|------|---------------|
-| `scripts/setup-knowledge.sh` | Update knowledge base paths to your project directories |
-
-**Symlink command** — update the clone path in the setup step:
+This config ships with paths like `~/personal` and `~/eam` that are specific to the original author. Run the setup script to replace them with yours:
 
 ```bash
-# Replace ~/personal/kiro-config with wherever you cloned this repo
-for dir in steering agents skills settings hooks; do
-  ln -sfn /path/to/your/kiro-config/$dir ~/.kiro/$dir
-done
+bash scripts/personalize.sh
 ```
+
+The script updates `allowedPaths` in all agent configs and knowledge base paths interactively. See [Team Onboarding](docs/setup/team-onboarding.md) for the full setup walkthrough.
 
 ### What NOT to change
 
@@ -126,30 +97,34 @@ done
 
 ## Agent Skill Assignments
 
-| Skill | dev-orchestrator | dev-python | dev-shell | dev-reviewer | dev-refactor |
-|-------|:---:|:---:|:---:|:---:|:---:|
-| spec-workflow | ✓ | | | | |
-| brainstorming | ✓ | | | | |
-| writing-plans | ✓ | | | | |
-| delegation-protocol | ✓ | | | | |
-| aggregation | ✓ | | | | |
-| subagent-driven-development | ✓ | | | | |
-| dispatching-parallel-agents | ✓ | | | | |
-| commit | ✓ | | | | |
-| push | ✓ | | | | |
-| explain-code | ✓ | | | | |
-| agent-audit | ✓ | | | | |
-| research-practices | ✓ | | | | |
-| critical-thinking | ✓ | | | | |
-| trace-code | ✓ | | | | |
-| codebase-audit | ✓ | | | | |
-| test-driven-development | | ✓ | | | |
-| systematic-debugging | | ✓ | ✓ | | |
-| verification-before-completion | | ✓ | ✓ | ✓ | ✓ |
-| receiving-code-review | | ✓ | ✓ | | ✓ |
-| python-audit | | ✓ | | ✓ | |
+| Skill | dev-orchestrator | dev-docs | dev-python | dev-shell | dev-reviewer | dev-refactor |
+|-------|:---:|:---:|:---:|:---:|:---:|:---:|
+| spec-workflow | ✓ | | | | | |
+| brainstorming | ✓ | | | | | |
+| writing-plans | ✓ | | | | | |
+| execution-planning | ✓ | | | | | |
+| delegation-protocol | ✓ | | | | | |
+| aggregation | ✓ | | | | | |
+| subagent-driven-development | ✓ | | | | | |
+| dispatching-parallel-agents | ✓ | | | | | |
+| commit | ✓ | | | | | |
+| push | ✓ | | | | | |
+| explain-code | ✓ | | | | | |
+| agent-audit | ✓ | | | | | |
+| research-practices | ✓ | | | | | |
+| critical-thinking | ✓ | | | | | |
+| trace-code | ✓ | | | | | |
+| codebase-audit | ✓ | | | | | |
+| meta-review | ✓ | | | | | |
+| context-docs | ✓ | | | | | |
+| project-architecture | ✓ | | | | | |
+| test-driven-development | | | ✓ | | | |
+| systematic-debugging | | | ✓ | ✓ | | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | | ✓ | ✓ | | ✓ |
+| python-audit | | | ✓ | | ✓ | |
 
-**base agent** loads 16 of 20 skills (all except the 4 orchestrator-only delegation skills). See [Skill Catalog](docs/reference/skill-catalog.md) for details.
+**base agent** loads 16 of 24 skills (all except the 8 orchestrator-only skills: delegation-protocol, aggregation, subagent-driven-development, dispatching-parallel-agents, execution-planning, meta-review, context-docs, project-architecture). See [Skill Catalog](docs/reference/skill-catalog.md) for details.
 
 ## Self-Learning Pipeline
 
@@ -196,10 +171,11 @@ MIT
 
 ## Documentation
 
-- [Skill Catalog](docs/reference/skill-catalog.md) — all 20 skills with triggers and agent assignments
+- [Skill Catalog](docs/reference/skill-catalog.md) — all 24 skills with triggers and agent assignments
 - [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
 - [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
 - [Changelog](docs/reference/CHANGELOG.md) — version history and release notes
+- [Team Onboarding](docs/setup/team-onboarding.md) — get a teammate running in 5 minutes
 - [Install Checklist](docs/setup/kiro-cli-install-checklist.md) — get running in 4 steps
 - [Troubleshooting](docs/setup/troubleshooting.md) — common issues and fixes
 - [IDE + WSL2 Setup](docs/setup/kiro-ide-wsl-setup.md) — Kiro IDE on WSL2 with Open Remote extension
