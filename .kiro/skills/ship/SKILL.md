@@ -5,7 +5,7 @@ description: Create a versioned release with tag, push, and GitHub release. Use 
 
 # Ship
 
-Tag, push, and create a GitHub release. Orchestrator-handled - no delegation.
+Tag, push, and create a GitHub release. On feature branches, creates a PR first. Orchestrator-handled - no delegation.
 
 **Announce at start:** "Preparing release."
 
@@ -19,10 +19,42 @@ git describe --tags --abbrev=0 2>/dev/null || echo "No tags yet"
 ```
 
 Hard stops:
-- Not on `main` - ABORT ("Switch to main and merge your feature branch first.")
 - Dirty working tree - ABORT ("Commit or stash changes first.")
 
+If on a `feature/*` branch, switch to **PR creation mode** (Step 1.5). If on `main`, continue to Step 2.
+
+## Step 1.5 - PR creation mode (feature branch only)
+
+Triggered when `ship` is called from a feature branch.
+
+```bash
+# Check if PR already exists
+gh pr list --head "$(git branch --show-current)" --json number,url --jq '.[0]'
+```
+
+If a PR already exists, show the URL and say: "PR already exists. Merge it, then run `ship it` again from main."
+
+If no PR exists:
+
+1. Read `docs/reference/CHANGELOG.md` for the upcoming version entry
+2. Build PR title from the version: `v<VERSION> - <Short Title>`
+3. Build PR body from the CHANGELOG entry
+4. Create the PR:
+
+```bash
+gh pr create \
+  --title "<PR title>" \
+  --body "<PR body from changelog>" \
+  --base main
+```
+
+5. Report: "PR created at <URL>. Merge it, then run `ship it` again from main."
+
+**STOP here.** Do not proceed to tagging or releasing.
+
 ## Step 2 - Remote tag collision check
+
+> From this point forward, all steps require being on `main`.
 
 ```bash
 git fetch origin --tags
@@ -127,22 +159,24 @@ If push fails - ABORT before creating release.
 
 ## Step 8 - Branch cleanup
 
-After release succeeds, check for merged feature branches:
+After release succeeds, prune stale remote refs and check for merged feature branches:
 
 ```bash
+git fetch --prune
 git branch --merged main | grep 'feature/' | head -5
 ```
 
 If merged feature branches exist, ask:
-"Delete merged feature branch `feature/<name>`? (local + remote)"
+"Delete local branch `feature/<name>`?"
 
 On confirmation:
 ```bash
 git branch -d feature/<name>
-git push origin --delete feature/<name>
 ```
 
 Use `-d` (not `-D`) - git will refuse if the branch isn't fully merged. This is a safety net.
+
+Note: remote branch is typically already deleted by GitHub's "Delete branch" button on merge. `git fetch --prune` cleans up the stale tracking ref. If the remote branch still exists, also run `git push origin --delete feature/<name>`.
 
 ## Step 9 - Report
 

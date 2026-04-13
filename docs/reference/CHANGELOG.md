@@ -5,6 +5,17 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.3.1] - 2026-04-13
+
+Ship skill PR creation mode.
+
+### Added
+- Ship skill: PR creation mode when called from a feature branch - creates PR via `gh pr create` with changelog-derived body, then stops
+
+### Changed
+- Ship skill: "not on main" is no longer a hard stop - triggers PR creation instead
+- Ship skill: branch cleanup uses `git fetch --prune` + local delete only (remote branch assumed deleted by GitHub on merge)
+
 ## [v0.3.0] - 2026-04-13
 
 Orchestrator evolution — dev-docs agent, execution planning, quality gates, and 4 new orchestrator skills.
