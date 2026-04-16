@@ -23,7 +23,7 @@ Seed the gotchas file with known operational gotchas discovered through usage.
 **Files:**
 - Create: `knowledge/gotchas.md`
 
-- [ ] **Step 1: Create gotchas.md with known gotchas**
+- [x] **Step 1: Create gotchas.md with known gotchas**
 
 ```markdown
 # Gotchas
@@ -56,12 +56,12 @@ Operational lessons learned. Updated manually or by the self-review skill.
 - context-enrichment.sh has a 60-second dedup — rapid corrections within 60s won't all inject rules
 ```
 
-- [ ] **Step 2: Verify file is valid markdown**
+- [x] **Step 2: Verify file is valid markdown**
 
 Run: `cat knowledge/gotchas.md | head -5`
 Expected: Shows the header and first section
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ---
 
@@ -72,7 +72,7 @@ Add critical rules about subagent limitations that should always be injected.
 **Files:**
 - Modify: `knowledge/rules.md`
 
-- [ ] **Step 1: Add subagent limitation rules**
+- [x] **Step 1: Add subagent limitation rules**
 
 Append to rules.md:
 
@@ -83,12 +83,12 @@ Append to rules.md:
 - 🔴 Always add --no-cli-pager and --output json when subagents run AWS CLI via shell.
 ```
 
-- [ ] **Step 2: Verify rules.md is valid**
+- [x] **Step 2: Verify rules.md is valid**
 
 Run: `grep -c '🔴' knowledge/rules.md`
 Expected: Count increases by 2
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ---
 
@@ -99,7 +99,7 @@ Add missing guidance for pathlib, async patterns, and AWS CLI in shell.
 **Files:**
 - Modify: `agents/prompts/python-dev.md`
 
-- [ ] **Step 1: Add missing patterns to Critical patterns section**
+- [x] **Step 1: Add missing patterns to Critical patterns section**
 
 Append these to the "Critical patterns" section:
 
@@ -109,12 +109,12 @@ Append these to the "Critical patterns" section:
 - `mktemp` for temp files with `try/finally` cleanup — never hardcode /tmp paths
 ```
 
-- [ ] **Step 2: Verify the file reads correctly**
+- [x] **Step 2: Verify the file reads correctly**
 
 Run: `grep -c 'pathlib' agents/prompts/python-dev.md`
 Expected: 1
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ---
 
@@ -125,7 +125,7 @@ Add missing guidance for AWS CLI, temp files, and debug mode.
 **Files:**
 - Modify: `agents/prompts/shell-dev.md`
 
-- [ ] **Step 1: Add missing patterns to Critical patterns section**
+- [x] **Step 1: Add missing patterns to Critical patterns section**
 
 Append these to the "Critical patterns" section:
 
@@ -135,12 +135,12 @@ Append these to the "Critical patterns" section:
 - Debug mode: support `TRACE=1` env var with `[[ "${TRACE:-}" == "1" ]] && set -x`
 ```
 
-- [ ] **Step 2: Verify the file reads correctly**
+- [x] **Step 2: Verify the file reads correctly**
 
 Run: `grep -c 'no-cli-pager' agents/prompts/shell-dev.md`
 Expected: 1
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ---
 
@@ -151,7 +151,7 @@ Add shell-specific and AWS CLI review checklist items.
 **Files:**
 - Modify: `agents/prompts/code-reviewer.md`
 
-- [ ] **Step 1: Add shell and AWS review checklist**
+- [x] **Step 1: Add shell and AWS review checklist**
 
 Append after the "Review process" section:
 
@@ -171,12 +171,12 @@ Append after the "Review process" section:
 - No mutating operations (create/update/delete)?
 ```
 
-- [ ] **Step 2: Verify the file reads correctly**
+- [x] **Step 2: Verify the file reads correctly**
 
 Run: `grep -c 'checklist' agents/prompts/code-reviewer.md`
 Expected: 2 (shell + AWS)
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ---
 
@@ -187,7 +187,7 @@ Create the skill that reads current config and proposes improvements.
 **Files:**
 - Create: `skills/self-review/SKILL.md`
 
-- [ ] **Step 1: Create the skill file**
+- [x] **Step 1: Create the skill file**
 
 ```markdown
 ---
@@ -230,13 +230,13 @@ Analyze the current kiro-config and propose improvements.
 ## Self-Review Report — YYYY-MM-DD
 
 ### Gaps Found
-- [ ] [file] — description of gap
+- [x] [file] — description of gap
 
 ### Inconsistencies
-- [ ] [file vs file] — description of inconsistency
+- [x] [file vs file] — description of inconsistency
 
 ### Stale Items
-- [ ] [file:line] — what's stale and why
+- [x] [file:line] — what's stale and why
 
 ### Proposed Changes
 For each finding, include:
@@ -258,12 +258,12 @@ When running self-review, also check:
 If findings exist, append a "Proactive Suggestions" section to the report.
 ```
 
-- [ ] **Step 2: Verify skill file exists and is valid**
+- [x] **Step 2: Verify skill file exists and is valid**
 
 Run: `head -5 skills/self-review/SKILL.md`
 Expected: Shows the frontmatter
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ---
 
@@ -275,20 +275,20 @@ Add the self-review skill to the orchestrator's resources and update the routing
 - Modify: `agents/dev-orchestrator.json` — add skill resource
 - Modify: `agents/prompts/orchestrator.md` — add to "Handle directly" triggers
 
-- [ ] **Step 1: Add skill resource to dev-orchestrator.json resources array**
+- [x] **Step 1: Add skill resource to dev-orchestrator.json resources array**
 
 Add: `"skill://~/.kiro/skills/self-review/SKILL.md"`
 
-- [ ] **Step 2: Update orchestrator prompt "Handle directly" triggers**
+- [x] **Step 2: Update orchestrator prompt "Handle directly" triggers**
 
 Add `self-review, review config, what can we improve` to the triggers line.
 
-- [ ] **Step 3: Verify both files updated**
+- [x] **Step 3: Verify both files updated**
 
 Run: `grep 'self-review' agents/dev-orchestrator.json agents/prompts/orchestrator.md`
 Expected: Matches in both files
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**
 
 ---
 
@@ -300,7 +300,7 @@ Create a lightweight stop hook that logs session end timestamps.
 - Create: `hooks/feedback/session-log.sh`
 - Modify: `agents/dev-orchestrator.json` — add stop hook
 
-- [ ] **Step 1: Create the session log hook**
+- [x] **Step 1: Create the session log hook**
 
 ```bash
 #!/usr/bin/env bash
@@ -313,7 +313,7 @@ LOG_FILE="$LOG_DIR/session-log.txt"
 echo "$(date -Iseconds) | session-end" >> "$LOG_FILE"
 ```
 
-- [ ] **Step 2: Add stop hook to orchestrator config hooks.stop array**
+- [x] **Step 2: Add stop hook to orchestrator config hooks.stop array**
 
 Add:
 ```json
@@ -323,7 +323,7 @@ Add:
 }
 ```
 
-- [ ] **Step 3: Verify hook syntax and config**
+- [x] **Step 3: Verify hook syntax and config**
 
 Run: `bash -n hooks/feedback/session-log.sh && echo "syntax ok"`
 Expected: "syntax ok"
@@ -331,4 +331,4 @@ Expected: "syntax ok"
 Run: `jq '.hooks.stop | length' agents/dev-orchestrator.json`
 Expected: 2
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**

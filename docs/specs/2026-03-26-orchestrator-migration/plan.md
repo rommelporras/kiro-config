@@ -1292,47 +1292,47 @@ These should be resolved before or during implementation:
 
 ```
 Phase 1: Normalize
-- [ ] Update base.json tool names
-- [ ] Test base.json still works
-- [ ] Fix README skill count
+- [x] Update base.json tool names
+- [x] Test base.json still works
+- [x] Fix README skill count
 
 Phase 2: Create prompts
-- [ ] Create agents/prompts/ directory
-- [ ] Write orchestrator.md
-- [ ] Write python-dev.md
-- [ ] Write shell-dev.md
-- [ ] Write code-reviewer.md
-- [ ] Write refactor.md
+- [x] Create agents/prompts/ directory
+- [x] Write orchestrator.md
+- [x] Write python-dev.md
+- [x] Write shell-dev.md
+- [x] Write code-reviewer.md
+- [x] Write refactor.md
 
 Phase 3: Create subagents
-- [ ] Create python-dev.json
-- [ ] Create shell-dev.json
-- [ ] Create code-reviewer.json
-- [ ] Create refactor.json
-- [ ] Test: /agent swap python-dev — verify tools + skills load
-- [ ] Test: /agent swap code-reviewer — verify NO write tool
+- [x] Create python-dev.json
+- [x] Create shell-dev.json
+- [x] Create code-reviewer.json
+- [x] Create refactor.json
+- [x] Test: /agent swap python-dev — verify tools + skills load
+- [x] Test: /agent swap code-reviewer — verify NO write tool
 
 Phase 4: Create orchestrator
-- [ ] Create orchestrator.json
-- [ ] Update settings/cli.json default agent
-- [ ] Test: basic conversation (should NOT delegate)
-- [ ] Test: "write a Python script" (should delegate to python-dev)
-- [ ] Test: "review this code" (should delegate to code-reviewer)
-- [ ] Test: subagent results returned to orchestrator
+- [x] Create orchestrator.json
+- [x] Update settings/cli.json default agent
+- [x] Test: basic conversation (should NOT delegate)
+- [x] Test: "write a Python script" (should delegate to python-dev)
+- [x] Test: "review this code" (should delegate to code-reviewer)
+- [x] Test: subagent results returned to orchestrator
 
 Phase 5: Create new skills
-- [ ] Create skills/spec-workflow/SKILL.md
-- [ ] Create skills/delegation-protocol/SKILL.md
-- [ ] Create skills/aggregation/SKILL.md
-- [ ] Test: "spec out a feature" triggers spec-workflow
-- [ ] Test: delegation includes structured briefing
-- [ ] Test: subagent results presented via aggregation
+- [x] Create skills/spec-workflow/SKILL.md
+- [x] Create skills/delegation-protocol/SKILL.md
+- [x] Create skills/aggregation/SKILL.md
+- [x] Test: "spec out a feature" triggers spec-workflow
+- [x] Test: delegation includes structured briefing
+- [x] Test: subagent results presented via aggregation
 
 Phase 6: Docs and cleanup
-- [ ] Update agent_config.json.example
-- [ ] Update docs/reference/skill-catalog.md
-- [ ] Update docs/reference/creating-agents.md
-- [ ] Update README.md
-- [ ] CHANGELOG entry
+- [x] Update agent_config.json.example
+- [x] Update docs/reference/skill-catalog.md
+- [x] Update docs/reference/creating-agents.md
+- [x] Update README.md
+- [x] CHANGELOG entry
 ```
 ```
