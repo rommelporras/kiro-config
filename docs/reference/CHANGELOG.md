@@ -5,6 +5,28 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.4.1] - 2026-04-16
+
+Agent audit fixes — documentation drift, knowledge cleanup, security hardening.
+
+### Added
+- Directory tree and feature count verification in agent-audit Phase 8
+- Project-local skills section in skill-catalog (create-pr, ship)
+- Infrastructure deny patterns for dev-kiro-config (kubectl, terraform, helm, docker, AWS mutating)
+
+### Changed
+- `knowledge/rules.md` slimmed from 17 rules to 6 — removed 11 rules duplicating steering docs
+- README hooks directory tree now shows all scripts (added doc-consistency.sh, auto-capture.sh, distill.sh)
+- Skill-catalog and README: base agent description corrected (claimed 5 skills, actual 14)
+- Skill-catalog and README: dev-refactor TDD checkmark added, totals updated (2 → 3)
+- Skill-catalog: TDD agent list corrected (added dev-typescript, dev-refactor)
+- `agents/base.json` welcomeMessage corrected (16 → 14 skills)
+
+### Removed
+- `hooks/self-improve.sh` — dead code, unreferenced by any agent or script
+- 3 resolved gotchas from `knowledge/gotchas.md` (Agent Selection, Orchestrator Direct Work, Subagent Dispatch Batching)
+- 7 noise episodes from `knowledge/episodes.md`
+
 ## [v0.4.0] - 2026-04-16
 
 Orchestrator framework redesign, shell safety improvements, and TypeScript/frontend stack.

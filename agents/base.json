@@ -2,7 +2,7 @@
   "name": "base",
   "description": "Standalone fallback agent with read-only tools pre-approved. Use when you want to work without the orchestrator pattern.",
   "prompt": null,
-  "welcomeMessage": "Base agent active — global steering, 16 skills, security hooks, and self-learning knowledge system loaded. Run /context show to verify.",
+  "welcomeMessage": "Base agent active — global steering, 14 skills, security hooks, and self-learning knowledge system loaded. Run /context show to verify.",
   "mcpServers": {},
   "tools": [
     "read",

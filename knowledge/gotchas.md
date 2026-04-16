@@ -31,15 +31,6 @@ Operational lessons learned. Updated manually or by the agent-audit skill.
 - Correction detection patterns are regex-based — subtle corrections may not trigger capture
 - context-enrichment.sh has a 60-second dedup — rapid corrections within 60s won't all inject rules
 
-## Agent Selection for Non-Code Tasks
-- Resolved in v0.3.0 — dev-docs agent added, orchestrator handles small config edits directly. See dev-docs routing in orchestrator prompt.
-
-## Orchestrator Direct Work vs Delegation
-- Now codified in orchestrator prompt: config/markdown edits on <10 files handled directly. See "What you never do" in orchestrator.md.
-
-## Subagent Dispatch Batching
-- 9 sequential dispatches for Phase 0 of eam-sre restructure was too many. Now addressed by execution-planning skill and proportionality rules in orchestrator prompt.
-
 ## Post-Implementation Blind Spots
 - Learned the hard way: mocked tests ≠ working software. See "Quality Gate Before Commit" in steering/engineering.md for the full checklist.
 - argparse %(prog)s resolves to the entry point name, not the full subcommand. When using argv-stripping dispatchers (eam ecs {bounce|status}), hardcode the full command in epilog examples.
