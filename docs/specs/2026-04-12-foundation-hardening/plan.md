@@ -1,5 +1,11 @@
 # Foundation Hardening & Self-Review Implementation Plan
 
+> **Status: COMPLETED** — All 8 tasks implemented. Self-review skill evolved
+> into agent-audit. Superseded by
+> `docs/specs/2026-04-16-orchestrator-agent-framework-redesign/spec.md`
+> which rewrites agent-audit, upgrades reviewer/refactor prompts, and adds
+> automated post-implementation workflows.
+
 > **For agentic workers:** Use the subagent-driven-development skill to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Harden existing agent prompts with missing guidance, create a gotchas knowledge file, update rules.md, and add a self-review skill.
