@@ -147,12 +147,20 @@ git commit -m "feat: add dev-kiro-config agent, set opus model, create improveme
 - Create docs/improvements/ structure (pending.md, resolved.md)"
 ```
 
-- [ ] **Step 2: Exit session**
+- [ ] **Step 2: Merge to main, push, and exit session**
 
-Tell user: "Phase 0 committed. Exit this session (`/quit`) and start a new
-one so dev-kiro-config loads. Then say: 'Continue with Spec 2 Phase 1 —
-read docs/specs/2026-04-16-orchestrator-agent-framework-redesign/spec.md
-and plan.md'"
+```bash
+git checkout main && git merge feature/framework-redesign --no-ff && git push origin main && git branch -d feature/framework-redesign
+```
+
+Then tell user: **"Phase 0 complete. Run `/quit` now. New session prompt:**
+```
+Continue docs/specs/2026-04-16-orchestrator-agent-framework-redesign/plan.md — Phase 1 through Phase 6. Also implement docs/specs/2026-04-16-shell-safety-file-operations/spec.md and plan.md.
+```
+**"**
+
+⛔ **STOP HERE. Do not continue to Phase 1 in this session.**
+dev-kiro-config and the orchestrator model change require a session restart.
 
 ---
 
@@ -280,6 +288,12 @@ jq '[.resources[] | select(type == "string") | select(startswith("skill://"))] |
 Expected: valid, 12
 
 - [ ] **Step 3: Report completion**
+
+> ⚠️ **Note:** The orchestrator resources list changed. New skills (design-and-spec,
+> post-implementation) won't be available until next session. However, you can
+> continue with Phases 2-6 in this session because those phases modify existing
+> files — they don't need the new skills to be loaded. The new skills will be
+> tested in the Phase 6 verification step, which should be done in a fresh session.
 
 ---
 
@@ -527,6 +541,42 @@ Update skill count, agent count, steering doc count to match reality.
 Update all Spec 2 line items to `[x]`.
 
 - [ ] **Step 2: Report completion**
+
+### Task 5.6: Commit Phases 1-5 and restart for verification
+
+- [ ] **Step 1: Commit all changes**
+
+```bash
+git add skills/ agents/ knowledge/ docs/ README.md
+git commit -m "feat: orchestrator framework redesign — skill consolidation, prompt rewrite, automation
+
+- Consolidate skills 19 → 12 (merge, fold, remove)
+- Create design-and-spec skill (merged brainstorming + spec-workflow + critical-thinking)
+- Create post-implementation skill (auto-review, quality gate, doc staleness, improvement capture)
+- Rewrite orchestrator prompt (~130 lines, workflows front-loaded)
+- Rewrite codebase-audit (structured output, project detection, doc health)
+- Rewrite agent-audit (absorb meta-review, improvements integration)
+- Upgrade dev-refactor (TDD skill, execute-findings mode)
+- Upgrade dev-reviewer (codebase scan mode, doc accuracy)
+- Update creating-agents.md, skill-catalog.md, README.md"
+```
+
+- [ ] **Step 2: Merge to main and push**
+
+```bash
+git checkout main && git merge feature/framework-redesign --no-ff && git push origin main && git branch -d feature/framework-redesign
+```
+
+- [ ] **Step 3: Exit session for verification**
+
+Tell user: **"Phases 1-5 complete. Run `/quit` now. New session prompt:**
+```
+Run Phase 6 verification from docs/specs/2026-04-16-orchestrator-agent-framework-redesign/plan.md. Then implement docs/specs/2026-04-16-typescript-frontend-stack/spec.md and plan.md — Phases 1 and 2.
+```
+**"**
+
+⛔ **STOP HERE. Phase 6 must run in a fresh session** so all new skills
+and config changes are loaded.
 
 ---
 

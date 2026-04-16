@@ -241,8 +241,14 @@ git commit -m "feat: add dev-typescript and dev-frontend agents with steering do
 
 - [ ] **Step 2: Exit session**
 
-Tell user: "New agents committed. Exit (`/quit`) and start a new session.
-Then say: 'Continue with Spec 3 Phase 3 — read the spec and plan.'"
+Tell user: **"New agents committed. Run `/quit` now. New session prompt:**
+```
+Continue docs/specs/2026-04-16-typescript-frontend-stack/plan.md — Phase 3 and 4.
+```
+**"**
+
+⛔ **STOP HERE. Do not continue to Phase 3 in this session.**
+dev-typescript and dev-frontend need a session restart to load.
 
 ---
 
