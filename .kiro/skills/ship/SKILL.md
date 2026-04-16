@@ -27,28 +27,9 @@ If on a `feature/*` branch, switch to **PR creation mode** (Step 1.5). If on `ma
 
 Triggered when `ship` is called from a feature branch.
 
-```bash
-# Check if PR already exists
-gh pr list --head "$(git branch --show-current)" --json number,url --jq '.[0]'
-```
+Delegate to the **create-pr** skill. It handles prerequisite checks, context gathering, PR composition, and creation.
 
-If a PR already exists, show the URL and say: "PR already exists. Merge it, then run `ship it` again from main."
-
-If no PR exists:
-
-1. Read `docs/reference/CHANGELOG.md` for the upcoming version entry
-2. Build PR title from the version: `v<VERSION> - <Short Title>`
-3. Build PR body from the CHANGELOG entry
-4. Create the PR:
-
-```bash
-gh pr create \
-  --title "<PR title>" \
-  --body "<PR body from changelog>" \
-  --base main
-```
-
-5. Report: "PR created at <URL>. Merge it, then run `ship it` again from main."
+After the PR is created, stop. Do not proceed to Step 2.
 
 **STOP here.** Do not proceed to tagging or releasing.
 

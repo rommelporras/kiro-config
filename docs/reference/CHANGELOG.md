@@ -5,6 +5,52 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.4.0] - Unreleased
+
+Orchestrator framework redesign, shell safety improvements, and TypeScript/frontend stack.
+
+### Added
+- `dev-kiro-config` agent - project-local agent for editing kiro-config files (agents, hooks, steering, skills)
+- `design-and-spec` skill - merged brainstorming + spec-workflow + critical-thinking into single design skill
+- `post-implementation` skill - automated quality gate, doc staleness check, auto-review, and improvement capture
+- `create-pr` skill (project-local) - smart PR creation with spec-aware body generation via `gh pr create`
+- `docs/improvements/` structure - auto-captured friction from sessions, reviewed during agent-audit
+- Improvement capture in orchestrator - auto-appends friction to `docs/improvements/pending.md`
+- Refactor pipeline workflow - reviewer -> user approval -> refactor -> reviewer
+- Post-implementation automation - triggers on every subagent DONE, runs quality gate + review
+- Retry limit (max 3) on review findings before escalating to user
+- Doc reference check in commit skill - warns when staged files have unstaged doc references
+- Task enrichment in subagent-driven-development - re-reads and enriches task context before dispatch
+- Document tracking in subagent-driven-development - checkbox updates and divergence notes
+- Codebase scan mode in dev-reviewer - depth-limited scan with structured findings
+- Documentation accuracy review dimension (#10) in dev-reviewer
+- Execute-findings mode in dev-refactor - processes review findings with TDD
+- Shared code awareness in dev-refactor prompt
+- Domain-specific agent design patterns in creating-agents.md
+- Subagent tool limitations quick-ref in knowledge/rules.md
+
+### Changed
+- Orchestrator prompt rewritten (250+ lines to ~138 lines) with 7 clear sections
+- Skills consolidated from 19 to 17 (removed 9, added 2, kept 5 subagent-only skills)
+- Orchestrator model set to claude-opus-4.6
+- Ship skill Step 1.5 delegates to create-pr skill instead of inline PR logic
+- Codebase-audit skill rewritten with project-type detection and structured findings format
+- Agent-audit skill rewritten absorbing meta-review (skill coverage, steering effectiveness, knowledge hygiene)
+- Execution-planning skill adds stage completion tracking
+- Skill catalog fully rewritten for new 17-skill lineup
+- README updated with accurate counts (17 skills, 8 agents)
+
+### Removed
+- `brainstorming` skill (merged into design-and-spec)
+- `spec-workflow` skill (merged into design-and-spec)
+- `critical-thinking` skill (merged into design-and-spec)
+- `meta-review` skill (absorbed into agent-audit)
+- `delegation-protocol` skill (folded into orchestrator prompt)
+- `aggregation` skill (folded into orchestrator prompt)
+- `research-practices` skill (content moved to steering)
+- `context-docs` skill (rarely used, content in steering)
+- `project-architecture` skill (rarely used, content in steering)
+
 ## [v0.3.1] - 2026-04-13
 
 Ship skill PR creation mode.
