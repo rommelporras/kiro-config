@@ -99,6 +99,7 @@
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
     "skill://~/.kiro/skills/python-audit/SKILL.md",
+    "skill://~/.kiro/skills/typescript-audit/SKILL.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md"
   ],
   "includeMcpJson": false

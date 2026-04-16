@@ -87,7 +87,6 @@
         "find .*"
       ],
       "deniedCommands": [
-        "rm .*",
         "chmod -R 777 /",
         "mkfs\\\\.",
         "dd if/dev",
@@ -165,7 +164,9 @@
         "dev-shell",
         "dev-reviewer",
         "dev-refactor",
-        "dev-kiro-config"
+        "dev-kiro-config",
+        "dev-typescript",
+        "dev-frontend"
       ],
       "trustedAgents": [
         "dev-docs",
@@ -173,7 +174,9 @@
         "dev-shell",
         "dev-reviewer",
         "dev-refactor",
-        "dev-kiro-config"
+        "dev-kiro-config",
+        "dev-typescript",
+        "dev-frontend"
       ]
     }
   },

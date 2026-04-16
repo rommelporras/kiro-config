@@ -35,7 +35,9 @@
     "execute_bash": {
       "autoAllowReadonly": true,
       "deniedCommands": [
-        "rm .*",
+        "rm -r.*",
+        "rm -f.*r.*",
+        "rm --recursive.*",
         "chmod -R 777 /",
         "mkfs\\\\.",
         "dd if/dev",

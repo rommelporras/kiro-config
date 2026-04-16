@@ -146,7 +146,9 @@
         "find .*"
       ],
       "deniedCommands": [
-        "rm .*",
+        "rm -r.*",
+        "rm -f.*r.*",
+        "rm --recursive.*",
         "git push .*",
         "git push",
         "chmod -R 777 /",
