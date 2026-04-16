@@ -22,7 +22,7 @@
 **Files:**
 - Create: `.kiro/agents/dev-kiro-config.json`
 
-- [ ] **Step 1: Create the agent config**
+- [x] **Step 1: Create the agent config**
 
 Create `.kiro/agents/dev-kiro-config.json` with the config from the spec
 (Phase 0 → Agent config section). Key points:
@@ -31,13 +31,13 @@ Create `.kiro/agents/dev-kiro-config.json` with the config from the spec
 - `prompt`: `file://../../agents/prompts/docs.md` (reuses dev-docs prompt)
 - `model`: `claude-sonnet-4.6`
 
-- [ ] **Step 2: Verify JSON is valid**
+- [x] **Step 2: Verify JSON is valid**
 
 ```bash
 jq empty .kiro/agents/dev-kiro-config.json && echo "valid" || echo "INVALID"
 ```
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 0.2: Update orchestrator config
 
@@ -47,18 +47,18 @@ jq empty .kiro/agents/dev-kiro-config.json && echo "valid" || echo "INVALID"
 Note: This file is under deniedPaths for the orchestrator's write tool.
 Use shell to edit, or do this task manually.
 
-- [ ] **Step 1: Add dev-kiro-config to availableAgents and trustedAgents**
+- [x] **Step 1: Add dev-kiro-config to availableAgents and trustedAgents**
 
 In `agents/dev-orchestrator.json`, add `"dev-kiro-config"` to both:
 - `toolsSettings.subagent.availableAgents` array
 - `toolsSettings.subagent.trustedAgents` array
 
-- [ ] **Step 2: Set orchestrator model to opus-4.6**
+- [x] **Step 2: Set orchestrator model to opus-4.6**
 
 In `agents/dev-orchestrator.json`, change:
 - `"model": null` → `"model": "claude-opus-4.6"`
 
-- [ ] **Step 3: Verify JSON is valid**
+- [x] **Step 3: Verify JSON is valid**
 
 ```bash
 jq empty agents/dev-orchestrator.json && echo "valid" || echo "INVALID"
@@ -67,14 +67,14 @@ jq '.model' agents/dev-orchestrator.json
 ```
 Expected: valid, array includes "dev-kiro-config", model is "claude-opus-4.6"
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**
 
 ### Task 0.3: Add dev-kiro-config routing to orchestrator prompt
 
 **Files:**
 - Modify: `agents/prompts/orchestrator.md`
 
-- [ ] **Step 1: Add routing lane**
+- [x] **Step 1: Add routing lane**
 
 Add before the dev-docs routing lane:
 
@@ -90,11 +90,11 @@ working in the kiro-config repo. If not available, fall back to dev-docs
 or handle directly via shell.
 ```
 
-- [ ] **Step 2: Verify routing table order**
+- [x] **Step 2: Verify routing table order**
 
 Read the routing table and confirm dev-kiro-config appears before dev-docs.
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 0.4: Create docs/improvements structure
 
@@ -102,7 +102,7 @@ Read the routing table and confirm dev-kiro-config appears before dev-docs.
 - Create: `docs/improvements/pending.md`
 - Create: `docs/improvements/resolved.md`
 
-- [ ] **Step 1: Create pending.md**
+- [x] **Step 1: Create pending.md**
 
 ```markdown
 # Improvement Backlog
@@ -119,7 +119,7 @@ Format:
 -->
 ```
 
-- [ ] **Step 2: Create resolved.md**
+- [x] **Step 2: Create resolved.md**
 
 ```markdown
 # Resolved Improvements
@@ -129,11 +129,11 @@ Items addressed from pending.md. Audit trail.
 <!-- Move entries here after fixing. Include date resolved and what was done. -->
 ```
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 0.5: Commit Phase 0 and exit
 
-- [ ] **Step 1: Commit Phase 0 on feature branch**
+- [x] **Step 1: Commit Phase 0 on feature branch**
 
 ```bash
 git checkout -b feature/framework-redesign
@@ -142,7 +142,7 @@ git commit -m "feat: add dev-kiro-config agent, set opus model, create improveme
 git push -u origin feature/framework-redesign
 ```
 
-- [ ] **Step 2: Exit session**
+- [x] **Step 2: Exit session**
 
 Tell user: **"Phase 0 committed on `feature/framework-redesign`. Run `/quit` now. New session prompt:**
 ```

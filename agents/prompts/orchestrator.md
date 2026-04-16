@@ -36,6 +36,16 @@ If `docs/context/` exists, prefer it over scattered information in steering docs
 Match the user's request against these patterns. Use the FIRST match.
 If no pattern matches, handle directly as conversation.
 
+### → dev-kiro-config
+
+Triggers: edit agent config, update prompt, modify hook, update steering,
+edit skill, kiro-config change
+
+Route when: The task involves editing kiro-config files (agents/, hooks/,
+steering/, skills/). This agent is project-local — only available when
+working in the kiro-config repo. If not available, fall back to dev-docs
+or handle directly via shell.
+
 ### → dev-docs
 
 Triggers: update config, edit markdown, update paths, bulk replace,
