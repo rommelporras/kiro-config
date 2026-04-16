@@ -238,6 +238,7 @@ Expected: array includes dev-typescript and dev-frontend
 git checkout -b feature/typescript-frontend-stack
 git add agents/ steering/ skills/
 git commit -m "feat: add dev-typescript and dev-frontend agents with steering docs"
+git push -u origin feature/typescript-frontend-stack
 ```
 
 - [ ] **Step 2: Exit session**
@@ -332,13 +333,17 @@ Verify:
 
 - [ ] **Step 2: Fix any findings**
 
-- [ ] **Step 3: Commit fixes and merge to main**
+- [ ] **Step 3: Push branch and report**
 
 ```bash
 git add -A
 git commit -m "fix: address agent-audit findings" # if there were fixes
-git checkout main && git merge feature/typescript-frontend-stack --no-ff && git push origin main && git branch -d feature/typescript-frontend-stack
+git push origin feature/typescript-frontend-stack
 ```
+
+Tell user: **"Spec 3 complete on `feature/typescript-frontend-stack`. All phases
+committed and pushed. Review the branch, merge to main when ready, then
+`ship it` for a versioned release."**
 
 Spec 3 is complete.
 
