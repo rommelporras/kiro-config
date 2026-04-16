@@ -213,7 +213,7 @@ docs/specs/<name>/
   run-log.md           <- optional: what actually happened
 ```
 
-Standalone plans (TODO.md) stay as flat files in `docs/specs/`.
+Standalone plans (docs/TODO.md) stay as flat files in `docs/specs/`.
 Operational logs (run-log.md, etc.) go in `reports/` under the owning agent.
 
 ## Adding New Specialists

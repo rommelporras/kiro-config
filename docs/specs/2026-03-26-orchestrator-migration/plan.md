@@ -1,5 +1,10 @@
 # Kiro CLI Orchestrator Workflow — Migration Plan
 
+> **Status: COMPLETED** — All phases implemented. Superseded by
+> `docs/specs/2026-04-16-orchestrator-agent-framework-redesign/spec.md`
+> which redesigns the orchestrator with skill consolidation (19→12),
+> automated workflows, and new agents.
+
 > **Purpose:** This document is the complete specification for migrating the
 > `rommelporras/kiro-config` repository from a single `base` agent with 12
 > globally-loaded skills to a multi-agent orchestrator pattern with curated
