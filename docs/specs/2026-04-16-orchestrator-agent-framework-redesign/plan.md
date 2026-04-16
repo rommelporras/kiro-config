@@ -139,6 +139,7 @@ Items addressed from pending.md. Audit trail.
 git checkout -b feature/framework-redesign
 git add .kiro/agents/dev-kiro-config.json agents/dev-orchestrator.json agents/prompts/orchestrator.md docs/improvements/
 git commit -m "feat: add dev-kiro-config agent, set opus model, create improvements structure"
+git push -u origin feature/framework-redesign
 ```
 
 - [ ] **Step 2: Exit session**
@@ -539,6 +540,7 @@ Update all Spec 2 line items to `[x]`.
 ```bash
 git add skills/ agents/ knowledge/ docs/ README.md
 git commit -m "feat: orchestrator framework redesign — skill consolidation, prompt rewrite, automation"
+git push origin feature/framework-redesign
 ```
 
 - [ ] **Step 2: Exit session for verification**
@@ -571,13 +573,17 @@ Verify:
 
 - [ ] **Step 2: Fix any findings**
 
-- [ ] **Step 3: Commit fixes and merge to main**
+- [ ] **Step 3: Push branch and report**
 
 ```bash
 git add -A
 git commit -m "fix: address agent-audit findings" # if there were fixes
-git checkout main && git merge feature/framework-redesign --no-ff && git push origin main && git branch -d feature/framework-redesign
+git push origin feature/framework-redesign
 ```
+
+Tell user: **"Spec 2 complete on `feature/framework-redesign`. All phases
+committed and pushed. Review the branch, merge to main when ready, then
+`ship it` for a versioned release."**
 
 Spec 2 is complete.
 
