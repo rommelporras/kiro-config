@@ -42,3 +42,17 @@
 ## JSON Files
 - Never use `sed` or `awk` to manipulate JSON. Use `jq` for shell, or
   `json` module in Python.
+
+## Node.js / TypeScript Quality
+- **Package management:** `npm`. Commit `package-lock.json`.
+- **Linting:** ESLint with TypeScript parser. Zero warnings.
+- **Formatting:** Prettier. Run before commit.
+- **Type checking:** `tsc --noEmit` with strict mode.
+- **Testing:** Vitest. Run `npx vitest run` to verify.
+- **No `any`** — use `unknown` + type guards instead.
+
+## Project-Specific Environments
+- Scripts in project repos may need project-specific venvs
+  (e.g., `sre/.venv/bin/python`), not system Python or `uv run` from root.
+- Check for `.venv/`, `node_modules/`, or project-level configs before
+  assuming global tool availability.
