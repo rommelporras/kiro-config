@@ -50,7 +50,7 @@ Each skill activates independently by description matching. The chain is optiona
 
 | Skill | Agent(s) | What it does | Activates when you say... |
 |---|---|---|---|
-| **test-driven-development** | dev-python | Enforces RED-GREEN-REFACTOR. Blocks code written before tests. | "implement with tests" |
+| **test-driven-development** | dev-python, dev-typescript, dev-refactor | Enforces RED-GREEN-REFACTOR. Blocks code written before tests. | "implement with tests" |
 | **systematic-debugging** | dev-python, dev-shell | 4 phases: investigation → pattern analysis → hypothesis → implementation. Blocks guessing. | "debug this", "why is this failing" |
 | **verification-before-completion** | dev-python, dev-shell, dev-reviewer, dev-refactor | Gate before success claims: identify → run → read → verify → claim. | "verify everything works" |
 | **receiving-code-review** | dev-python, dev-shell, dev-refactor | Processes review feedback with technical rigor. Push back when suggestions are wrong. | "here's feedback on my code" |
@@ -73,16 +73,16 @@ Each skill activates independently by description matching. The chain is optiona
 | agent-audit | ✓ | | | | | | | | |
 | trace-code | ✓ | | | | | | | | |
 | codebase-audit | ✓ | | | | | | | | |
-| test-driven-development | | | ✓ | | ✓ | | | | |
+| test-driven-development | | | ✓ | | ✓ | | | ✓ | |
 | systematic-debugging | | | ✓ | ✓ | ✓ | | | | |
 | verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | receiving-code-review | | | ✓ | ✓ | ✓ | ✓ | | ✓ | |
 | python-audit | | | ✓ | | | | ✓ | | |
 | typescript-audit | | | | | | | ✓ | | |
 
-**Totals:** dev-orchestrator: 12, dev-docs: 1, dev-python: 5, dev-shell: 3, dev-typescript: 4, dev-frontend: 2, dev-reviewer: 3, dev-refactor: 2, dev-kiro-config: 1
+**Totals:** dev-orchestrator: 12, dev-docs: 1, dev-python: 5, dev-shell: 3, dev-typescript: 4, dev-frontend: 2, dev-reviewer: 3, dev-refactor: 3, dev-kiro-config: 1
 
-**base agent** loads 5 of the 18 skills — the 5 subagent-only skills (test-driven-development, systematic-debugging, verification-before-completion, receiving-code-review, python-audit). The 12 orchestrator skills do not load on base.
+**base agent** loads 14 of the 18 global skills — all orchestrator skills except dispatching-parallel-agents, execution-planning, subagent-driven-development, and post-implementation, plus the subagent-only skills. See `agents/base.json` for the full list.
 
 ## Automated workflows
 
@@ -107,6 +107,15 @@ codebase-audit (structured findings)
     → dev-refactor (execute-findings mode)
     → dev-reviewer (post-refactor verification)
 ```
+
+## Project-local skills
+
+These skills live in `.kiro/skills/` (not `~/.kiro/skills/`) and only activate in the kiro-config repo.
+
+| Skill | What it does | Activates when you say... |
+|---|---|---|
+| **create-pr** | Creates a GitHub pull request from the current feature branch. | "create pr", "open pr", "merge request" |
+| **ship** | Creates a versioned release with tag, push, and GitHub release. | "ship", "release", "tag and release" |
 
 ## Design philosophy
 

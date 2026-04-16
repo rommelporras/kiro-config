@@ -47,13 +47,18 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 │   └── prompts/               # Markdown prompts for each agent
 ├── hooks/           # Hook scripts
 │   ├── security/    # PreToolUse gates
+│   │   └── block-sed-json.sh
 │   ├── feedback/    # Self-learning pipeline
+│   │   ├── context-enrichment.sh
+│   │   ├── correction-detect.sh
+│   │   └── auto-capture.sh
 │   ├── _lib/        # Shared libraries
+│   │   └── distill.sh
 │   ├── workspace-context.sh
 │   ├── scan-secrets.sh
 │   ├── protect-sensitive.sh
 │   ├── bash-write-protect.sh
-│   ├── self-improve.sh
+│   ├── doc-consistency.sh
 │   └── notify.sh
 ├── knowledge/       # Self-evolving knowledge base
 │   ├── rules.md     # Permanent rules (🔴 critical + 🟡 relevant)
@@ -117,14 +122,14 @@ The script updates `allowedPaths` in all agent configs and knowledge base paths 
 | agent-audit | ✓ | | | | | | | | |
 | trace-code | ✓ | | | | | | | | |
 | codebase-audit | ✓ | | | | | | | | |
-| test-driven-development | | | ✓ | | ✓ | | | | |
+| test-driven-development | | | ✓ | | ✓ | | | ✓ | |
 | systematic-debugging | | | ✓ | ✓ | ✓ | | | | |
 | verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | receiving-code-review | | | ✓ | ✓ | ✓ | ✓ | | ✓ | |
 | python-audit | | | ✓ | | | | ✓ | | |
 | typescript-audit | | | | | | | ✓ | | |
 
-**base agent** loads 5 of the 18 skills — the 5 subagent-only skills (test-driven-development, systematic-debugging, verification-before-completion, receiving-code-review, python-audit). The 12 orchestrator skills do not load on base. See [Skill Catalog](docs/reference/skill-catalog.md) for details.
+**base agent** loads 14 of the 18 global skills — all orchestrator skills except dispatching-parallel-agents, execution-planning, subagent-driven-development, and post-implementation, plus the subagent-only skills. See [Skill Catalog](docs/reference/skill-catalog.md) for the full list.
 
 ## Self-Learning Pipeline
 

@@ -121,6 +121,15 @@ Cross-reference documentation files against source-of-truth config files:
 **Welcome message accuracy:**
 - Check that counts in welcome messages match actual counts for that agent's loaded resources
 
+**Directory tree verification:**
+- For each directory tree in README.md, verify every listed file exists on disk
+- Check for files on disk that exist in listed directories but are missing from the tree
+- Flag any mismatch (file listed but missing, or file exists but unlisted)
+
+**Feature count verification:**
+- For each count in the Features section (e.g., "10 steering docs", "18 skills", "8 hooks"), verify the number against the actual filesystem
+- Flag any count that doesn't match
+
 ### Phase 9: Check for staleness
 
 - Rules that may be outdated (platform changes, new features)
