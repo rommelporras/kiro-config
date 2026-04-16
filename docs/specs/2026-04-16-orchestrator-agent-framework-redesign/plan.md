@@ -133,27 +133,17 @@ Items addressed from pending.md. Audit trail.
 
 ### Task 0.5: Commit Phase 0 and exit
 
-- [ ] **Step 1: Commit all Phase 0 changes**
+- [ ] **Step 1: Commit Phase 0 on feature branch**
 
 ```bash
 git checkout -b feature/framework-redesign
 git add .kiro/agents/dev-kiro-config.json agents/dev-orchestrator.json agents/prompts/orchestrator.md docs/improvements/
-git commit -m "feat: add dev-kiro-config agent, set opus model, create improvements structure
-
-- Create .kiro/agents/dev-kiro-config.json (project-local, elevated permissions)
-- Add dev-kiro-config to orchestrator availableAgents and trustedAgents
-- Set orchestrator model to claude-opus-4.6
-- Add dev-kiro-config routing lane to orchestrator prompt
-- Create docs/improvements/ structure (pending.md, resolved.md)"
+git commit -m "feat: add dev-kiro-config agent, set opus model, create improvements structure"
 ```
 
-- [ ] **Step 2: Merge to main, push, and exit session**
+- [ ] **Step 2: Exit session**
 
-```bash
-git checkout main && git merge feature/framework-redesign --no-ff && git push origin main && git branch -d feature/framework-redesign
-```
-
-Then tell user: **"Phase 0 complete. Run `/quit` now. New session prompt:**
+Tell user: **"Phase 0 committed on `feature/framework-redesign`. Run `/quit` now. New session prompt:**
 ```
 Continue docs/specs/2026-04-16-orchestrator-agent-framework-redesign/plan.md — Phase 1 through Phase 6. Also implement docs/specs/2026-04-16-shell-safety-file-operations/spec.md and plan.md.
 ```
@@ -544,34 +534,18 @@ Update all Spec 2 line items to `[x]`.
 
 ### Task 5.6: Commit Phases 1-5 and restart for verification
 
-- [ ] **Step 1: Commit all changes**
+- [ ] **Step 1: Commit Phases 1-5 on feature branch**
 
 ```bash
 git add skills/ agents/ knowledge/ docs/ README.md
-git commit -m "feat: orchestrator framework redesign — skill consolidation, prompt rewrite, automation
-
-- Consolidate skills 19 → 12 (merge, fold, remove)
-- Create design-and-spec skill (merged brainstorming + spec-workflow + critical-thinking)
-- Create post-implementation skill (auto-review, quality gate, doc staleness, improvement capture)
-- Rewrite orchestrator prompt (~130 lines, workflows front-loaded)
-- Rewrite codebase-audit (structured output, project detection, doc health)
-- Rewrite agent-audit (absorb meta-review, improvements integration)
-- Upgrade dev-refactor (TDD skill, execute-findings mode)
-- Upgrade dev-reviewer (codebase scan mode, doc accuracy)
-- Update creating-agents.md, skill-catalog.md, README.md"
+git commit -m "feat: orchestrator framework redesign — skill consolidation, prompt rewrite, automation"
 ```
 
-- [ ] **Step 2: Merge to main and push**
+- [ ] **Step 2: Exit session for verification**
 
-```bash
-git checkout main && git merge feature/framework-redesign --no-ff && git push origin main && git branch -d feature/framework-redesign
+Tell user: **"Phases 1-5 committed on `feature/framework-redesign`. Run `/quit` now. New session prompt:**
 ```
-
-- [ ] **Step 3: Exit session for verification**
-
-Tell user: **"Phases 1-5 complete. Run `/quit` now. New session prompt:**
-```
-Run Phase 6 verification from docs/specs/2026-04-16-orchestrator-agent-framework-redesign/plan.md. Then implement docs/specs/2026-04-16-typescript-frontend-stack/spec.md and plan.md — Phases 1 and 2.
+Run Phase 6 verification from docs/specs/2026-04-16-orchestrator-agent-framework-redesign/plan.md. Then merge feature/framework-redesign to main. Then implement docs/specs/2026-04-16-typescript-frontend-stack/spec.md and plan.md — Phases 1 and 2.
 ```
 **"**
 
@@ -597,4 +571,14 @@ Verify:
 
 - [ ] **Step 2: Fix any findings**
 
-- [ ] **Step 3: Report completion**
+- [ ] **Step 3: Commit fixes and merge to main**
+
+```bash
+git add -A
+git commit -m "fix: address agent-audit findings" # if there were fixes
+git checkout main && git merge feature/framework-redesign --no-ff && git push origin main && git branch -d feature/framework-redesign
+```
+
+Spec 2 is complete.
+
+- [ ] **Step 4: Report completion**

@@ -232,16 +232,17 @@ Expected: array includes dev-typescript and dev-frontend
 
 ### Task 2.6: Commit and exit
 
-- [ ] **Step 1: Commit Phase 2**
+- [ ] **Step 1: Commit Phase 1-2 on feature branch**
 
 ```bash
-git add agents/ steering/
+git checkout -b feature/typescript-frontend-stack
+git add agents/ steering/ skills/
 git commit -m "feat: add dev-typescript and dev-frontend agents with steering docs"
 ```
 
 - [ ] **Step 2: Exit session**
 
-Tell user: **"New agents committed. Run `/quit` now. New session prompt:**
+Tell user: **"Phases 1-2 committed on `feature/typescript-frontend-stack`. Run `/quit` now. New session prompt:**
 ```
 Continue docs/specs/2026-04-16-typescript-frontend-stack/plan.md — Phase 3 and 4.
 ```
@@ -331,4 +332,14 @@ Verify:
 
 - [ ] **Step 2: Fix any findings**
 
-- [ ] **Step 3: Report completion**
+- [ ] **Step 3: Commit fixes and merge to main**
+
+```bash
+git add -A
+git commit -m "fix: address agent-audit findings" # if there were fixes
+git checkout main && git merge feature/typescript-frontend-stack --no-ff && git push origin main && git branch -d feature/typescript-frontend-stack
+```
+
+Spec 3 is complete.
+
+- [ ] **Step 4: Report completion**
