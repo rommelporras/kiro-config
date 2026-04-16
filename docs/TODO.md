@@ -7,7 +7,7 @@
   - Orchestrator routing: file operations lane
   - dev-docs permission expansion
 
-- [ ] **Spec 2: Orchestrator & Agent Framework Redesign** — `docs/specs/2026-04-16-orchestrator-agent-framework-redesign/spec.md`
+- [x] **Spec 2: Orchestrator & Agent Framework Redesign** — `docs/specs/2026-04-16-orchestrator-agent-framework-redesign/spec.md`
   - Orchestrator prompt rewrite (250 → ~130 lines)
   - Skill consolidation (19 → 12 skills)
   - New: design-and-spec skill (merged brainstorming + spec-workflow + critical-thinking)

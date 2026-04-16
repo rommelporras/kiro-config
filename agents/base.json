@@ -37,22 +37,20 @@
   "resources": [
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
-    "skill://~/.kiro/skills/brainstorming/SKILL.md",
     "skill://~/.kiro/skills/commit/SKILL.md",
     "skill://~/.kiro/skills/push/SKILL.md",
     "skill://~/.kiro/skills/explain-code/SKILL.md",
     "skill://~/.kiro/skills/writing-plans/SKILL.md",
-    "skill://~/.kiro/skills/spec-workflow/SKILL.md",
-    "skill://~/.kiro/skills/critical-thinking/SKILL.md",
     "skill://~/.kiro/skills/trace-code/SKILL.md",
     "skill://~/.kiro/skills/codebase-audit/SKILL.md",
     "skill://~/.kiro/skills/agent-audit/SKILL.md",
-    "skill://~/.kiro/skills/research-practices/SKILL.md",
     "skill://~/.kiro/skills/test-driven-development/SKILL.md",
     "skill://~/.kiro/skills/systematic-debugging/SKILL.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
     "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
-    "skill://~/.kiro/skills/python-audit/SKILL.md"
+    "skill://~/.kiro/skills/python-audit/SKILL.md",
+    "skill://~/.kiro/skills/design-and-spec/SKILL.md",
+    "skill://~/.kiro/skills/post-implementation/SKILL.md"
   ],
   "hooks": {
     "preToolUse": [

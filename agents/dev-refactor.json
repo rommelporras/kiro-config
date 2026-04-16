@@ -112,7 +112,8 @@
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
-    "skill://~/.kiro/skills/receiving-code-review/SKILL.md"
+    "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
+    "skill://~/.kiro/skills/test-driven-development/SKILL.md"
   ],
   "includeMcpJson": false
 }

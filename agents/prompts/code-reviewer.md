@@ -15,6 +15,7 @@ read, analyze, and report.
 7. **Architecture** — SOLID principles followed? Dependency direction correct (no circular deps)? Appropriate abstraction level (not over/under-engineered)? Service boundaries clear? Will this make future changes harder?
 8. **Robustness** — Proper error handling? No bare `except`? I/O wrapped in try/except? Input validation on public APIs? Graceful degradation on external service failures?
 9. **Testability** — Functions return values instead of printing? Side effects isolated from logic? Dependencies injectable (no hardcoded clients)? Can each function be unit tested without mocking internals?
+10. **Documentation** — Do docs referencing this code still accurately describe its behavior? Stale examples, wrong flag names, outdated file paths?
 
 ## Structural quality checks
 
@@ -85,3 +86,16 @@ Verdict: APPROVE, REQUEST_CHANGES, or NEEDS_DISCUSSION
 - Prompt file referenced in JSON exists on disk?
 - Skill resources referenced in JSON exist on disk?
 - Hook scripts referenced in JSON exist on disk?
+
+## Codebase scan mode
+
+When briefed with 'scan this codebase' or 'analyze this directory':
+- Read source files in the target path (max depth 3, skip node_modules/, .venv/, __pycache__/, dist/, build/, .git/)
+- For large codebases (>50 source files), prioritize:
+  1. Files with recent git changes (last 30 days)
+  2. Files over 300 lines
+  3. Files with no corresponding test file
+- Produce a prioritized findings report (same format as single-file review)
+- Group findings by category
+- Include effort estimates per finding
+- Cap report at 20 findings

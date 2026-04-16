@@ -242,6 +242,29 @@ Done!
 - Dispatch fix delegate with specific instructions
 - Don't try to fix manually (context pollution)
 
+## Task Enrichment (before dispatch)
+
+Before dispatching each task, enrich the task description with context accumulated from earlier tasks:
+
+1. Re-read the task description from the plan file (don't rely on memory)
+2. Add context discovered from earlier tasks: new file paths created, API signatures found, config values, gotchas encountered
+3. If the task description is too vague for a subagent to succeed without judgment calls, update the plan file with the enriched description BEFORE dispatching
+4. The plan file should always reflect what the subagent actually receives — not the original sparse description
+
+The goal: a subagent reading only the enriched task description should be able to execute it mechanically.
+
+## Document Tracking (after each task)
+
+After each task completes (reaches "Mark task complete"):
+
+1. Update the plan file: change `- [ ]` → `- [x]` for the completed task
+2. If the task was implemented differently than planned, append an `Actual:` note to the task entry explaining what actually happened
+3. If the task description was enriched before dispatch, ensure the plan file reflects the enriched version (not the original sparse text)
+4. If new tasks were added mid-implementation, add them to the plan file before continuing
+5. If the approach changed fundamentally, update the plan's architecture section
+
+The plan file is the single source of truth for "what happened." Someone reading it after implementation should understand both the intent and the reality.
+
 ## Related Skills
 
 - **writing-plans** — Creates the plan this skill executes

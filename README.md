@@ -10,7 +10,8 @@ User ↔ dev-orchestrator (plans, converses, coordinates, git ops)
             ├── dev-python    (writes Python code, TDD, debugging)
             ├── dev-shell     (writes Bash/shell, system automation)
             ├── dev-reviewer  (read-only analysis, no write tool)
-            └── dev-refactor  (restructures code, preserves behavior)
+            ├── dev-refactor  (restructures code, preserves behavior)
+            └── dev-kiro-config (project-local: kiro-config editing)
 
 base — standalone fallback for general questions (no orchestration)
 ```
@@ -20,9 +21,9 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 ## Features
 
 - **7 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash
-- **24 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **17 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
 - **8 hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
-- **7 agents** — dev-orchestrator + 5 dev specialists + base fallback
+- **8 agents** — dev-orchestrator + 6 dev specialists + base fallback
 - **Self-learning knowledge pipeline** — corrections auto-captured, keywords tracked, rules auto-promoted
 - **Knowledge base integration** — semantic search across config with auto-indexing
 - **Infrastructure is read-only** — Kiro writes code in files but never executes mutating infra commands
@@ -37,6 +38,7 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 │   ├── dev-shell.json         # Shell/Bash specialist subagent
 │   ├── dev-reviewer.json      # Read-only reviewer subagent
 │   ├── dev-refactor.json      # Refactoring specialist subagent
+│   ├── dev-kiro-config.json   # Project-local kiro-config editor (in .kiro/agents/)
 │   ├── base.json              # Standalone fallback (no orchestration)
 │   └── prompts/               # Markdown prompts for each agent
 ├── hooks/           # Hook scripts
@@ -56,9 +58,9 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 │   └── archive/     # Monthly archives
 ├── scripts/         # Setup and maintenance
 ├── settings/        # CLI settings (cli.json, mcp.json)
-├── skills/          # 20 agent skills (curated per agent)
+├── skills/          # 17 agent skills (curated per agent)
 │   ├── agent-audit/
-│   ├── research-practices/
+│   ├── design-and-spec/
 │   └── ...
 ├── steering/        # 7 persistent context docs
 └── docs/            # Reference and setup docs
@@ -97,34 +99,27 @@ The script updates `allowedPaths` in all agent configs and knowledge base paths 
 
 ## Agent Skill Assignments
 
-| Skill | dev-orchestrator | dev-docs | dev-python | dev-shell | dev-reviewer | dev-refactor |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|
-| spec-workflow | ✓ | | | | | |
-| brainstorming | ✓ | | | | | |
-| writing-plans | ✓ | | | | | |
-| execution-planning | ✓ | | | | | |
-| delegation-protocol | ✓ | | | | | |
-| aggregation | ✓ | | | | | |
-| subagent-driven-development | ✓ | | | | | |
-| dispatching-parallel-agents | ✓ | | | | | |
-| commit | ✓ | | | | | |
-| push | ✓ | | | | | |
-| explain-code | ✓ | | | | | |
-| agent-audit | ✓ | | | | | |
-| research-practices | ✓ | | | | | |
-| critical-thinking | ✓ | | | | | |
-| trace-code | ✓ | | | | | |
-| codebase-audit | ✓ | | | | | |
-| meta-review | ✓ | | | | | |
-| context-docs | ✓ | | | | | |
-| project-architecture | ✓ | | | | | |
-| test-driven-development | | | ✓ | | | |
-| systematic-debugging | | | ✓ | ✓ | | |
-| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ |
-| receiving-code-review | | | ✓ | ✓ | | ✓ |
-| python-audit | | | ✓ | | ✓ | |
+| Skill | dev-orchestrator | dev-docs | dev-python | dev-shell | dev-reviewer | dev-refactor | dev-kiro-config |
+|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| design-and-spec | ✓ | | | | | | |
+| writing-plans | ✓ | | | | | | |
+| execution-planning | ✓ | | | | | | |
+| subagent-driven-development | ✓ | | | | | | |
+| dispatching-parallel-agents | ✓ | | | | | | |
+| post-implementation | ✓ | | | | | | |
+| commit | ✓ | | | | | | |
+| push | ✓ | | | | | | |
+| explain-code | ✓ | | | | | | |
+| agent-audit | ✓ | | | | | | |
+| trace-code | ✓ | | | | | | |
+| codebase-audit | ✓ | | | | | | |
+| test-driven-development | | | ✓ | | | | |
+| systematic-debugging | | | ✓ | ✓ | | | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | | ✓ | ✓ | | ✓ | |
+| python-audit | | | ✓ | | ✓ | | |
 
-**base agent** loads 16 of 24 skills (all except the 8 orchestrator-only skills: delegation-protocol, aggregation, subagent-driven-development, dispatching-parallel-agents, execution-planning, meta-review, context-docs, project-architecture). See [Skill Catalog](docs/reference/skill-catalog.md) for details.
+**base agent** loads 5 of 17 skills — the 5 subagent-only skills (test-driven-development, systematic-debugging, verification-before-completion, receiving-code-review, python-audit). The 12 orchestrator skills do not load on base. See [Skill Catalog](docs/reference/skill-catalog.md) for details.
 
 ## Self-Learning Pipeline
 
@@ -171,7 +166,7 @@ MIT
 
 ## Documentation
 
-- [Skill Catalog](docs/reference/skill-catalog.md) — all 24 skills with triggers and agent assignments
+- [Skill Catalog](docs/reference/skill-catalog.md) — all 17 skills with triggers and agent assignments
 - [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
 - [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
 - [Changelog](docs/reference/CHANGELOG.md) — version history and release notes
