@@ -19,6 +19,7 @@
 
 ## [subagent,delegate,spawn]
 - 🔴 Subagent tool limitations: see orchestrator prompt "Subagent Tool Limitations" section.
+- 🔴 Subagent tool limitations quick-ref: subagents CANNOT use web_search, web_fetch, use_aws, grep, glob, introspect. They CAN use read, write, shell, code, and MCP tools. If a task needs unavailable tools, gather data in the orchestrator first.
 - 🔴 Always add --no-cli-pager and --output json when subagents run AWS CLI via shell.
 
 ## [agent-audit,skills,steering,docs,drift]

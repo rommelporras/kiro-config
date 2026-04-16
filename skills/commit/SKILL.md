@@ -56,6 +56,25 @@ If it reports drift, **stop and show the output**. Tell the user which doc files
 
 Skip this step if no changed files match those paths.
 
+## Step 2.7 — Doc reference check
+
+For each staged file, check whether any doc references it but wasn't also staged:
+
+```bash
+# For each staged file path, grep docs/ for references to it
+git diff --cached --name-only | while read -r f; do
+  grep -rl "$f" docs/ 2>/dev/null
+done
+```
+
+If a doc references a staged file but the doc itself is NOT staged, warn:
+
+> "docs/reference/skill-catalog.md references skills/codebase-audit/SKILL.md which was modified but the doc wasn't updated. Continue anyway?"
+
+Wait for user confirmation before proceeding. If the user says no, stop and let them stage the doc update first.
+
+Skip this step if no docs/ directory exists.
+
 ## Step 3 — Draft the commit message
 
 Commit message format — `TICKET-ID - type: short description`

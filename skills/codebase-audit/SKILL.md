@@ -9,6 +9,22 @@ Run a health check on the current repository and report findings.
 
 **Announce at start:** "Running codebase audit on [repo name]."
 
+## Project-Type Detection
+
+Before running any checks, detect the project type from config files:
+
+- `pyproject.toml` present → Python project (run ruff, mypy, pytest, bandit)
+- `package.json` present → TypeScript/Node project (run eslint, tsc, vitest)
+- `*.sh` files present → Shell scripts (run shellcheck)
+- Multiple indicators → run all applicable toolchains
+- None found → skip automated quality gate, warn: "No pyproject.toml or package.json found — skipping automated quality checks."
+
+## Scope Limits (large codebases)
+
+- Scan to depth 3 only
+- Prioritize files changed in the last 30 days (`git log --since="30 days ago" --name-only`)
+- Cap findings at 20 — if more exist, note "N additional findings omitted"
+
 ## Checks (run in order)
 
 ### 1. Churn Analysis
@@ -18,7 +34,7 @@ git log --format=format: --name-only --since="90 days ago" | sort | uniq -c | so
 Most-changed files = highest risk for bugs and complexity growth.
 
 ### 2. Complexity Hotspots
-Run ruff or language-appropriate linter. Flag:
+Run the appropriate linter for the detected project type. Flag:
 - Functions over 30 lines
 - Cyclomatic complexity > 10
 - Files over 300 lines
@@ -41,18 +57,48 @@ grep -rn "TODO\|FIXME\|HACK\|XXX" --include="*.py" --include="*.sh" . | grep -v 
 ```
 Count and list untracked debt markers.
 
+### 6. Doc Health
+
+Check documentation integrity:
+
+- **Internal links:** For each `.md` file in `docs/`, verify that relative links resolve to existing files.
+- **Spec implementation:** For each spec in `docs/specs/`, check that the files it describes actually exist in the codebase.
+- **README counts:** Extract counts mentioned in `README.md` (skills, agents, steering docs) and compare against actual counts on disk.
+- **Stale docs:** Flag any doc in `docs/` not modified in 30+ days that references files changed in the last 30 days.
+
+```bash
+# Find docs not updated in 30+ days
+find docs/ -name "*.md" -not -newer "$(date -d '30 days ago' +%Y-%m-%d 2>/dev/null || date -v-30d +%Y-%m-%d)" 2>/dev/null
+```
+
+## Structured Findings Format
+
+Each finding must include all five fields:
+
+| Field | Values |
+|---|---|
+| **Category** | `DRY violation` \| `God object` \| `stale test` \| `dead code` \| `dependency issue` \| `structural problem` \| `doc staleness` |
+| **Location** | `file:line` |
+| **Severity** | `high` \| `medium` \| `low` |
+| **Effort** | `small` (< 30 min) \| `medium` (1-2 hrs) \| `large` (half day+) |
+| **Agent** | Which agent would fix this: `dev-python`, `dev-typescript`, `dev-refactor`, `dev-docs`, `dev-shell` |
+
 ## Report Format
 
+```
 ## Codebase Audit — [repo] — YYYY-MM-DD
+
+### Project Type
+Detected: [Python | TypeScript/Node | Shell | Mixed]
 
 ### Churn (top 10 most-changed files)
 | File | Changes (90d) | Concern |
 
-### Complexity Hotspots
-| File:Line | Issue | Severity |
+### Findings (max 20)
+| # | Category | Location | Severity | Effort | Agent | Description |
 
-### Test Coverage
-Overall: X% | Gaps: [list uncovered modules]
+### Doc Health
+| Doc | Issue | Severity |
 
 ### Dependencies
 | Package | Current | Latest | Behind |
@@ -62,9 +108,10 @@ TODO: X | FIXME: Y | HACK: Z
 
 ### Summary
 2-3 sentence overall assessment with top 3 recommended actions.
+```
 
 ## Guidelines
 
 - Run commands, don't guess — show real numbers
-- Severity: CRITICAL (fix now), IMPORTANT (next sprint), LOW (backlog)
 - Present to user for review — never auto-fix
+- When running as part of the refactor pipeline, structured findings feed directly into dev-reviewer's analysis and dev-refactor's execution list

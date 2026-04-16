@@ -186,6 +186,17 @@ Match plan detail to task complexity. Not every phase needs 500 lines.
 Rule of thumb: if the execution plan is longer than the actual diff would be,
 it's over-specified.
 
+## Stage Completion Tracking
+
+After each stage completes, update the execution plan file immediately — not at the end:
+
+- Mark completed stages using checkbox syntax: `- [ ]` → `- [x]`
+- Add the completion date as a note: `- [x] Stage 1 — completed YYYY-MM-DD`
+- If a stage was skipped or reordered, note why in the plan file
+- If new tasks were added mid-execution, add them to the plan before continuing
+
+The execution plan file is a live document during implementation. It should reflect current reality at all times, not just the original plan.
+
 ## Anti-patterns
 
 - Planning a single-subtask phase (just dispatch directly)
@@ -205,8 +216,8 @@ it's over-specified.
 - **subagent-driven-development** — Executes individual tasks with TDD and
   review loops. Use within a stage when tasks need test-driven implementation.
   execution-planning handles the stage-level orchestration above it.
-- **delegation-protocol** — Template for individual subagent briefings.
-  Each task in the execution plan becomes a delegation using this protocol.
+- **Delegation format** — The orchestrator prompt's Delegation Format section
+  defines the 5-section briefing template for each task in the execution plan.
 - **dispatching-parallel-agents** — General-purpose parallel dispatch.
   execution-planning is the structured version that produces a plan file
   and integrates with the spec workflow.

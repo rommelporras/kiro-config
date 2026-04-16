@@ -165,14 +165,14 @@ dev-kiro-config and the orchestrator model change require a session restart.
 **Files:**
 - Create: `skills/design-and-spec/SKILL.md`
 
-- [ ] **Step 1: Read source skills**
+- [x] **Step 1: Read source skills**
 
 Read these three skills to extract content:
 - `skills/brainstorming/SKILL.md`
 - `skills/spec-workflow/SKILL.md`
 - `skills/critical-thinking/SKILL.md`
 
-- [ ] **Step 2: Create the merged skill**
+- [x] **Step 2: Create the merged skill**
 
 Create `skills/design-and-spec/SKILL.md` following the structure defined
 in the spec (Phase 1 → design-and-spec skill structure):
@@ -183,16 +183,16 @@ in the spec (Phase 1 → design-and-spec skill structure):
 - HARD GATE: no implementation until design approved
 - Key content preserved from each source skill
 
-- [ ] **Step 3: Verify frontmatter is valid YAML**
+- [x] **Step 3: Verify frontmatter is valid YAML**
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**
 
 ### Task 1.2: Create post-implementation skill
 
 **Files:**
 - Create: `skills/post-implementation/SKILL.md`
 
-- [ ] **Step 1: Create the skill**
+- [x] **Step 1: Create the skill**
 
 Create `skills/post-implementation/SKILL.md` with the full workflow from
 the spec (Phase 3):
@@ -206,9 +206,9 @@ the spec (Phase 3):
 - Improvement capture with entry format
 - Result presentation
 
-- [ ] **Step 2: Verify frontmatter is valid YAML**
+- [x] **Step 2: Verify frontmatter is valid YAML**
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 1.3: Delete old skills
 
@@ -223,7 +223,7 @@ the spec (Phase 3):
 - Delete: `skills/context-docs/SKILL.md`
 - Delete: `skills/project-architecture/SKILL.md`
 
-- [ ] **Step 1: Delete skill files and directories**
+- [x] **Step 1: Delete skill files and directories**
 
 ```bash
 rm -r skills/brainstorming skills/spec-workflow skills/critical-thinking \
@@ -234,7 +234,7 @@ rm -r skills/brainstorming skills/spec-workflow skills/critical-thinking \
 Note: This requires the rm safety changes from Spec 1, or manual deletion.
 If Spec 1 hasn't been implemented yet, delete manually or use git rm.
 
-- [ ] **Step 2: Verify only 12 skill directories remain**
+- [x] **Step 2: Verify only 12 skill directories remain**
 
 ```bash
 ls -d skills/*/  | wc -l
@@ -243,14 +243,14 @@ Expected: 12 (design-and-spec, post-implementation, writing-plans,
 execution-planning, subagent-driven-development, dispatching-parallel-agents,
 codebase-audit, agent-audit, trace-code, explain-code, commit, push)
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 1.4: Update orchestrator resources
 
 **Files:**
 - Modify: `agents/dev-orchestrator.json`
 
-- [ ] **Step 1: Replace skill resources list**
+- [x] **Step 1: Replace skill resources list**
 
 Replace the entire `resources` array skill entries with the new 12-skill list:
 ```json
@@ -270,7 +270,7 @@ Replace the entire `resources` array skill entries with the new 12-skill list:
 
 Keep steering and knowledge base resources unchanged.
 
-- [ ] **Step 2: Verify JSON is valid and skill count is 12**
+- [x] **Step 2: Verify JSON is valid and skill count is 12**
 
 ```bash
 jq empty agents/dev-orchestrator.json
@@ -278,7 +278,7 @@ jq '[.resources[] | select(type == "string") | select(startswith("skill://"))] |
 ```
 Expected: valid, 12
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 > ⚠️ **Note:** The orchestrator resources list changed. New skills (design-and-spec,
 > post-implementation) won't be available until next session. However, you can
@@ -295,11 +295,11 @@ Expected: valid, 12
 **Files:**
 - Modify: `agents/prompts/orchestrator.md`
 
-- [ ] **Step 1: Read the current prompt and the spec's Phase 2 section**
+- [x] **Step 1: Read the current prompt and the spec's Phase 2 section**
 
 Read both files to understand what exists and what the target structure is.
 
-- [ ] **Step 2: Rewrite the prompt**
+- [x] **Step 2: Rewrite the prompt**
 
 Follow the spec's Phase 2 structure (7 sections, ~130 lines target):
 1. Identity (~10 lines) — must include post-implementation trigger rule
@@ -316,14 +316,14 @@ Key rules that MUST be in the prompt (from spec):
 - Improvement capture entry format
 - Document tracking: update checkboxes, record divergences
 
-- [ ] **Step 3: Verify line count**
+- [x] **Step 3: Verify line count**
 
 ```bash
 wc -l agents/prompts/orchestrator.md
 ```
 Expected: under 150 lines
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**
 
 ---
 
@@ -334,9 +334,9 @@ Expected: under 150 lines
 **Files:**
 - Modify: `skills/codebase-audit/SKILL.md`
 
-- [ ] **Step 1: Read current skill and spec Phase 4**
+- [x] **Step 1: Read current skill and spec Phase 4**
 
-- [ ] **Step 2: Rewrite with structured output**
+- [x] **Step 2: Rewrite with structured output**
 
 Add to the skill:
 - Project-type detection (pyproject.toml, package.json, *.sh)
@@ -344,16 +344,16 @@ Add to the skill:
 - Doc health section (link checking, spec-to-code alignment, age checking)
 - Scope limits for large codebases (depth 3, prioritize recent changes, cap 20 findings)
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 3.2: Rewrite agent-audit skill
 
 **Files:**
 - Modify: `skills/agent-audit/SKILL.md`
 
-- [ ] **Step 1: Read current skill, meta-review skill, and spec Phase 5**
+- [x] **Step 1: Read current skill, meta-review skill, and spec Phase 5**
 
-- [ ] **Step 2: Rewrite absorbing meta-review**
+- [x] **Step 2: Rewrite absorbing meta-review**
 
 Add to the skill:
 - Skill coverage analysis (from meta-review)
@@ -363,16 +363,16 @@ Add to the skill:
 - improvements/pending.md integration (read, cross-reference, propose fixes)
 - Cross-project awareness via improvements data
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 3.3: Enhance commit skill
 
 **Files:**
 - Modify: `skills/commit/SKILL.md`
 
-- [ ] **Step 1: Read current skill and spec Phase 6**
+- [x] **Step 1: Read current skill and spec Phase 6**
 
-- [ ] **Step 2: Add doc reference check**
+- [x] **Step 2: Add doc reference check**
 
 Add step before committing:
 ```
@@ -381,39 +381,39 @@ For each staged file:
   - if a doc references the file but the doc is NOT staged → warn
 ```
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 3.4: Update subagent-driven-development skill
 
 **Files:**
 - Modify: `skills/subagent-driven-development/SKILL.md`
 
-- [ ] **Step 1: Add document tracking steps**
+- [x] **Step 1: Add document tracking steps**
 
 After each task completion, add mandatory steps:
 - Update plan file: `- [ ]` → `- [x]` for completed task
 - If task diverged from plan, append "Actual:" note
 - If task description was enriched before dispatch, update plan with enriched version
 
-- [ ] **Step 2: Add task enrichment step**
+- [x] **Step 2: Add task enrichment step**
 
 Before dispatching each task:
 - Re-read task description from plan file
 - Enrich with context from earlier tasks
 - Update plan file with enriched description if changed
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 3.5: Update execution-planning skill
 
 **Files:**
 - Modify: `skills/execution-planning/SKILL.md`
 
-- [ ] **Step 1: Add stage completion tracking**
+- [x] **Step 1: Add stage completion tracking**
 
 After each stage completes, update the execution plan file to mark it done.
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ---
 
@@ -425,37 +425,37 @@ After each stage completes, update the execution plan file to mark it done.
 - Modify: `agents/prompts/refactor.md`
 - Modify: `agents/dev-refactor.json`
 
-- [ ] **Step 1: Add TDD skill to dev-refactor resources**
+- [x] **Step 1: Add TDD skill to dev-refactor resources**
 
 In `agents/dev-refactor.json`, add:
 ```json
 "skill://~/.kiro/skills/test-driven-development/SKILL.md"
 ```
 
-- [ ] **Step 2: Add execute-findings mode to prompt**
+- [x] **Step 2: Add execute-findings mode to prompt**
 
 Add the "When receiving findings from a review" section from the spec (Phase 7).
 
-- [ ] **Step 3: Add shared code awareness to prompt**
+- [x] **Step 3: Add shared code awareness to prompt**
 
 Add the "DRY and shared code" section from the spec (Phase 7).
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**
 
 ### Task 4.2: Upgrade dev-reviewer prompt
 
 **Files:**
 - Modify: `agents/prompts/code-reviewer.md`
 
-- [ ] **Step 1: Add codebase scan mode**
+- [x] **Step 1: Add codebase scan mode**
 
 Add the scan mode section from the spec (Phase 8) with scope limits.
 
-- [ ] **Step 2: Add doc accuracy review dimension**
+- [x] **Step 2: Add doc accuracy review dimension**
 
 Add dimension 10: Documentation accuracy.
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ---
 
@@ -466,21 +466,21 @@ Add dimension 10: Documentation accuracy.
 **Files:**
 - Modify: `knowledge/rules.md`
 
-- [ ] **Step 1: Add quick-ref rule**
+- [x] **Step 1: Add quick-ref rule**
 
 Add under `[subagent,delegate,spawn]`:
 ```markdown
 - 🔴 Subagent tool limitations quick-ref: subagents CANNOT use web_search, web_fetch, use_aws, grep, glob, introspect. They CAN use read, write, shell, code, and MCP tools. If a task needs unavailable tools, gather data in the orchestrator first.
 ```
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 5.2: Update creating-agents.md
 
 **Files:**
 - Modify: `docs/reference/creating-agents.md`
 
-- [ ] **Step 1: Add domain-specific agent design patterns section**
+- [x] **Step 1: Add domain-specific agent design patterns section**
 
 Add section covering:
 - Analyst/auditor/collector separation
@@ -489,18 +489,18 @@ Add section covering:
 - Cross-language agents (reviewer, refactor) vs. language-specific
 - Project-local agents (dev-kiro-config pattern)
 
-- [ ] **Step 2: Update architecture diagram**
+- [x] **Step 2: Update architecture diagram**
 
 Update the agent tree to show current lineup including dev-kiro-config.
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 5.3: Update skill-catalog.md
 
 **Files:**
 - Modify: `docs/reference/skill-catalog.md`
 
-- [ ] **Step 1: Full rewrite of skill tables**
+- [x] **Step 1: Full rewrite of skill tables**
 
 Update:
 - Skill count (12, not 24)
@@ -509,33 +509,33 @@ Update:
 - Agent assignment matrix
 - Add "Automated workflows" section (implementation pipeline, refactor pipeline)
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 5.4: Update README.md
 
 **Files:**
 - Modify: `README.md`
 
-- [ ] **Step 1: Update counts**
+- [x] **Step 1: Update counts**
 
 Update skill count, agent count, steering doc count to match reality.
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 5.5: Update docs/TODO.md
 
 **Files:**
 - Modify: `docs/TODO.md`
 
-- [ ] **Step 1: Mark Spec 2 items as complete**
+- [x] **Step 1: Mark Spec 2 items as complete**
 
 Update all Spec 2 line items to `[x]`.
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 5.6: Commit Phases 1-5 and restart for verification
 
-- [ ] **Step 1: Commit Phases 1-5 on feature branch**
+- [x] **Step 1: Commit Phases 1-5 on feature branch**
 
 ```bash
 git add skills/ agents/ knowledge/ docs/ README.md
@@ -543,7 +543,7 @@ git commit -m "feat: orchestrator framework redesign — skill consolidation, pr
 git push origin feature/framework-redesign
 ```
 
-- [ ] **Step 2: Exit session for verification**
+- [x] **Step 2: Exit session for verification**
 
 Tell user: **"Phases 1-5 committed on `feature/framework-redesign`. Run `/quit` now. New session prompt:**
 ```
@@ -560,7 +560,7 @@ and config changes are loaded.
 
 ### Task 6.1: Run agent-audit
 
-- [ ] **Step 1: Run the updated agent-audit skill**
+- [x] **Step 1: Run the updated agent-audit skill**
 
 Trigger: "audit agents"
 
@@ -571,9 +571,9 @@ Verify:
 - Skill catalog matches reality
 - README counts are accurate
 
-- [ ] **Step 2: Fix any findings**
+- [x] **Step 2: Fix any findings**
 
-- [ ] **Step 3: Push branch and report**
+- [x] **Step 3: Push branch and report**
 
 ```bash
 git add -A
@@ -587,4 +587,4 @@ committed and pushed. Review the branch, merge to main when ready, then
 
 Spec 2 is complete.
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**

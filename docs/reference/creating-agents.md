@@ -13,11 +13,12 @@ This config uses a multi-agent orchestrator pattern:
 
 ```
 User ↔ dev-orchestrator (plans, converses, coordinates)
-            ├── dev-docs     (edits config, docs, markdown)
-            ├── dev-python   (writes Python code)
-            ├── dev-shell    (writes Bash/shell code)
+            ├── dev-docs      (edits config, docs, markdown)
+            ├── dev-python    (writes Python code)
+            ├── dev-shell     (writes Bash/shell code)
             ├── dev-reviewer  (read-only analysis)
-            └── dev-refactor  (restructures code)
+            ├── dev-refactor  (restructures code)
+            └── dev-kiro-config (project-local: kiro-config editing)
 ```
 
 The orchestrator is the default agent. It never writes executable code — config
@@ -139,6 +140,67 @@ Always inherit these when creating new agents:
 6. **Agent-audit compatibility** — new agents should be added to the agent-audit skill's review scope (it reads all `agents/*.json` and `agents/prompts/` files automatically)
 
 For subagents: replicate critical protections as `deniedCommands` since hooks don't fire.
+
+## Domain-specific agent design patterns
+
+### Analyst/auditor/collector separation
+
+Split complex analysis workflows into three roles:
+- **Collector** — gathers raw data (reads files, runs commands, queries APIs)
+- **Analyst** — interprets data, identifies patterns, produces findings
+- **Auditor** — validates findings against standards, produces pass/fail verdicts
+
+This separation keeps each agent focused and makes retry-with-feedback loops practical.
+
+### Structured JSON contracts between agents
+
+When one agent's output feeds another agent's input, use structured JSON:
+
+```json
+{
+  "status": "DONE",
+  "findings": [
+    { "severity": "high", "file": "agents/foo.json", "issue": "missing deniedPaths" }
+  ],
+  "next_action": "fix"
+}
+```
+
+Unstructured prose output forces the orchestrator to parse intent. JSON contracts make routing deterministic.
+
+### Retry-with-feedback loops
+
+When a subagent returns `DONE_WITH_CONCERNS` or produces output that fails a quality gate, the orchestrator can re-dispatch with the failure reason appended to the briefing:
+
+```
+Previous attempt failed quality gate:
+  - ruff: 3 errors in agents/foo.py
+  - mypy: 1 type error
+
+Fix these issues and re-run the quality gate before returning DONE.
+```
+
+Cap retries at 2. If still failing after 2 attempts, escalate to the user.
+
+### Cross-language vs. language-specific agents
+
+| Agent type | Examples | Scope |
+|---|---|---|
+| Cross-language | dev-reviewer, dev-refactor | Work on any language — focus on structure, patterns, quality |
+| Language-specific | dev-python, dev-shell | Deep language expertise — TDD, linting, type checking |
+
+Cross-language agents should not run language-specific quality tools (ruff, mypy, shellcheck). Delegate quality checks to the language-specific agent.
+
+### Project-local agents (dev-kiro-config pattern)
+
+Some projects need elevated permissions that would be unsafe to grant globally. Create a project-local agent:
+
+1. Place the agent JSON in the project's `.kiro/agents/` directory (not `~/.kiro/agents/`)
+2. Grant write access scoped to that project's directories only
+3. Register it in the orchestrator's `availableAgents` list
+4. The orchestrator routes project-specific tasks to it; falls back gracefully when unavailable in other projects
+
+Example: `dev-kiro-config` has write access to `agents/`, `hooks/`, `steering/`, `skills/` within the kiro-config repo — permissions that would be too broad for a global agent.
 
 ## Tips
 

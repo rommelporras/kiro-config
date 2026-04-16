@@ -3,7 +3,7 @@
 Operational lessons learned. Updated manually or by the agent-audit skill.
 
 ## Subagent Limitations
-- Tool availability and data-gathering rules: see "Subagent Tool Limitations" in orchestrator prompt and delegation-protocol skill.
+- Tool availability and data-gathering rules: see "Delegation Format" in orchestrator prompt.
 - Subagent shell output is buffered, not streamed — long-running commands appear stuck until complete
 - Interactive commands (rm -i, npm init, sudo, ssh host key prompts) don't work in subagent shell — no stdin
 - Subagents are NOT protected by preToolUse hooks — their safety comes from deniedCommands and deniedPaths in toolsSettings
