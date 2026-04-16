@@ -74,8 +74,9 @@ Files outside allowed paths require user approval per operation.
 
 Shell-level blocks in `execute_bash` settings. Defense-in-depth alongside bash-write-protect.sh hook.
 
-**Denied:** `rm -rf /`, `rm -rf /*`, `rm -rf ~`, `chmod -R 777 /`, `mkfs.`,
-`dd if=/dev`, `> /dev/sd`, `> /dev/nvme`
+**Denied:** Subagents block recursive rm (`rm -r.*`, `rm -f.*r.*`, `rm --recursive.*`) but allow single-file rm.
+dev-reviewer blocks all rm (`rm .*`). Orchestrator has no rm deny (protected by hook).
+All agents block: `chmod -R 777 /`, `mkfs.`, `dd if=/dev`, `> /dev/sd`, `> /dev/nvme`.
 
 ## How the layers interact
 

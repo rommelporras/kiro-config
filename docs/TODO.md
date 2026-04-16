@@ -2,7 +2,7 @@
 
 ## Active Specs
 
-- [ ] **Spec 1: Shell Safety & File Operations** — `docs/specs/2026-04-16-shell-safety-file-operations/spec.md`
+- [x] **Spec 1: Shell Safety & File Operations** — `docs/specs/2026-04-16-shell-safety-file-operations/spec.md`
   - bash-write-protect.sh overhaul (mv, selective rm, rm -rf confirmation)
   - Orchestrator routing: file operations lane
   - dev-docs permission expansion
@@ -23,7 +23,7 @@
   - Create: docs/improvements/ structure (pending.md, resolved.md)
   - Docs: creating-agents.md, skill-catalog.md, README.md updates
 
-- [ ] **Spec 3: TypeScript & Frontend Stack** — `docs/specs/2026-04-16-typescript-frontend-stack/spec.md`
+- [x] **Spec 3: TypeScript & Frontend Stack** — `docs/specs/2026-04-16-typescript-frontend-stack/spec.md`
   - New steering: typescript.md, web-development.md, frontend.md
   - New agents: dev-typescript, dev-frontend
   - New skill: typescript-audit (for dev-reviewer)

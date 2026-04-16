@@ -62,8 +62,8 @@ Start a `kiro-cli` session and run:
 ```
 
 Expected output:
-- **7 steering files** — `engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`
-- **24 skills** loaded globally
+- **10 steering files** — `engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`, `typescript.md`, `web-development.md`, `frontend.md`
+- **18 skills** loaded globally
 - **4 MCP servers** — Context7, AWS Docs, AWS Diagram, Playwright
 
 Also check:
@@ -88,13 +88,13 @@ dev-orchestrator  ← default agent: plans, converses, delegates, handles git
 base              standalone fallback for general questions
 ```
 
-- **7 agents** — orchestrator + 5 specialists + base fallback
-- **24 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **10 agents** — orchestrator + 8 specialists + base fallback
+- **18 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
 - **8 hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
-- **7 steering docs** — engineering standards injected into every session
+- **10 steering docs** — engineering standards injected into every session
 
 For deeper reading:
-- [Skill Catalog](../reference/skill-catalog.md) — all 24 skills with triggers and agent assignments
+- [Skill Catalog](../reference/skill-catalog.md) — all 18 skills with triggers and agent assignments
 - [Security Model](../reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
 - [Creating Agents](../reference/creating-agents.md) — how to add new specialist agents
 

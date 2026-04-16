@@ -4,8 +4,8 @@
 
 [Back to README](../../README.md) | Related: [Creating agents](creating-agents.md) | [Security model](security-model.md)
 
-Quick reference for all 17 skills — what they do, when they activate, and which agents load them.
-12 skills load on dev-orchestrator; 5 are subagent-only.
+Quick reference for all 18 skills — what they do, when they activate, and which agents load them.
+12 skills load on dev-orchestrator; 6 are subagent-only.
 
 ## Workflow chain
 
@@ -55,32 +55,34 @@ Each skill activates independently by description matching. The chain is optiona
 | **verification-before-completion** | dev-python, dev-shell, dev-reviewer, dev-refactor | Gate before success claims: identify → run → read → verify → claim. | "verify everything works" |
 | **receiving-code-review** | dev-python, dev-shell, dev-refactor | Processes review feedback with technical rigor. Push back when suggestions are wrong. | "here's feedback on my code" |
 | **python-audit** | dev-python, dev-reviewer | Runs ruff, mypy, pytest. Reports quality metrics. | "audit code", "python audit" |
+| **typescript-audit** | dev-reviewer | Runs ESLint, tsc --noEmit, Vitest. Reports TypeScript quality metrics. | "typescript audit", "audit TypeScript" |
 
 ## Skill assignment matrix
 
-| Skill | dev-orchestrator | dev-docs | dev-python | dev-shell | dev-reviewer | dev-refactor | dev-kiro-config |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| design-and-spec | ✓ | | | | | | |
-| writing-plans | ✓ | | | | | | |
-| execution-planning | ✓ | | | | | | |
-| subagent-driven-development | ✓ | | | | | | |
-| dispatching-parallel-agents | ✓ | | | | | | |
-| post-implementation | ✓ | | | | | | |
-| commit | ✓ | | | | | | |
-| push | ✓ | | | | | | |
-| explain-code | ✓ | | | | | | |
-| agent-audit | ✓ | | | | | | |
-| trace-code | ✓ | | | | | | |
-| codebase-audit | ✓ | | | | | | |
-| test-driven-development | | | ✓ | | | | |
-| systematic-debugging | | | ✓ | ✓ | | | |
-| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| receiving-code-review | | | ✓ | ✓ | | ✓ | |
-| python-audit | | | ✓ | | ✓ | | |
+| Skill | dev-orchestrator | dev-docs | dev-python | dev-shell | dev-typescript | dev-frontend | dev-reviewer | dev-refactor | dev-kiro-config |
+|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| design-and-spec | ✓ | | | | | | | | |
+| writing-plans | ✓ | | | | | | | | |
+| execution-planning | ✓ | | | | | | | | |
+| subagent-driven-development | ✓ | | | | | | | | |
+| dispatching-parallel-agents | ✓ | | | | | | | | |
+| post-implementation | ✓ | | | | | | | | |
+| commit | ✓ | | | | | | | | |
+| push | ✓ | | | | | | | | |
+| explain-code | ✓ | | | | | | | | |
+| agent-audit | ✓ | | | | | | | | |
+| trace-code | ✓ | | | | | | | | |
+| codebase-audit | ✓ | | | | | | | | |
+| test-driven-development | | | ✓ | | ✓ | | | | |
+| systematic-debugging | | | ✓ | ✓ | ✓ | | | | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | | ✓ | ✓ | ✓ | ✓ | | ✓ | |
+| python-audit | | | ✓ | | | | ✓ | | |
+| typescript-audit | | | | | | | ✓ | | |
 
-**Totals:** dev-orchestrator: 12, dev-docs: 1, dev-python: 5, dev-shell: 3, dev-reviewer: 2, dev-refactor: 2, dev-kiro-config: 1
+**Totals:** dev-orchestrator: 12, dev-docs: 1, dev-python: 5, dev-shell: 3, dev-typescript: 4, dev-frontend: 2, dev-reviewer: 3, dev-refactor: 2, dev-kiro-config: 1
 
-**base agent** loads 5 of the 17 skills — the 5 subagent-only skills (test-driven-development, systematic-debugging, verification-before-completion, receiving-code-review, python-audit). The 12 orchestrator skills do not load on base.
+**base agent** loads 5 of the 18 skills — the 5 subagent-only skills (test-driven-development, systematic-debugging, verification-before-completion, receiving-code-review, python-audit). The 12 orchestrator skills do not load on base.
 
 ## Automated workflows
 

@@ -16,6 +16,8 @@ User ↔ dev-orchestrator (plans, converses, coordinates)
             ├── dev-docs      (edits config, docs, markdown)
             ├── dev-python    (writes Python code)
             ├── dev-shell     (writes Bash/shell code)
+            ├── dev-typescript (writes TypeScript/Express)
+            ├── dev-frontend  (writes HTML/CSS/TS frontends)
             ├── dev-reviewer  (read-only analysis)
             ├── dev-refactor  (restructures code)
             └── dev-kiro-config (project-local: kiro-config editing)
@@ -135,7 +137,7 @@ Always inherit these when creating new agents:
 1. **Hooks** — `scan-secrets.sh`, `protect-sensitive.sh`, `bash-write-protect.sh`, `block-sed-json.sh`
 2. **Self-learning hooks** — `context-enrichment.sh`, `correction-detect.sh` (orchestrator only)
 3. **Denied paths** — `~/.ssh`, `~/.aws/credentials`, `~/.gnupg`, `~/.config/gh`
-4. **Denied commands** — `rm .*` (broad pattern), `chmod -R 777 /`, `mkfs.`, `dd if/dev`
+4. **Denied commands** — `"rm -r.*"`, `"rm -f.*r.*"`, `"rm --recursive.*"` (blocks recursive rm; dev-reviewer keeps full `"rm .*"`), `chmod -R 777 /`, `mkfs.`, `dd if/dev`
 5. **Global steering** — `"file://~/.kiro/steering/**/*.md"` in resources
 6. **Agent-audit compatibility** — new agents should be added to the agent-audit skill's review scope (it reads all `agents/*.json` and `agents/prompts/` files automatically)
 
