@@ -9,6 +9,8 @@ User ↔ dev-orchestrator (plans, converses, coordinates, git ops)
             ├── dev-docs      (edits config, docs, markdown — no TDD)
             ├── dev-python    (writes Python code, TDD, debugging)
             ├── dev-shell     (writes Bash/shell, system automation)
+            ├── dev-typescript (writes TypeScript/Express, TDD with Vitest)
+            ├── dev-frontend  (writes HTML/CSS/TS, Chart.js, accessibility)
             ├── dev-reviewer  (read-only analysis, no write tool)
             ├── dev-refactor  (restructures code, preserves behavior)
             └── dev-kiro-config (project-local: kiro-config editing)
@@ -20,10 +22,10 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 
 ## Features
 
-- **7 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash
-- **17 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **10 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash, TypeScript, web development, frontend
+- **18 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
 - **8 hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
-- **8 agents** — dev-orchestrator + 6 dev specialists + base fallback
+- **10 agents** — dev-orchestrator + 8 dev specialists + base fallback
 - **Self-learning knowledge pipeline** — corrections auto-captured, keywords tracked, rules auto-promoted
 - **Knowledge base integration** — semantic search across config with auto-indexing
 - **Infrastructure is read-only** — Kiro writes code in files but never executes mutating infra commands
@@ -36,6 +38,8 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 │   ├── dev-docs.json           # Config/docs editor subagent
 │   ├── dev-python.json        # Python specialist subagent
 │   ├── dev-shell.json         # Shell/Bash specialist subagent
+│   ├── dev-typescript.json    # TypeScript/Express specialist subagent
+│   ├── dev-frontend.json      # Frontend specialist subagent
 │   ├── dev-reviewer.json      # Read-only reviewer subagent
 │   ├── dev-refactor.json      # Refactoring specialist subagent
 │   ├── dev-kiro-config.json   # Project-local kiro-config editor (in .kiro/agents/)
@@ -58,11 +62,11 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 │   └── archive/     # Monthly archives
 ├── scripts/         # Setup and maintenance
 ├── settings/        # CLI settings (cli.json, mcp.json)
-├── skills/          # 17 agent skills (curated per agent)
+├── skills/          # 18 agent skills (curated per agent)
 │   ├── agent-audit/
 │   ├── design-and-spec/
 │   └── ...
-├── steering/        # 7 persistent context docs
+├── steering/        # 10 persistent context docs
 └── docs/            # Reference and setup docs
 ```
 
@@ -92,34 +96,35 @@ The script updates `allowedPaths` in all agent configs and knowledge base paths 
 
 - `~/.kiro` paths — these are standard Kiro CLI paths, same for everyone
 - `deniedPaths` — these protect sensitive directories and should stay as-is
-- `deniedCommands` — these block dangerous operations and should stay as-is
+- `deniedCommands` — these block dangerous operations and should stay as-is. Subagents use `rm -r.*`, `rm -f.*r.*`, `rm --recursive.*` (blocks recursive rm); dev-reviewer keeps the full `rm .*` block.
 - `steering/` files — these are universal best practices, not path-dependent
 - `skills/` files — these are universal, not path-dependent
 - `hooks/` scripts — these use relative paths from `~/.kiro` and work for everyone
 
 ## Agent Skill Assignments
 
-| Skill | dev-orchestrator | dev-docs | dev-python | dev-shell | dev-reviewer | dev-refactor | dev-kiro-config |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| design-and-spec | ✓ | | | | | | |
-| writing-plans | ✓ | | | | | | |
-| execution-planning | ✓ | | | | | | |
-| subagent-driven-development | ✓ | | | | | | |
-| dispatching-parallel-agents | ✓ | | | | | | |
-| post-implementation | ✓ | | | | | | |
-| commit | ✓ | | | | | | |
-| push | ✓ | | | | | | |
-| explain-code | ✓ | | | | | | |
-| agent-audit | ✓ | | | | | | |
-| trace-code | ✓ | | | | | | |
-| codebase-audit | ✓ | | | | | | |
-| test-driven-development | | | ✓ | | | | |
-| systematic-debugging | | | ✓ | ✓ | | | |
-| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| receiving-code-review | | | ✓ | ✓ | | ✓ | |
-| python-audit | | | ✓ | | ✓ | | |
+| Skill | dev-orchestrator | dev-docs | dev-python | dev-shell | dev-typescript | dev-frontend | dev-reviewer | dev-refactor | dev-kiro-config |
+|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| design-and-spec | ✓ | | | | | | | | |
+| writing-plans | ✓ | | | | | | | | |
+| execution-planning | ✓ | | | | | | | | |
+| subagent-driven-development | ✓ | | | | | | | | |
+| dispatching-parallel-agents | ✓ | | | | | | | | |
+| post-implementation | ✓ | | | | | | | | |
+| commit | ✓ | | | | | | | | |
+| push | ✓ | | | | | | | | |
+| explain-code | ✓ | | | | | | | | |
+| agent-audit | ✓ | | | | | | | | |
+| trace-code | ✓ | | | | | | | | |
+| codebase-audit | ✓ | | | | | | | | |
+| test-driven-development | | | ✓ | | ✓ | | | | |
+| systematic-debugging | | | ✓ | ✓ | ✓ | | | | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | | ✓ | ✓ | ✓ | ✓ | | ✓ | |
+| python-audit | | | ✓ | | | | ✓ | | |
+| typescript-audit | | | | | | | ✓ | | |
 
-**base agent** loads 5 of 17 skills — the 5 subagent-only skills (test-driven-development, systematic-debugging, verification-before-completion, receiving-code-review, python-audit). The 12 orchestrator skills do not load on base. See [Skill Catalog](docs/reference/skill-catalog.md) for details.
+**base agent** loads 5 of the 18 skills — the 5 subagent-only skills (test-driven-development, systematic-debugging, verification-before-completion, receiving-code-review, python-audit). The 12 orchestrator skills do not load on base. See [Skill Catalog](docs/reference/skill-catalog.md) for details.
 
 ## Self-Learning Pipeline
 
@@ -166,7 +171,7 @@ MIT
 
 ## Documentation
 
-- [Skill Catalog](docs/reference/skill-catalog.md) — all 17 skills with triggers and agent assignments
+- [Skill Catalog](docs/reference/skill-catalog.md) — all 18 skills with triggers and agent assignments
 - [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
 - [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
 - [Changelog](docs/reference/CHANGELOG.md) — version history and release notes

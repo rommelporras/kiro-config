@@ -1,7 +1,7 @@
 {
-  "name": "dev-refactor",
-  "description": "Restructures existing code to improve organization, readability, and maintainability without changing behavior.",
-  "prompt": "file://./prompts/refactor.md",
+  "name": "dev-frontend",
+  "description": "Writes HTML, CSS, and TypeScript for SPA frontends. Handles Chart.js, accessibility, responsive design. No backend code.",
+  "prompt": "file://./prompts/frontend-dev.md",
   "model": "claude-sonnet-4.6",
   "tools": [
     "read",
@@ -106,7 +106,10 @@
         "docker stop.*",
         "docker kill.*",
         "git add.*",
-        "git commit.*"
+        "git commit.*",
+        "python3? .*",
+        "uv .*",
+        "pip .*"
       ]
     }
   },
@@ -114,8 +117,7 @@
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
-    "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
-    "skill://~/.kiro/skills/test-driven-development/SKILL.md"
+    "skill://~/.kiro/skills/receiving-code-review/SKILL.md"
   ],
   "includeMcpJson": false
 }

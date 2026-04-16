@@ -5,7 +5,7 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v0.4.0] - Unreleased
+## [v0.4.0] - 2026-04-16
 
 Orchestrator framework redesign, shell safety improvements, and TypeScript/frontend stack.
 
@@ -28,6 +28,16 @@ Orchestrator framework redesign, shell safety improvements, and TypeScript/front
 - Shared code awareness in dev-refactor prompt
 - Domain-specific agent design patterns in creating-agents.md
 - Subagent tool limitations quick-ref in knowledge/rules.md
+- `dev-typescript` agent - TypeScript/Express backend specialist with TDD via Vitest
+- `dev-frontend` agent - HTML/CSS/TypeScript frontend specialist with Chart.js and accessibility
+- `typescript-audit` skill - TypeScript quality audit for dev-reviewer (ESLint, tsc, Vitest, manual checklist)
+- `steering/typescript.md` - TypeScript conventions (strict mode, Zod, ESLint, Vitest, naming)
+- `steering/web-development.md` - Express.js patterns, REST API design, CORS, Zod validation
+- `steering/frontend.md` - HTML/CSS/TS frontend conventions, Chart.js, accessibility, verification checklist
+- Smart rm detection in `bash-write-protect.sh` - allows single-file rm within allowed paths, blocks recursive rm
+- File operations routing lane in orchestrator - handles move/rename/delete directly
+- TypeScript and frontend routing lanes in orchestrator
+- Parallel dispatch lane for full-stack features (dev-typescript + dev-frontend)
 
 ### Changed
 - Orchestrator prompt rewritten (250+ lines to ~138 lines) with 7 clear sections
@@ -38,7 +48,13 @@ Orchestrator framework redesign, shell safety improvements, and TypeScript/front
 - Agent-audit skill rewritten absorbing meta-review (skill coverage, steering effectiveness, knowledge hygiene)
 - Execution-planning skill adds stage completion tracking
 - Skill catalog fully rewritten for new 17-skill lineup
-- README updated with accurate counts (17 skills, 8 agents)
+- README updated with accurate counts (18 skills, 10 agents, 10 steering docs)
+- `deniedCommands` updated across all agents: `rm .*` replaced with `rm -r.*`, `rm -f.*r.*`, `rm --recursive.*` (except dev-reviewer which keeps full block)
+- Orchestrator `rm .*` removed from deniedCommands (protected by hook instead)
+- `tooling.md` updated with Node.js/TypeScript quality section and project-specific environments
+- Skill catalog updated with typescript-audit and new agent columns
+- Creating-agents.md updated with dev-typescript and dev-frontend in architecture diagram
+- dev-reviewer resources updated with typescript-audit skill
 
 ### Removed
 - `brainstorming` skill (merged into design-and-spec)

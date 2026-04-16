@@ -6,7 +6,7 @@ manage git operations directly. You handle conversation, planning, design,
 and spec creation yourself.
 
 After ANY implementation subagent (dev-python, dev-shell, dev-refactor,
-dev-kiro-config) returns DONE or DONE_WITH_CONCERNS, execute the
+dev-kiro-config, dev-typescript, dev-frontend) returns DONE or DONE_WITH_CONCERNS, execute the
 post-implementation workflow (see post-implementation skill) before
 presenting results to the user. This is not optional. Do not skip it.
 
@@ -45,11 +45,42 @@ Triggers: clean up, refactor, restructure, simplify, split file, extract functio
 Triggers: refactor codebase, DRY violations, remove dead code, God object, simplify codebase
 Route when: user wants codebase-wide improvements. See Workflow Definitions below.
 
+### → dev-typescript
+
+Triggers: write TypeScript, Express route, Node.js backend, API endpoint,
+TypeScript server, implement with Vitest
+
+Route when: The primary deliverable is TypeScript backend code (Express
+routes, middleware, API logic, data processing).
+
+### → dev-frontend
+
+Triggers: HTML page, CSS styling, frontend component, chart, dashboard UI,
+responsive layout, accessibility fix, DOM manipulation
+
+Route when: The primary deliverable is frontend code (HTML, CSS, TypeScript
+for browser, Chart.js visualizations).
+
+### → dev-typescript + dev-frontend (parallel)
+
+Triggers: full-stack feature, add page with API, new dashboard section
+
+Route when: The feature requires both backend API changes and frontend UI
+changes. Dispatch in parallel — they work on independent file sets.
+
+### → Handle directly (file operations)
+
+Triggers: move file, rename file, delete file, organize files,
+move directory, clean up files
+
+Handle when: The user wants to move, rename, or delete files.
+Use shell commands directly. For rm -rf on directories, confirm
+with user first. Single-file rm within allowed paths is safe.
+
 ### → Handle directly (DO NOT delegate)
 Triggers: explain, what is, how does, should I, compare, plan, design, brainstorm,
 spec out, define requirements, commit, push, agent-audit, trace, map code flow,
-health check, codebase audit, restructure repo, move file, rename file, delete file,
-create context docs, set up AI knowledge base, execution plan
+health check, codebase audit, restructure repo, create context docs, set up AI knowledge base, execution plan
 
 ## Workflow Definitions
 

@@ -19,11 +19,11 @@
 **Files:**
 - Modify: `hooks/bash-write-protect.sh`
 
-- [ ] **Step 1: Read the current hook**
+- [x] **Step 1: Read the current hook**
 
 Read `hooks/bash-write-protect.sh` to understand existing structure.
 
-- [ ] **Step 2: Replace the DESTRUCTIVE OPERATIONS section**
+- [x] **Step 2: Replace the DESTRUCTIVE OPERATIONS section**
 
 Keep the existing SENSITIVE FILE WRITES section and force-push block unchanged.
 Replace the DESTRUCTIVE OPERATIONS section with smart rm detection:
@@ -97,7 +97,7 @@ fi
 # Keep existing: force push to main/master block
 ```
 
-- [ ] **Step 3: Keep existing blocks that aren't rm-related**
+- [x] **Step 3: Keep existing blocks that aren't rm-related**
 
 Preserve the existing blocks:
 - Force push to main/master detection (at the bottom of the file)
@@ -105,12 +105,12 @@ Preserve the existing blocks:
 
 Remove the old DANGEROUS array and its loop — replaced by the new rm detection above.
 
-- [ ] **Step 4: Verify shellcheck clean**
+- [x] **Step 4: Verify shellcheck clean**
 
 Run: `shellcheck hooks/bash-write-protect.sh`
 Expected: zero warnings
 
-- [ ] **Step 5: Test the hook manually**
+- [x] **Step 5: Test the hook manually**
 
 ```bash
 # Should ALLOW:
@@ -130,7 +130,7 @@ echo '{"tool_input":{"command":"mv file1.md file2.md"}}' | bash hooks/bash-write
 echo $?  # Expected: 0
 ```
 
-- [ ] **Step 6: Report completion**
+- [x] **Step 6: Report completion**
 
 ---
 
@@ -148,17 +148,17 @@ echo $?  # Expected: 0
 Note: These files are under `~/.kiro/agents` via symlink. Use the
 dev-kiro-config agent if available, otherwise edit via shell.
 
-- [ ] **Step 1: Read current deniedCommands from all agents**
+- [x] **Step 1: Read current deniedCommands from all agents**
 
 Read each agent JSON and note the current `"rm .*"` pattern.
 
-- [ ] **Step 2: Update orchestrator deniedCommands**
+- [x] **Step 2: Update orchestrator deniedCommands**
 
 In `agents/dev-orchestrator.json`, replace `"rm .*"` with nothing — remove
 the rm entry entirely. The orchestrator is protected by the hook (hooks fire
 on the orchestrator). Keep all other deny patterns unchanged.
 
-- [ ] **Step 3: Update subagent deniedCommands (dev-python, dev-shell, dev-refactor)**
+- [x] **Step 3: Update subagent deniedCommands (dev-python, dev-shell, dev-refactor)**
 
 In each of these files, replace `"rm .*"` with these three patterns:
 ```json
@@ -169,20 +169,20 @@ In each of these files, replace `"rm .*"` with these three patterns:
 This blocks recursive rm but allows single-file `rm path/to/file`. Hooks
 don't fire on subagents, so the deny patterns are the safety net.
 
-- [ ] **Step 4: Update dev-docs deniedCommands**
+- [x] **Step 4: Update dev-docs deniedCommands**
 
 Same as Step 3 — replace `"rm .*"` with the three recursive-blocking patterns.
 
-- [ ] **Step 5: Update base.json deniedCommands**
+- [x] **Step 5: Update base.json deniedCommands**
 
 Same as Step 3 — replace `"rm .*"` with the three recursive-blocking patterns.
 
-- [ ] **Step 6: Verify dev-reviewer keeps rm fully blocked**
+- [x] **Step 6: Verify dev-reviewer keeps rm fully blocked**
 
 Read `agents/dev-reviewer.json` and confirm `"rm .*"` is still present.
 Do NOT modify dev-reviewer — it's read-only, no deletions ever.
 
-- [ ] **Step 7: Verify all changes are consistent**
+- [x] **Step 7: Verify all changes are consistent**
 
 ```bash
 # Should show rm patterns for each agent
@@ -197,7 +197,7 @@ Expected:
 - dev-reviewer: `rm .*`
 - All others: `rm -r.*`, `rm -f.*r.*`, `rm --recursive.*`
 
-- [ ] **Step 8: Report completion**
+- [x] **Step 8: Report completion**
 
 ---
 
@@ -206,11 +206,11 @@ Expected:
 **Files:**
 - Modify: `agents/prompts/orchestrator.md`
 
-- [ ] **Step 1: Read the current routing table**
+- [x] **Step 1: Read the current routing table**
 
 Read `agents/prompts/orchestrator.md` and find the routing table section.
 
-- [ ] **Step 2: Add file operations lane**
+- [x] **Step 2: Add file operations lane**
 
 Add before the "Handle directly (DO NOT delegate)" section:
 
@@ -225,27 +225,27 @@ Use shell commands directly. For rm -rf on directories, confirm
 with user first. Single-file rm within allowed paths is safe.
 ```
 
-- [ ] **Step 3: Verify the routing table is well-ordered**
+- [x] **Step 3: Verify the routing table is well-ordered**
 
 Read the full routing table and confirm:
 - File operations lane exists before "Handle directly (DO NOT delegate)"
 - No duplicate triggers between lanes
 - The "Handle directly" section doesn't include file operation triggers
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**
 
 ---
 
 ### Task 4: Verify end-to-end
 
-- [ ] **Step 1: Run shellcheck on all modified hooks**
+- [x] **Step 1: Run shellcheck on all modified hooks**
 
 ```bash
 shellcheck hooks/bash-write-protect.sh
 ```
 Expected: zero warnings
 
-- [ ] **Step 2: Verify all agent JSON files are valid JSON**
+- [x] **Step 2: Verify all agent JSON files are valid JSON**
 
 ```bash
 for f in agents/*.json; do
@@ -254,11 +254,11 @@ done
 ```
 Expected: all valid
 
-- [ ] **Step 3: Grep for stale `"rm .*"` patterns**
+- [x] **Step 3: Grep for stale `"rm .*"` patterns**
 
 ```bash
 grep -rn '"rm \.\*"' agents/*.json
 ```
 Expected: only dev-reviewer.json matches
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**

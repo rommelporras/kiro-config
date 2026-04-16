@@ -23,7 +23,7 @@
 **Files:**
 - Create: `steering/typescript.md`
 
-- [ ] **Step 1: Create the steering doc**
+- [x] **Step 1: Create the steering doc**
 
 Create `steering/typescript.md` covering all items from the spec:
 - Strict tsconfig.json (`strict: true`, `noUncheckedIndexedAccess: true`, no `any`)
@@ -38,14 +38,14 @@ Create `steering/typescript.md` covering all items from the spec:
 Follow the format of existing steering docs (e.g., `python-boto3.md`):
 header, bullet points, code examples where helpful.
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 1.2: Create web-development.md steering doc
 
 **Files:**
 - Create: `steering/web-development.md`
 
-- [ ] **Step 1: Create the steering doc**
+- [x] **Step 1: Create the steering doc**
 
 Create `steering/web-development.md` covering:
 - Express.js patterns (middleware, error handling, route organization)
@@ -55,14 +55,14 @@ Create `steering/web-development.md` covering:
 - Request validation with Zod
 - Structured logging (no console.log in production)
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 1.3: Create frontend.md steering doc
 
 **Files:**
 - Create: `steering/frontend.md`
 
-- [ ] **Step 1: Create the steering doc**
+- [x] **Step 1: Create the steering doc**
 
 Create `steering/frontend.md` covering:
 - HTML5 semantic markup
@@ -76,14 +76,14 @@ Create `steering/frontend.md` covering:
 - Frontend verification checklist (from spec: HTML validation, accessibility,
   responsive, error states, chart rendering)
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 1.4: Update tooling.md
 
 **Files:**
 - Modify: `steering/tooling.md`
 
-- [ ] **Step 1: Add Node.js/TypeScript sections**
+- [x] **Step 1: Add Node.js/TypeScript sections**
 
 Add to tooling.md:
 
@@ -103,7 +103,7 @@ Add to tooling.md:
   assuming global tool availability.
 ```
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ---
 
@@ -117,7 +117,7 @@ Add to tooling.md:
 **Files:**
 - Create: `agents/prompts/typescript-dev.md`
 
-- [ ] **Step 1: Create the prompt**
+- [x] **Step 1: Create the prompt**
 
 Follow the pattern of `agents/prompts/python-dev.md` but for TypeScript:
 - TypeScript 5+ strict mode patterns
@@ -131,14 +131,14 @@ Follow the pattern of `agents/prompts/python-dev.md` but for TypeScript:
 - "Before editing any file" section (check imports, tests, consumers)
 - Status reporting: DONE, DONE_WITH_CONCERNS, NEEDS_CONTEXT, BLOCKED
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 2.2: Create dev-frontend agent prompt
 
 **Files:**
 - Create: `agents/prompts/frontend-dev.md`
 
-- [ ] **Step 1: Create the prompt**
+- [x] **Step 1: Create the prompt**
 
 - HTML5 semantic structure
 - CSS layout and styling (BEM naming)
@@ -153,14 +153,14 @@ Follow the pattern of `agents/prompts/python-dev.md` but for TypeScript:
 - Constraints: no git push, no Python/uv commands, no backend code
 - Status reporting: DONE, DONE_WITH_CONCERNS, NEEDS_CONTEXT, BLOCKED
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 2.3: Create dev-typescript agent config
 
 **Files:**
 - Create: `agents/dev-typescript.json`
 
-- [ ] **Step 1: Create the agent config**
+- [x] **Step 1: Create the agent config**
 
 Use the JSON from the spec. Key points:
 - `model`: `claude-sonnet-4.6`
@@ -171,20 +171,20 @@ Use the JSON from the spec. Key points:
 - `resources`: steering glob + TDD, debugging, verification, review skills
 - `includeMcpJson`: false
 
-- [ ] **Step 2: Verify JSON is valid**
+- [x] **Step 2: Verify JSON is valid**
 
 ```bash
 jq empty agents/dev-typescript.json && echo "valid"
 ```
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 2.4: Create dev-frontend agent config
 
 **Files:**
 - Create: `agents/dev-frontend.json`
 
-- [ ] **Step 1: Create the agent config**
+- [x] **Step 1: Create the agent config**
 
 Use the JSON from the spec. Key points:
 - `model`: `claude-sonnet-4.6`
@@ -195,13 +195,13 @@ Use the JSON from the spec. Key points:
 - `resources`: steering glob + verification, review skills (no TDD)
 - `includeMcpJson`: false
 
-- [ ] **Step 2: Verify JSON is valid**
+- [x] **Step 2: Verify JSON is valid**
 
 ```bash
 jq empty agents/dev-frontend.json && echo "valid"
 ```
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 2.5: Update orchestrator config and prompt
 
@@ -209,18 +209,18 @@ jq empty agents/dev-frontend.json && echo "valid"
 - Modify: `agents/dev-orchestrator.json`
 - Modify: `agents/prompts/orchestrator.md`
 
-- [ ] **Step 1: Add agents to orchestrator availableAgents and trustedAgents**
+- [x] **Step 1: Add agents to orchestrator availableAgents and trustedAgents**
 
 Add `"dev-typescript"` and `"dev-frontend"` to both arrays.
 
-- [ ] **Step 2: Add routing lanes to orchestrator prompt**
+- [x] **Step 2: Add routing lanes to orchestrator prompt**
 
 Add the three routing lanes from the spec:
 - `→ dev-typescript` (TypeScript backend triggers)
 - `→ dev-frontend` (frontend triggers)
 - `→ dev-typescript + dev-frontend (parallel)` (full-stack triggers)
 
-- [ ] **Step 3: Verify JSON is valid**
+- [x] **Step 3: Verify JSON is valid**
 
 ```bash
 jq empty agents/dev-orchestrator.json
@@ -228,11 +228,11 @@ jq '.toolsSettings.subagent.availableAgents' agents/dev-orchestrator.json
 ```
 Expected: array includes dev-typescript and dev-frontend
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**
 
 ### Task 2.6: Commit and exit
 
-- [ ] **Step 1: Commit Phase 1-2 on feature branch**
+- [x] **Step 1: Commit Phase 1-2 on feature branch**
 
 ```bash
 git checkout -b feature/typescript-frontend-stack
@@ -241,7 +241,7 @@ git commit -m "feat: add dev-typescript and dev-frontend agents with steering do
 git push -u origin feature/typescript-frontend-stack
 ```
 
-- [ ] **Step 2: Exit session**
+- [x] **Step 2: Exit session**
 
 Tell user: **"Phases 1-2 committed on `feature/typescript-frontend-stack`. Run `/quit` now. New session prompt:**
 ```
@@ -263,7 +263,7 @@ dev-typescript and dev-frontend need a session restart to load.
 **Files:**
 - Create: `skills/typescript-audit/SKILL.md`
 
-- [ ] **Step 1: Create the skill**
+- [x] **Step 1: Create the skill**
 
 Follow the pattern of `skills/python-audit/SKILL.md` but for TypeScript:
 - Frontmatter: name, description with triggers
@@ -272,23 +272,23 @@ Follow the pattern of `skills/python-audit/SKILL.md` but for TypeScript:
   error handling, Express middleware, no console.log
 - Report format matching python-audit
 
-- [ ] **Step 2: Report completion**
+- [x] **Step 2: Report completion**
 
 ### Task 3.2: Add typescript-audit to dev-reviewer
 
 **Files:**
 - Modify: `agents/dev-reviewer.json`
 
-- [ ] **Step 1: Add skill resource**
+- [x] **Step 1: Add skill resource**
 
 Add to resources array:
 ```json
 "skill://~/.kiro/skills/typescript-audit/SKILL.md"
 ```
 
-- [ ] **Step 2: Verify JSON is valid**
+- [x] **Step 2: Verify JSON is valid**
 
-- [ ] **Step 3: Report completion**
+- [x] **Step 3: Report completion**
 
 ### Task 3.3: Update documentation
 
@@ -298,22 +298,22 @@ Add to resources array:
 - Modify: `README.md`
 - Modify: `docs/TODO.md`
 
-- [ ] **Step 1: Update skill-catalog.md**
+- [x] **Step 1: Update skill-catalog.md**
 
 Add typescript-audit to the skill tables. Update agent assignment matrix
 to include dev-typescript and dev-frontend.
 
-- [ ] **Step 2: Update creating-agents.md**
+- [x] **Step 2: Update creating-agents.md**
 
 Update the architecture diagram to include dev-typescript and dev-frontend.
 
-- [ ] **Step 3: Update README.md**
+- [x] **Step 3: Update README.md**
 
 Update agent count, steering doc count.
 
-- [ ] **Step 4: Mark Spec 3 complete in docs/TODO.md**
+- [x] **Step 4: Mark Spec 3 complete in docs/TODO.md**
 
-- [ ] **Step 5: Report completion**
+- [x] **Step 5: Report completion**
 
 ---
 
@@ -321,7 +321,7 @@ Update agent count, steering doc count.
 
 ### Task 4.1: Run agent-audit
 
-- [ ] **Step 1: Trigger agent-audit**
+- [x] **Step 1: Trigger agent-audit**
 
 Verify:
 - dev-typescript and dev-frontend configs are consistent with other subagents
@@ -331,9 +331,9 @@ Verify:
 - Skill catalog matches reality
 - README counts are accurate
 
-- [ ] **Step 2: Fix any findings**
+- [x] **Step 2: Fix any findings**
 
-- [ ] **Step 3: Push branch and report**
+- [x] **Step 3: Push branch and report**
 
 ```bash
 git add -A
@@ -347,4 +347,4 @@ committed and pushed. Review the branch, merge to main when ready, then
 
 Spec 3 is complete.
 
-- [ ] **Step 4: Report completion**
+- [x] **Step 4: Report completion**
