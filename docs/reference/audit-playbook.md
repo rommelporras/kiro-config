@@ -68,7 +68,7 @@ drifted. Each invariant has a concrete check command.
 
 | # | Invariant | Check |
 |---|---|---|
-| D1 | Skill count in README and skill-catalog matches actual skill directory count | `ls -1 skills/ \| wc -l` vs. counts in docs |
+| D1 | Skill, agent, and hook counts in README match actual directory counts | `ls -1 skills/ \| wc -l` vs. "N skills" in README; `ls -1 agents/dev-*.json \| wc -l` + base.json + project-local vs. "N agents"; `find hooks -name '*.sh' \| wc -l` vs. "N hooks". Also cross-check `skill-catalog.md`. |
 | D2 | Every agent referenced in orchestrator routing exists in its JSON dir | §3.6 |
 | D3 | Improvement backlog has an entry for every known TODO/deferred issue | manual review |
 | D4 | CHANGELOG has an entry for the current version tag | `git tag -l \| tail -1` matches top entry in `docs/reference/CHANGELOG.md` |
@@ -129,6 +129,21 @@ grep -rq 'personal/kiro-config' skills/ agents/prompts/ && echo "FAIL A6: hardco
 actual=$(ls -1 steering/*.md | wc -l)
 claimed=$(grep -oE '[0-9]+ steering' README.md | head -1 | grep -oE '[0-9]+')
 [ "$actual" = "$claimed" ] || echo "FAIL C1: steering count drift ($actual actual vs $claimed claimed)"
+
+# D1: Skill count matches
+actual=$(ls -1 skills/ | wc -l)
+claimed=$(grep -oE '[0-9]+ skills' README.md | head -1 | grep -oE '[0-9]+')
+[ "$actual" = "$claimed" ] || echo "FAIL D1 skill count: $actual actual vs $claimed claimed"
+
+# D1: Hook count matches
+actual=$(find hooks -name '*.sh' -type f | wc -l)
+claimed=$(grep -oE '[0-9]+ hooks' README.md | head -1 | grep -oE '[0-9]+')
+[ "$actual" = "$claimed" ] || echo "FAIL D1 hook count: $actual actual vs $claimed claimed"
+
+# D1: Agent count matches
+actual=$(ls -1 agents/dev-*.json agents/base.json .kiro/agents/dev-*.json 2>/dev/null | wc -l)
+claimed=$(grep -oE '[0-9]+ agents' README.md | head -1 | grep -oE '[0-9]+')
+[ "$actual" = "$claimed" ] || echo "FAIL D1 agent count: $actual actual vs $claimed claimed"
 
 # C5: Docs symlink (machine-specific)
 [ -L ~/.kiro/docs ] && [ -d ~/.kiro/docs ] || echo "FAIL C5: ~/.kiro/docs symlink missing"

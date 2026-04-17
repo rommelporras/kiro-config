@@ -1,6 +1,6 @@
 # kiro-config
 
-Personal Kiro CLI configuration with multi-agent orchestrator, SRE-focused steering, security hooks, and a self-learning knowledge system.
+Personal Kiro CLI configuration with multi-agent orchestrator, multi-domain steering (Python, TypeScript, shell, infra), layered security, and a self-learning knowledge system.
 
 ## Architecture
 
@@ -24,7 +24,7 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 
 - **11 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash, TypeScript, web development, frontend, design principles
 - **18 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
-- **8 hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
+- **11 hooks** — secret scanning, sensitive file protection, bash write protection, sed/awk block on JSON, doc consistency, workspace context injection, session notification, self-learning pipeline (context enrichment, correction detection, auto-capture, distillation)
 - **10 agents** — dev-orchestrator + 8 dev specialists + base fallback
 - **Self-learning knowledge pipeline** — corrections auto-captured, keywords tracked, rules auto-promoted
 - **Knowledge base integration** — semantic search across config with auto-indexing
