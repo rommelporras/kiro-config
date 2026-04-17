@@ -5,6 +5,40 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.0] - 2026-04-17
+
+Major audit remediation release. Addresses 5 CRITICAL, 16 HIGH, and several
+MEDIUM findings from the workflow audit (`docs/specs/audit-current-workflow.md`).
+
+### Added
+- Design principles steering document (`steering/design-principles.md`)
+- TDD skill on dev-frontend and dev-shell (frontend: Vitest + happy-dom + Playwright; shell: bats-core)
+- Selective MCP access for subagents: Context7 (5 agents), AWS Documentation (dev-python), Playwright (dev-frontend)
+- Security hooks (scan-secrets, protect-sensitive, bash-write-protect, block-sed-json) on all subagents
+- File-conflict pre-check rule in execution-planning skill
+- Project-level `.kiro/steering/agent-config-review.md` checklist
+- Workflow audit document (`docs/specs/audit-current-workflow.md`) as living reference
+- `~/.kiro/docs` symlink in setup docs so future installs get the docs directory
+- Auto-capture fallback to `general` keyword bucket (no more silent drops)
+- Systematic-debugging skill on dev-refactor
+
+### Changed
+- All 8 agent prompts deduplicated against steering (prompts now reference steering as authority)
+- Post-implementation trigger list synced with orchestrator (now includes dev-kiro-config, dev-frontend)
+- Orchestrator prompt corrected to accurately describe subagent MCP access
+- Knowledge distillation: `general` bucket requires 5 occurrences to promote (vs 3 for specific keywords)
+- `writing-plans` skill references `dev-reviewer` (was ghost reference to nonexistent `plan-reviewer`)
+- Improvement capture path moved from `~/personal/kiro-config/...` to `~/.kiro/docs/improvements/pending.md`
+- Steering doc count updated 10 → 11 in README, team-onboarding, install-checklist
+
+### Fixed
+- `dd if/dev` typo in 8 agent deny-lists (was matching literal only, not real commands); added to dev-docs and dev-kiro-config which lacked the pattern
+- `rm -f.*r.*` regex false positive (blocked any `rm -f` with 'r' in filename)
+- Orchestrator missing `rm -r.*` and `rm --recursive.*` deny patterns
+- Regex injection vulnerability in `context-enrichment.sh` (keywords now escaped)
+- `distill.sh` sed command corrupting episode format (replaced with awk; added archive_promoted regression fix)
+- Orchestrator `fs_write.allowedPaths` overly broad (`*.md` removed; scoped to project dirs)
+
 ## [v0.4.1] - 2026-04-16
 
 Agent audit fixes — documentation drift, knowledge cleanup, security hardening.
