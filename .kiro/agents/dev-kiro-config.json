@@ -22,6 +22,7 @@
       "autoAllowReadonly": true,
       "deniedCommands": [
         "rm .*",
+        "dd if=/dev.*",
         "git push.*",
         "git push",
         "git add.*",
@@ -64,5 +65,30 @@
     "file://~/.kiro/steering/**/*.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md"
   ],
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/scan-secrets.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/protect-sensitive.sh",
+        "timeout_ms": 3000,
+        "cache_ttl_seconds": 60
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/bash-write-protect.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/security/block-sed-json.sh",
+        "timeout_ms": 3000
+      }
+    ]
+  },
   "includeMcpJson": false
 }

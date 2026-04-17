@@ -129,5 +129,5 @@ My `base.json` trusts:
 | Kiro CLI update | Diff `.zshrc`, port changes to `dot_zshrc.tmpl`, `chezmoi apply` |
 | New AWS profile | Add to `~/.aws/config` via chezmoi, no kiro-config changes needed |
 | New work repo | Clone into `~/eam/`, already in trusted paths |
-| Kiro symlinks broken | `for dir in steering agents skills settings hooks; do ln -sfn ~/personal/kiro-config/$dir ~/.kiro/$dir; done` |
+| Kiro symlinks broken | `for dir in steering agents skills settings hooks docs; do ln -sfn ~/personal/kiro-config/$dir ~/.kiro/$dir; done` |
 | New machine setup | `chezmoi init && chezmoi apply`, then run [CLI install checklist](kiro-cli-install-checklist.md) |

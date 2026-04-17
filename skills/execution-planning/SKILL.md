@@ -169,6 +169,10 @@ If not, the plan needs more detail.
   consider splitting it
 - Include the briefing context (file paths) so the orchestrator can
   construct the delegation without re-reading the spec
+- Before marking tasks as parallel-safe, cross-check file lists across all
+  tasks in the same stage. If any file appears in two tasks within the same
+  parallel stage, move one task to a later stage. This is a hard gate — do
+  not rely on "the agents will coordinate"
 
 ## Proportionality
 

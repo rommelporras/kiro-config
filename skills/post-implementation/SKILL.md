@@ -5,7 +5,7 @@ description: Automated post-implementation workflow. Triggers when the orchestra
 
 ## Trigger
 
-Fires automatically after any implementation subagent (dev-python, dev-typescript, dev-shell, dev-refactor) returns DONE or DONE_WITH_CONCERNS. Do not skip. Do not ask the user.
+Fires automatically after any implementation subagent (dev-python, dev-typescript, dev-shell, dev-refactor, dev-kiro-config, dev-frontend) returns DONE or DONE_WITH_CONCERNS. Do not skip. Do not ask the user.
 
 ## Step 1: Update tracking documents
 
@@ -58,7 +58,7 @@ Check for friction during this session:
 - Routing corrected? Log mismatch
 - Context missing? Log what was needed
 
-Append to `~/personal/kiro-config/docs/improvements/pending.md`:
+Append to `~/.kiro/docs/improvements/pending.md`:
 
 ```
 ## YYYY-MM-DD — session in <project path>

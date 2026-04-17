@@ -7,12 +7,16 @@
     "read",
     "write",
     "shell",
-    "code"
+    "code",
+    "@context7",
+    "@awslabs.aws-documentation-mcp-server"
   ],
   "allowedTools": [
     "read",
     "write",
-    "code"
+    "code",
+    "@context7",
+    "@awslabs.aws-documentation-mcp-server"
   ],
   "toolsSettings": {
     "fs_write": {
@@ -36,11 +40,12 @@
       "autoAllowReadonly": true,
       "deniedCommands": [
         "rm -r.*",
-        "rm -f.*r.*",
+        "rm -[a-zA-Z]*r[a-zA-Z]* .*",
+        "rm --force --recursive.*",
         "rm --recursive.*",
         "chmod -R 777 /",
         "mkfs\\\\.",
-        "dd if/dev",
+        "dd if=/dev.*",
         "git push.*",
         "git push",
         "kubectl apply.*",
@@ -119,5 +124,30 @@
     "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
     "skill://~/.kiro/skills/python-audit/SKILL.md"
   ],
-  "includeMcpJson": false
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/scan-secrets.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "fs_write",
+        "command": "bash ~/.kiro/hooks/protect-sensitive.sh",
+        "timeout_ms": 3000,
+        "cache_ttl_seconds": 60
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/bash-write-protect.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/security/block-sed-json.sh",
+        "timeout_ms": 3000
+      }
+    ]
+  },
+  "includeMcpJson": true
 }

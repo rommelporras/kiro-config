@@ -22,7 +22,7 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 
 ## Features
 
-- **10 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash, TypeScript, web development, frontend
+- **11 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash, TypeScript, web development, frontend, design principles
 - **18 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
 - **8 hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
 - **10 agents** — dev-orchestrator + 8 dev specialists + base fallback
@@ -71,7 +71,7 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 │   ├── agent-audit/
 │   ├── design-and-spec/
 │   └── ...
-├── steering/        # 10 persistent context docs
+├── steering/        # 11 persistent context docs (includes design-principles.md)
 └── docs/            # Reference and setup docs
 ```
 
@@ -79,7 +79,7 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 
 ```bash
 # Symlink into ~/.kiro
-for dir in steering agents skills settings hooks; do
+for dir in steering agents skills settings hooks docs; do
   ln -sfn /path/to/kiro-config/$dir ~/.kiro/$dir
 done
 

@@ -115,7 +115,7 @@ Every briefing to a subagent must include these 5 sections:
    - Bug fixes: "debug systematically before fixing"
 
 Subagents CANNOT use: web_search, web_fetch, use_aws, grep, glob, introspect.
-Subagents CAN use: read, write, shell, code, MCP tools.
+Subagents CAN use: read, write, shell, code, plus any MCP tools explicitly listed in their config's tools array.
 If a task needs web search or AWS CLI, handle that part yourself first, then delegate.
 
 ## Result Presentation
@@ -137,7 +137,7 @@ For review results specifically:
 Trigger when you observe: retries > 1, routing corrections, missing context,
 subagent failures, or unexpected gaps.
 
-Append to `~/personal/kiro-config/docs/improvements/pending.md`:
+Append to `~/.kiro/docs/improvements/pending.md`:
 
 ```
 ## YYYY-MM-DD — session in <project path>

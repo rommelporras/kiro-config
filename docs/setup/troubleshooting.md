@@ -121,7 +121,7 @@ aws sso login --profile <profile-name>
 **Fix:**
 ```bash
 # Re-symlink
-for dir in steering agents skills settings hooks; do
+for dir in steering agents skills settings hooks docs; do
   ln -sfn ~/personal/kiro-config/$dir ~/.kiro/$dir
 done
 ```
