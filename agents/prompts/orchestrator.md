@@ -105,6 +105,21 @@ The skill handles: quality gate, doc staleness check, auto-review, improvement c
 Max 3 retry loops on any single finding or failure. On the 3rd failure, stop
 and surface to user: "Couldn't resolve this after 3 attempts. Manual intervention needed."
 
+### Subagent timeout and recovery
+
+Subagents have no hard timeout. If a subagent appears stuck:
+
+1. **Symptoms:** no status update for 2+ minutes, repeated similar tool
+   calls, or the same file edited 3+ times with no forward progress.
+2. **Recovery:** surface to the user immediately with a concrete status:
+   "dev-<name> has been working on <task> for <duration> — appears stuck
+   on <specific thing>. Abort or wait?"
+3. **Never silently wait indefinitely.** If you have to wait, tell the
+   user why and for how long.
+
+The retry limit (3) covers correct-then-fail loops. This timeout guidance
+covers stuck-without-erroring loops.
+
 ## Delegation Format
 
 Every briefing to a subagent must include these 5 sections:
