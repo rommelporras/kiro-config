@@ -40,6 +40,7 @@ drifted. Each invariant has a concrete check command.
 | S6 | Orchestrator `fs_write.allowedPaths` doesn't contain `*.md` (too broad) | `! jq '.toolsSettings.fs_write.allowedPaths' agents/dev-orchestrator.json \| grep -q '"\*\.md"'` |
 | S7 | Every sensitive credential pattern in `scan-secrets.sh` still matches known tokens | manual — see §3.2 test vectors |
 | S8 | Every agent `denyCommands` regex is fully anchored (Kiro CLI uses `\A`/`\z`) — patterns for commands with args must end in `.*` | grep for patterns lacking `.*` suffix (excluding literal-only commands) |
+| S9 | Hook behavior invariants hold (known-safe commands pass, known-dangerous commands block) | `bash scripts/test-hooks.sh` — exits 0 with no failures |
 
 ### 1.2 Accuracy invariants
 
@@ -72,6 +73,18 @@ drifted. Each invariant has a concrete check command.
 | D2 | Every agent referenced in orchestrator routing exists in its JSON dir | §3.6 |
 | D3 | Improvement backlog has an entry for every known TODO/deferred issue | manual review |
 | D4 | CHANGELOG has an entry for the current version tag | `git tag -l \| tail -1` matches top entry in `docs/reference/CHANGELOG.md` |
+
+### 1.5 Known limitations and design choices
+
+Documented intentional behavior that could look like bugs to a fresh
+auditor. Not findings — confirmations that the system is correct as-is.
+
+| # | Limitation | Why it's accepted |
+|---|---|---|
+| L1 | `dev-kiro-config` agent is project-local — lives at `.kiro/agents/dev-kiro-config.json`, not in the global `agents/` dir | By design: this agent has elevated write access to kiro-config-internal files (agents/, hooks/, steering/, skills/). Keeping it project-local ensures other projects don't inherit that elevated access. The global orchestrator's `availableAgents` list includes the name so the orchestrator CAN dispatch it when working inside this repo; in other repos the orchestrator prompt's routing falls back to `dev-docs`. |
+| L2 | `bash-write-protect.sh` DANGEROUS substring checks and rm path-check are gated on the first command token (skipping env-var prefixes) — the readonly-command allowlist also skips DANGEROUS checks for `git`, `echo`, `grep`, `cat`, etc. | Trade-off made in v0.5.x: using `\brm\b` across the full command produced false positives on `git rm`, `docker rm`, `npm rm`, and substring-matched on commit messages / grep queries / echo text. First-token check fixes those. **Compensating controls for the compound-command bypass:** the three catastrophic rm patterns (`rm -rf /`, `rm -rf /*`, `rm -rf ~`) are checked unconditionally at the top of the hook — NOT gated by FIRST_CMD — so `echo hi && rm -rf /tmp` still blocks (matches `rm -rf /`). Non-catastrophic recursive rm in compound form (e.g. `foo; rm -r ~/work`) is NOT caught by the hook — the compound segment's FIRST_CMD is `foo`, not `rm`. Kiro CLI's `deniedCommands` regex is `\A`/`\z` anchored, so it matches only the full command string starting with `rm` — it does NOT catch compound cases either. **If you need to block non-catastrophic compound rm, use deniedCommands at a higher level or rely on `scripts/test-hooks.sh` to surface regressions.** See §7.16 for history. |
+| L3 | `deniedCommands` regex is NOT a protection layer for shell indirection (`bash -c '...'`, `sh -c '...'`, script execution) | Known platform limitation — Kiro CLI's regex inspects the top-level command string only. An agent writing a script and then executing it bypasses the command-regex layer. Mitigation: `scan-secrets.sh` + `protect-sensitive.sh` + `bash-write-protect.sh` catch content-level violations at write time. |
+| L4 | `base.json` intentionally runs without the orchestrator pattern — no `subagent` tool, standalone fallback | Documented in creating-agents.md. `base` exists for ad-hoc use when the orchestrator overhead isn't needed. Skill set is different from the orchestrator's on purpose. |
 
 ---
 
@@ -157,6 +170,9 @@ done
 for f in hooks/*.sh hooks/**/*.sh scripts/*.sh; do
   [ -f "$f" ] && (bash -n "$f" 2>/dev/null || echo "FAIL C7: $f syntax error")
 done
+
+# S9: Hook behavior (known-safe commands pass, known-dangerous block)
+bash scripts/test-hooks.sh >/dev/null 2>&1 || echo "FAIL S9: hook behavior test failed — run 'bash scripts/test-hooks.sh' to see which"
 
 echo "Health check complete."
 ```
@@ -502,8 +518,37 @@ Case studies from real bugs. Use as pattern-match fuel when auditing.
 **Fix pattern:** Stage files by explicit path. Inspect `git status` before every commit.
 **How to detect:** Read `git status` before staging; identify files NOT part of current work; exclude them.
 
+### 7.15 Hook substring-match blocking descriptive text
+
+**Symptom:** `git commit -m "fix dd if=/dev pattern"` blocked by `bash-write-protect.sh` because the commit message contains the literal substring. Same class of FP on `grep 'dd if=/dev' README.md`, `echo "avoid chmod -R 777 /"`, etc.
+**Root cause:** Hook used `[[ "$COMMAND" == *"$pattern"* ]]` substring match with no awareness of whether the pattern was being invoked or merely quoted/described.
+**Fix pattern:** Extract the first command token (skipping env-var assignments); skip the DANGEROUS substring check when the first command is read-only / text-processing (`git`, `echo`, `printf`, `grep`, `cat`, `head`, `tail`, `diff`, `find`, `jq`, `yq`, etc.). Direct destructive invocations still caught.
+**How to detect:** Test commit-like input via `scripts/test-hooks.sh` — should exit 0.
+
+### 7.16 rm-word-boundary over-matching `git rm`, `docker rm`, `npm rm`
+
+**Symptom:** Running `docker rm my-container` or `git rm file.txt` (from outside `~/personal/` etc.) blocked by `bash-write-protect.sh` because `\brm\b` matches `rm` as a word anywhere in the command, including inside `git`/`docker`/`npm` subcommands.
+**Root cause:** The rm safety block used word-boundary regex `\brm\b` for detection, which matches any `rm` token regardless of whether it's the actual rm syscall or a subcommand name.
+**Fix pattern:** Gate rm safety on `$FIRST_CMD == "rm"` only. Subcommand-style `rm` uses (git/docker/npm) are handled by those tools' own semantics, not the rm syscall.
+**How to detect:** Covered by `scripts/test-hooks.sh`.
+
+### 7.17 Path-substring match over-blocking template files
+
+**Symptom:** Writes to `.env.example`, `config/.env.sample`, `certs/ca.pem.template`, `tests/credentials.json.dist` all blocked by `protect-sensitive.sh` despite being legitimate template/example files (meant to be committed).
+**Root cause:** Hook used full-path substring match (`[[ "$FILE" == *"$pattern"* ]]`). Any path containing `.env`, `.pem`, `credentials.json`, `id_rsa` as a substring was blocked — regardless of the file's actual role.
+**Fix pattern:** Match on `basename(FILE)` with explicit known-safe suffix allowlist (`*.example`, `*.sample`, `*.template`, `*.dist`) exempted. `.bak` and `.md` intentionally NOT in allowlist — `.env.bak` is still a credential backup.
+**How to detect:** `scripts/test-hooks.sh` exercises both FP prevention and real protection. Covered by invariant S9.
+
+### 7.18 Secret scanner over-blocking documented placeholders
+
+**Symptom:** Documentation containing `password: "your_password_here"`, `token: "CHANGEME_before_deploy"`, or AWS's official IAM example access key blocked by `scan-secrets.sh` despite obviously being placeholders.
+**Root cause:** Regex patterns correctly identified the shape of a secret but didn't check whether the value was a documented placeholder.
+**Fix pattern:** After matching, filter out occurrences that contain placeholder markers (`your_`, `placeholder`, `example`, `changeme`, `replace_me`, `TODO`, `FIXME`, `dummy`, `fake`, `XXXX`, `REDACTED`). Block only if real-looking secrets remain. AWS's documented example keys contain the literal `EXAMPLE` substring and are caught by the case-insensitive `example` filter automatically.
+**How to detect:** Covered by `scripts/test-hooks.sh` — tests include both placeholder-passes and real-secret-blocks.
+
 ---
 
 ## 8. Change Log for This Playbook
 
 - **2026-04-17 (v0.5.0 audit):** Initial playbook drafted from Phase 1-3 audit findings and remediation sessions. 14 historical failure patterns documented.
+- **2026-04-17 (post-release hook hardening):** Added §1.5 known-limitations section documenting project-local `dev-kiro-config` design and the rm first-token trade-off. Added S9 invariant + `scripts/test-hooks.sh` for hook behavior regression testing. Added §7.15-7.18 covering hook FP/gap patterns found and fixed post-v0.5.0.

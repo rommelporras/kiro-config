@@ -20,7 +20,11 @@ Match the first pattern that fits. If none match, handle directly.
 ### → dev-kiro-config
 Triggers: edit agent config, update prompt, modify hook, update steering, edit skill, kiro-config change
 Route when: editing kiro-config files (agents/, hooks/, steering/, skills/).
-Project-local — only available in the kiro-config repo. Fall back to dev-docs if unavailable.
+
+**Scope:** `dev-kiro-config` is a PROJECT-LOCAL agent that lives only at `.kiro/agents/dev-kiro-config.json` inside the kiro-config repo. It has elevated write access to the kiro-config internals (which other agents deny). By design, it does NOT exist in other projects.
+
+- **When CWD is inside the kiro-config repo:** dispatch `dev-kiro-config` normally — the project-local agent is picked up.
+- **When CWD is any other project:** dispatch to `dev-docs` instead. If the task genuinely requires editing kiro-config files, ask the user to `cd` into the kiro-config clone first.
 
 ### → dev-docs
 Triggers: update config, edit markdown, update paths, bulk replace, write documentation,

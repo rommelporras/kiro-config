@@ -76,7 +76,9 @@ Shell-level blocks in `execute_bash` settings. Defense-in-depth alongside bash-w
 
 **Denied (recursive rm):** Subagents block across flag variants via four patterns — `rm -r.*`, `rm -[a-zA-Z]*r[a-zA-Z]* .*`, `rm --recursive.*`, `rm --force --recursive.*` — while allowing single-file rm. Orchestrator uses the same patterns minus `rm -r.*` (three patterns). `dev-reviewer` and `dev-kiro-config` use the stricter `rm .*` to block every rm invocation.
 
-**Denied (destructive commands, all agents):** `chmod -R 777 /`, `mkfs.`, `dd if=/dev.*`, `> /dev/sd`, `> /dev/nvme`. The `.*` suffix on `dd` is required because Kiro CLI regex is anchored with `\A`/`\z` — patterns must match the full command string, not a substring. (Note: `base.json` currently retains the legacy `dd if=/dev` pattern pending a follow-up fix.)
+**Denied (destructive commands, all agents):** `chmod -R 777 /`, `mkfs.`, `dd if=/dev.*`, `> /dev/sd`, `> /dev/nvme`. The `.*` suffix on `dd` is required because Kiro CLI regex is anchored with `\A`/`\z` — patterns must match the full command string, not a substring.
+
+**Defense-in-depth via hooks:** `bash-write-protect.sh` catches additional destructive forms that the command-level regex might miss — `dd of=/dev/sd*` (writing TO a device, the actually-destructive form of dd), `mkfs -t <fs>` (older syntax), and is quote/command-aware so descriptive text in commit messages or `grep`/`echo` arguments is not falsely blocked. See `scripts/test-hooks.sh` for the current behavior invariants.
 
 ## How the layers interact
 
