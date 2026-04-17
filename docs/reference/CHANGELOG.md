@@ -5,6 +5,89 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.5.1] - 2026-04-17
+
+Post-release hardening — hook false-positive fixes, protection gaps closed
+via Kiro counter-audit, onboarding UX improvements, and stale-reference
+cleanup across reference docs. Adds `audit-playbook.md` as the living
+reference for invariant-based health checks and a `scripts/test-hooks.sh`
+regression suite (33 tests) wired into the playbook's S9 invariant.
+
+### Added
+- `docs/reference/audit-playbook.md` — invariants (security/accuracy/consistency/documentation),
+  15-minute quick health check, deep audit protocol, design rules for new config, and 18 historical
+  failure patterns. Cross-linked from README and all related reference docs.
+- `scripts/test-hooks.sh` — 33-test functional regression suite for hook behavior (known-safe
+  commands pass, known-dangerous commands block). Referenced by playbook invariant S9.
+- Known-limitations section (playbook §1.5) documenting `dev-kiro-config` project-local scoping,
+  rm first-token trade-off, shell-indirection bypass, and `base.json` design choice.
+- `bash-write-protect.sh` now blocks additional destructive forms: `of=/dev/sd`, `of=/dev/nvme`,
+  `of=/dev/hd` (dd writing to devices — the actually-destructive form), `mkfs -t` (older syntax),
+  `> /dev/hd` (shell redirect to legacy IDE devices).
+
+### Changed
+- README: "multi-domain steering" tagline replaces stale "SRE-focused" framing (steering now covers
+  Python, TypeScript, shell, infra, web, frontend).
+- README: hook count corrected from 8 to 11 with expanded description.
+- README: "Personalizing for Your Setup" section rewritten — clarified `personalize.sh` invocation
+  path, added setup-walkthrough links, added `hooks`/`includeMcpJson`/MCP to "What NOT to change",
+  added "Extending beyond paths" subsection.
+- team-onboarding.md: fixed broken `~/.kiro/scripts/personalize.sh` path (scripts/ isn't symlinked —
+  now uses the clone path directly); expanded directory backup to cover all 6 symlinked dirs with
+  `ln -sfn` re-run safety; added HTTPS clone alternative; completed agent tree diagram (was missing
+  dev-typescript, dev-frontend, dev-kiro-config); added `ctrl+o` shortcut mention; added 4-status
+  delegation protocol section; linked audit playbook.
+- kiro-cli-install-checklist.md: expanded backup loop, cross-linked `personalize.sh` step for users
+  on non-default paths, added audit playbook to Next steps.
+- orchestrator.md: strengthened `dev-kiro-config` routing with explicit project-local Scope block
+  (in-repo dispatches work; out-of-repo falls back to dev-docs).
+- security-model.md: Layer 3 denied-commands section rewritten to reflect actual current state
+  (4-pattern rm deny, orchestrator rm coverage, dd pattern anchoring, defense-in-depth via hooks).
+- creating-agents.md: new-agent recipe updated with current rm/dd patterns (was propagating
+  v0.5.0's pre-fix patterns to any newly-created agent).
+- knowledge/gotchas.md: corrected false claim that subagents have no preToolUse hooks (Phase 1
+  added 4 hooks to every subagent; hooks don't inherit — defined per-agent).
+- agent-audit SKILL.md Phase 8: stale example counts updated to v0.5.0 baseline (11 steering,
+  18 skills, 11 hooks, 10 agents).
+- audit-playbook.md D1 invariant: extended from skill-only to skill+agent+hook count verification;
+  quick-check script runs all three.
+
+### Fixed
+- **Hook false positives:**
+  - Commit messages containing descriptive text like `dd if=/dev`, `mkfs.`, `chmod -R 777 /` no
+    longer blocked by `bash-write-protect.sh` when the invoking command is read-only (git, echo,
+    printf, grep, cat, etc.).
+  - `git rm`, `docker rm`, `npm rm` no longer caught by rm safety — the rm path-check now gates
+    on the first command token rather than word-boundary `\brm\b`.
+  - `.env.example`, `.env.sample`, `.pem.template`, `credentials.json.dist` no longer blocked by
+    `protect-sensitive.sh` (basename matching with safe-suffix allowlist; `.env.bak` intentionally
+    still blocked — it's a credential backup).
+  - Documented placeholders (`"your_password_here"`, `"CHANGEME_before_deploy"`, AWS IAM example
+    keys) no longer blocked by `scan-secrets.sh` (whole-value placeholder check replaces the naive
+    substring filter).
+- **Hook protection gaps (found during Kiro counter-audit):**
+  - `dd of=/dev/sda` — the actually-destructive form of dd (writing TO a device) now blocked.
+    Previously only `dd if=/dev` (reading FROM a device) was caught.
+  - `mkfs -t ext4 /dev/sda1` (older syntax) now blocked.
+  - Compound commands like `echo hi && rm -rf /tmp` now blocked — catastrophic rm checks run
+    unconditionally rather than gated on the leading command.
+  - `find -exec <destructive>` no longer slips through the readonly allowlist — `find` removed
+    since its `-exec` can delegate arbitrary commands.
+  - Adversarial placeholder bypass (value containing a placeholder marker alongside real-looking
+    content) now blocked via whole-value matching plus a 3-digit entropy heuristic.
+- **Stale documentation patterns:**
+  - `docs/reference/creating-agents.md` new-agent recipe no longer propagates pre-Phase-1 rm
+    and dd patterns.
+  - `docs/reference/security-model.md` no longer claims the orchestrator has no rm deny
+    (Phase 1 added patterns).
+  - `docs/setup/troubleshooting.md` replaced hardcoded `~/personal/kiro-config/docs/` with
+    portable `~/.kiro/docs/`.
+  - README "SRE-focused" tagline and "8 hooks" count corrected.
+
+### Infrastructure
+- All shell files (`hooks/*.sh`, `scripts/test-hooks.sh`) shellcheck-clean.
+- `bash scripts/test-hooks.sh` integrated into the playbook's §2 quick health check.
+
 ## [v0.5.0] - 2026-04-17
 
 Major audit remediation release. Addresses 5 CRITICAL, 16 HIGH, and several
