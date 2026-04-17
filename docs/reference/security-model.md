@@ -39,7 +39,7 @@ Blocks file writes to sensitive file paths. Cached for 60 seconds (path-based, s
 
 **Protected patterns:** `.env`, `.env.local`, `.env.production`, `.env.development`,
 `.env.staging`, `.env.test`, `.pem`, `credentials.json`, `.credentials.json`,
-`id_rsa`, `id_ed25519`, `id_ecdsa`
+`id_rsa`, `id_ed25519`, `id_ecdsa`, `id_dsa`, `.p12`, `.pfx`, `kubeconfig`, `.tfstate`
 
 ### bash-write-protect.sh
 
