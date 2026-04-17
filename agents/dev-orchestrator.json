@@ -74,7 +74,8 @@
     "execute_bash": {
       "autoAllowReadonly": true,
       "allowedCommands": [
-        "git add .*",
+        "git add [^-.].*",
+        "git add -- .*",
         "git commit .*",
         "git stash.*",
         "git checkout .*",
@@ -131,6 +132,10 @@
         "aws .* disassociate-.*",
         "aws .* tag-.*",
         "aws .* untag-.*",
+        "aws s3 cp.*",
+        "aws s3 mv.*",
+        "aws s3 rm.*",
+        "aws s3 sync.*",
         "terraform apply.*",
         "terraform destroy.*",
         "terraform import.*",
