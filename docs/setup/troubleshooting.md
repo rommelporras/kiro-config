@@ -170,6 +170,6 @@ kiro-cli doctor
 # File a bug
 kiro-cli issue
 
-# Check this repo's docs
-ls ~/personal/kiro-config/docs/
+# Check this repo's docs (symlinked into ~/.kiro/docs/ after setup)
+ls ~/.kiro/docs/
 ```

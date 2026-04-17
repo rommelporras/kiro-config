@@ -137,7 +137,7 @@ Always inherit these when creating new agents:
 1. **Hooks** — `scan-secrets.sh`, `protect-sensitive.sh`, `bash-write-protect.sh`, `block-sed-json.sh`
 2. **Self-learning hooks** — `context-enrichment.sh`, `correction-detect.sh` (orchestrator only)
 3. **Denied paths** — `~/.ssh`, `~/.aws/credentials`, `~/.gnupg`, `~/.config/gh`
-4. **Denied commands** — `"rm -r.*"`, `"rm -f.*r.*"`, `"rm --recursive.*"` (blocks recursive rm; dev-reviewer keeps full `"rm .*"`), `chmod -R 777 /`, `mkfs.`, `dd if/dev`
+4. **Denied commands** — `"rm -r.*"`, `"rm -[a-zA-Z]*r[a-zA-Z]* .*"`, `"rm --recursive.*"`, `"rm --force --recursive.*"` (blocks recursive rm across flag variants; dev-reviewer and dev-kiro-config keep the full `"rm .*"` block instead), `chmod -R 777 /`, `mkfs.`, `"dd if=/dev.*"` (the `.*` suffix is required — Kiro CLI regex is anchored with `\A`/`\z`, so patterns must match the full command string)
 5. **Global steering** — `"file://~/.kiro/steering/**/*.md"` in resources
 6. **Agent-audit compatibility** — new agents should be added to the agent-audit skill's review scope (it reads all `agents/*.json` and `agents/prompts/` files automatically)
 

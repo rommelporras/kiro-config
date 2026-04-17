@@ -74,9 +74,9 @@ Files outside allowed paths require user approval per operation.
 
 Shell-level blocks in `execute_bash` settings. Defense-in-depth alongside bash-write-protect.sh hook.
 
-**Denied:** Subagents block recursive rm (`rm -r.*`, `rm -f.*r.*`, `rm --recursive.*`) but allow single-file rm.
-dev-reviewer blocks all rm (`rm .*`). Orchestrator has no rm deny (protected by hook).
-All agents block: `chmod -R 777 /`, `mkfs.`, `dd if=/dev`, `> /dev/sd`, `> /dev/nvme`.
+**Denied (recursive rm):** Subagents block across flag variants via four patterns — `rm -r.*`, `rm -[a-zA-Z]*r[a-zA-Z]* .*`, `rm --recursive.*`, `rm --force --recursive.*` — while allowing single-file rm. Orchestrator uses the same patterns minus `rm -r.*` (three patterns). `dev-reviewer` and `dev-kiro-config` use the stricter `rm .*` to block every rm invocation.
+
+**Denied (destructive commands, all agents):** `chmod -R 777 /`, `mkfs.`, `dd if=/dev.*`, `> /dev/sd`, `> /dev/nvme`. The `.*` suffix on `dd` is required because Kiro CLI regex is anchored with `\A`/`\z` — patterns must match the full command string, not a substring. (Note: `base.json` currently retains the legacy `dd if=/dev` pattern pending a follow-up fix.)
 
 ## How the layers interact
 
