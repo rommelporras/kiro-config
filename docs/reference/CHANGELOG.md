@@ -7,9 +7,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [v0.6.0] - 2026-04-17
 
-Backlog remediation — closes six deferred findings from the v0.5.1 audit
+Backlog remediation — closes seven deferred findings from the v0.5.1 audit
 backlog. Four safety tightenings, one ergonomics loosening, one
-documentation addition. Zero new features.
+documentation addition, plus M-03 (shell in allowedTools) coupled to H-05. Zero new features.
 
 ### Added
 - `hooks/protect-sensitive.sh` PROTECTED array: `id_dsa`, `.p12`, `.pfx`,
@@ -26,7 +26,7 @@ documentation addition. Zero new features.
   (enumerative approach). `dev-docs` can now run `python3 --version`,
   `npm ls`, `pip list`, etc. Mutation-form invocations (`npm install`,
   `pip install`, `uv run`, etc.) still blocked. `shell` added to
-  `allowedTools` (closes M-03).
+  `allowedTools` (closes M-03 — shell was in tools but not allowedTools, requiring user approval for every invocation).
 - `agents/dev-orchestrator.json` — `git add .*` tightened to two patterns:
   `git add [^-.].*` + `git add -- .*`. Blocks `git add -A`, `git add .`,
   `git add --all` at the platform level. Dotfile staging via
