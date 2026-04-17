@@ -14,7 +14,7 @@ RULES="$KB_DIR/rules.md"
 [[ ! -f "$RULES" ]] && exit 0
 
 # 60-second dedup to avoid spamming
-DEDUP_FILE="/tmp/kb-enrich-last"
+DEDUP_FILE="/tmp/kb-${USER}-enrich-last"
 if [[ -f "$DEDUP_FILE" ]]; then
   LAST=$(cat "$DEDUP_FILE")
   NOW=$(date +%s)
@@ -25,11 +25,11 @@ fi
 date +%s > "$DEDUP_FILE"
 
 # Trigger distillation if kb-changed flag exists
-if [[ -f /tmp/kb-changed.flag ]]; then
+if [[ -f "/tmp/kb-${USER}-changed.flag" ]]; then
   source "$SCRIPT_DIR/../_lib/distill.sh"
   distill_check
   archive_promoted
-  rm -f /tmp/kb-changed.flag
+  rm -f "/tmp/kb-${USER}-changed.flag"
 fi
 
 # Collect rules to inject

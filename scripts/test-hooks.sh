@@ -87,6 +87,12 @@ run_test "key.pem blocked"               "protect-sensitive.sh" "$(fsw_input 'ce
 run_test "credentials.json blocked"      "protect-sensitive.sh" "$(fsw_input '.aws/credentials.json' '{}')"               "block"
 run_test "id_rsa blocked"                "protect-sensitive.sh" "$(fsw_input '.ssh/id_rsa' 'keydata')"                    "block"
 run_test ".env.bak still blocked"        "protect-sensitive.sh" "$(fsw_input '.env.bak' 'SECRET=x')"                      "block"
+run_test "id_dsa blocked"            "protect-sensitive.sh" "$(fsw_input '.ssh/id_dsa' 'keydata')"                "block"
+run_test "cert.p12 blocked"          "protect-sensitive.sh" "$(fsw_input 'certs/cert.p12' 'binarydata')"          "block"
+run_test "cert.pfx blocked"          "protect-sensitive.sh" "$(fsw_input 'certs/cert.pfx' 'binarydata')"          "block"
+run_test "kubeconfig blocked"        "protect-sensitive.sh" "$(fsw_input '.kube/kubeconfig' 'apiVersion: v1')"    "block"
+run_test "tfstate blocked"           "protect-sensitive.sh" "$(fsw_input 'tf/terraform.tfstate' '{}')"            "block"
+run_test "tfstate.example passes"    "protect-sensitive.sh" "$(fsw_input 'terraform.tfstate.example' '{}')"      "pass"
 
 echo ""
 echo "=== scan-secrets.sh ==="

@@ -36,6 +36,11 @@ PROTECTED=(
   "id_rsa"
   "id_ed25519"
   "id_ecdsa"
+  "id_dsa"
+  ".p12"
+  ".pfx"
+  "kubeconfig"
+  ".tfstate"
 )
 
 for pattern in "${PROTECTED[@]}"; do

@@ -41,7 +41,7 @@ DATE=$(date +%Y-%m-%d)
 echo "$DATE | active | $KEYWORDS | $SUMMARY" >> "$EPISODES"
 
 # Signal distillation
-touch /tmp/kb-changed.flag
+touch "/tmp/kb-${USER}-changed.flag"
 
 rm -f "$FLAG"
 exit 0
