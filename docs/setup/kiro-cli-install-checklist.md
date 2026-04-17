@@ -35,9 +35,10 @@ kiro-cli doctor
 ```bash
 git clone https://github.com/rommelporras/kiro-config.git ~/personal/kiro-config
 
-# Back up existing Kiro defaults (if any)
-mv ~/.kiro/agents ~/.kiro/agents.bak 2>/dev/null
-mv ~/.kiro/settings ~/.kiro/settings.bak 2>/dev/null
+# Back up existing Kiro defaults (all 6 directories the loop will replace)
+for dir in steering agents skills settings hooks docs; do
+  [ -e ~/.kiro/$dir ] && [ ! -L ~/.kiro/$dir ] && mv ~/.kiro/$dir ~/.kiro/$dir.bak
+done
 
 # Symlink into ~/.kiro/
 for dir in steering agents skills settings hooks docs; do
@@ -47,6 +48,8 @@ done
 
 That's it. Settings (`cli.json`), hooks, steering, skills, and agent config are all
 included in the symlinks — no manual `kiro-cli settings` commands needed.
+
+> **If you're using paths other than `~/personal` or `~/eam`:** run `bash ~/personal/kiro-config/scripts/personalize.sh` to update agent allowedPaths to your project directories. See [Team Onboarding → Step 3](team-onboarding.md#step-3-personalize) for details.
 
 ## 3. Set AWS profile (if using AWS MCP servers)
 
@@ -119,4 +122,5 @@ for the required extension fix.
 - [Skill catalog](../reference/skill-catalog.md) — understand the 18 available skills
 - [Security model](../reference/security-model.md) — how the 3 defense layers work
 - [Creating custom agents](../reference/creating-agents.md) — build project-specific agents
+- [Audit playbook](../reference/audit-playbook.md) — invariants and health checks for ongoing maintenance
 - [Troubleshooting](troubleshooting.md) — when things break

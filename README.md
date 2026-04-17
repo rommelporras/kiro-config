@@ -89,22 +89,37 @@ bash scripts/setup-knowledge.sh
 
 ## Personalizing for Your Setup
 
-This config ships with paths like `~/personal` and `~/eam` that are specific to the original author. Run the setup script to replace them with yours:
+This config ships with paths like `~/personal` and `~/eam` that are specific to the original author. Run the setup script from your clone directory to replace them with yours:
 
 ```bash
-bash scripts/personalize.sh
+bash ~/your/path/kiro-config/scripts/personalize.sh
 ```
 
-The script updates `allowedPaths` in all agent configs and knowledge base paths interactively. See [Team Onboarding](docs/setup/team-onboarding.md) for the full setup walkthrough.
+The script interactively updates `fs_read.allowedPaths` and `fs_write.allowedPaths` in all agent configs plus the knowledge base paths in `scripts/setup-knowledge.sh`.
+
+**Setup walkthroughs:**
+- [Install Checklist](docs/setup/kiro-cli-install-checklist.md) — Kiro CLI install, clone, symlink, verify
+- [Team Onboarding](docs/setup/team-onboarding.md) — full 4-step setup for teammates (~5 minutes)
+- [Troubleshooting](docs/setup/troubleshooting.md) — steering not loading, broken symlinks, hook false positives
 
 ### What NOT to change
 
-- `~/.kiro` paths — these are standard Kiro CLI paths, same for everyone
-- `deniedPaths` — these protect sensitive directories and should stay as-is
-- `deniedCommands` — these block dangerous operations and should stay as-is. Subagents use `rm -r.*`, `rm -f.*r.*`, `rm --recursive.*` (blocks recursive rm); dev-reviewer keeps the full `rm .*` block.
-- `steering/` files — these are universal best practices, not path-dependent
-- `skills/` files — these are universal, not path-dependent
-- `hooks/` scripts — these use relative paths from `~/.kiro` and work for everyone
+These are shared safety and behavior contracts — changing them weakens the system for everyone on the team:
+
+- `~/.kiro/` paths — standard Kiro CLI paths, same for everyone
+- `deniedPaths` — protect sensitive directories (SSH keys, credentials, Kiro config itself). See [Security Model](docs/reference/security-model.md).
+- `deniedCommands` — block destructive operations (recursive rm, infrastructure mutations, force push to main). Patterns are regex-anchored with `\A`/`\z`; see [Audit Playbook](docs/reference/audit-playbook.md) §1.1 for invariants and §7 for real failure cases if you're tempted to "clean them up."
+- `hooks` blocks in agent JSONs — scan secrets, block destructive shell commands, inject knowledge rules. Defined per-agent because Kiro CLI hooks don't inherit across subagents.
+- `includeMcpJson` and `@`-prefixed MCP tools — selectively enabled per agent. Disabling on subagents breaks library-doc lookups via Context7.
+- `steering/` files — universal engineering standards, not path-dependent.
+- `skills/` files — universal agent workflows, not path-dependent.
+
+### Extending beyond paths
+
+- **Add project directories later** — re-run `personalize.sh` or edit agent JSONs directly. Use `jq` for JSON edits, never `sed`.
+- **Add project-local overrides** — drop a `.kiro/` directory in any project repo with its own `agents/`, `steering/`, or `skills/`. Applied only when that directory is your CWD.
+- **Add a new specialist agent** — see [Creating Agents](docs/reference/creating-agents.md) for schema and security baseline.
+- **Maintain the config as it grows** — run the quick health check in [Audit Playbook](docs/reference/audit-playbook.md) §2 before major changes.
 
 ## Agent Skill Assignments
 
