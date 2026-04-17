@@ -58,7 +58,7 @@ Check for friction during this session:
 - Routing corrected? Log mismatch
 - Context missing? Log what was needed
 
-Append to `~/personal/kiro-config/docs/improvements/pending.md`:
+Append to `~/.kiro/docs/improvements/pending.md`:
 
 ```
 ## YYYY-MM-DD — session in <project path>

@@ -29,7 +29,7 @@ mv ~/.kiro/agents ~/.kiro/agents.bak 2>/dev/null
 mv ~/.kiro/settings ~/.kiro/settings.bak 2>/dev/null
 
 # Symlink — replace ~/your/path/kiro-config with your actual clone path
-for dir in steering agents skills settings hooks; do
+for dir in steering agents skills settings hooks docs; do
   ln -sfn ~/your/path/kiro-config/$dir ~/.kiro/$dir
 done
 ```
@@ -62,7 +62,7 @@ Start a `kiro-cli` session and run:
 ```
 
 Expected output:
-- **10 steering files** — `engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`, `typescript.md`, `web-development.md`, `frontend.md`
+- **11 steering files** — `engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`, `typescript.md`, `web-development.md`, `frontend.md`, `design-principles.md`
 - **18 skills** loaded globally
 - **4 MCP servers** — Context7, AWS Docs, AWS Diagram, Playwright
 
@@ -91,7 +91,7 @@ base              standalone fallback for general questions
 - **10 agents** — orchestrator + 8 specialists + base fallback
 - **18 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
 - **8 hooks** — secret scanning, sensitive file protection, bash write protection, block sed/awk on JSON, self-learning pipeline
-- **10 steering docs** — engineering standards injected into every session
+- **11 steering docs** — engineering standards injected into every session
 
 For deeper reading:
 - [Skill Catalog](../reference/skill-catalog.md) — all 18 skills with triggers and agent assignments

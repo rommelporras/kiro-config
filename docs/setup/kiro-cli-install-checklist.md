@@ -40,7 +40,7 @@ mv ~/.kiro/agents ~/.kiro/agents.bak 2>/dev/null
 mv ~/.kiro/settings ~/.kiro/settings.bak 2>/dev/null
 
 # Symlink into ~/.kiro/
-for dir in steering agents skills settings hooks; do
+for dir in steering agents skills settings hooks docs; do
   ln -sfn ~/personal/kiro-config/$dir ~/.kiro/$dir
 done
 ```
@@ -75,7 +75,7 @@ Inside a Kiro CLI session, run:
 ```
 
 **Expected:**
-- 10 global steering files (`engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`, `typescript.md`, `web-development.md`, `frontend.md`)
+- 11 global steering files (`engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`, `typescript.md`, `web-development.md`, `frontend.md`, `design-principles.md`)
 - 18 global skills
 - 4 global MCP servers (Context7, AWS Docs, AWS Diagram, Playwright)
 

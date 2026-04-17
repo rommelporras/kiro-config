@@ -137,7 +137,7 @@ For review results specifically:
 Trigger when you observe: retries > 1, routing corrections, missing context,
 subagent failures, or unexpected gaps.
 
-Append to `~/personal/kiro-config/docs/improvements/pending.md`:
+Append to `~/.kiro/docs/improvements/pending.md`:
 
 ```
 ## YYYY-MM-DD — session in <project path>
