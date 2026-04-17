@@ -20,7 +20,7 @@ fi
 # Gate 2: Extract technical keywords (max 3)
 KEYWORDS=$(echo "$CORRECTION" | grep -oiP '\b(jq|sed|awk|perl|json|yaml|toml|terraform|helm|docker|kubectl|aws|boto3|python|pip|uv|git|branch|main|master|pager|cli|s3|ec2|iam|lambda|rds|ecs|eks|cfn|ssm|kms|vpc|alb|nlb|sg|acm|route53|cloudfront|sqs|sns|dynamodb|secrets|tfstate|compose|dockerfile|ruff|mypy|pytest)\b' | tr '[:upper:]' '[:lower:]' | sort -u | head -3 | paste -sd',' -)
 
-[[ -z "$KEYWORDS" ]] && rm -f "$FLAG" && exit 0
+[[ -z "$KEYWORDS" ]] && KEYWORDS="general"
 
 # Gate 3: Deduplicate against rules.md and existing episodes
 SUMMARY=$(echo "$CORRECTION" | head -1 | cut -c1-120)

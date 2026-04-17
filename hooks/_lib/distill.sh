@@ -23,7 +23,9 @@ distill_check() {
   done < <(grep '| active |' "$EPISODES" 2>/dev/null)
 
   for kw in "${!kw_count[@]}"; do
-    [[ ${kw_count[$kw]} -lt 3 ]] && continue
+    local threshold=3
+    [[ "$kw" == "general" ]] && threshold=5
+    [[ ${kw_count[$kw]} -lt $threshold ]] && continue
 
     # Skip if rule section already exists
     grep -q "^## \[.*${kw}.*\]" "$RULES" 2>/dev/null && continue

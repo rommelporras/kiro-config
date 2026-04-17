@@ -7,12 +7,14 @@
     "read",
     "write",
     "shell",
-    "code"
+    "code",
+    "@context7"
   ],
   "allowedTools": [
     "read",
     "write",
-    "code"
+    "code",
+    "@context7"
   ],
   "toolsSettings": {
     "fs_write": {
@@ -116,7 +118,8 @@
     "file://.kiro/steering/**/*.md",
     "skill://~/.kiro/skills/systematic-debugging/SKILL.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
-    "skill://~/.kiro/skills/receiving-code-review/SKILL.md"
+    "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
+    "skill://~/.kiro/skills/test-driven-development/SKILL.md"
   ],
   "hooks": {
     "preToolUse": [
@@ -143,5 +146,5 @@
       }
     ]
   },
-  "includeMcpJson": false
+  "includeMcpJson": true
 }

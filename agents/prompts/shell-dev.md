@@ -56,3 +56,9 @@ Report: DONE, DONE_WITH_CONCERNS, NEEDS_CONTEXT, or BLOCKED
 - Modify files outside task scope
 - Write Python when shell is sufficient (and vice versa)
 - Hardcode paths that should be arguments
+
+## Testing
+
+- bats-core for shell script testing (if project has bats setup)
+- If no bats setup exists, add manual test cases as comments showing
+  expected input/output and report NEEDS_CONTEXT for test setup

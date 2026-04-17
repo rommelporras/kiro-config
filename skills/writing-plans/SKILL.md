@@ -119,7 +119,7 @@ and documentation changes:
 
 After writing the complete plan:
 
-1. Dispatch a plan-reviewer delegate to review the plan against the spec — provide the path to the plan document and the spec document, not your session history
+1. Dispatch dev-reviewer to review the plan against the spec — provide the path to the plan document and the spec document, not your session history
 2. If issues found: fix the issues, re-dispatch reviewer for the whole plan
 3. If approved: proceed to execution handoff
 

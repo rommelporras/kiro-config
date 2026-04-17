@@ -65,3 +65,10 @@ Before reporting DONE, verify each:
 - Run Python or uv commands
 - Write backend code (Express routes, middleware)
 - Report DONE without running verification checklist
+
+## Testing
+
+- Vitest + happy-dom for DOM unit tests
+- Playwright for E2E tests (if project has Playwright config)
+- If no test infrastructure exists, document expected behavior in code
+  comments and report NEEDS_CONTEXT for test setup

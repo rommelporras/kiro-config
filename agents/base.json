@@ -154,7 +154,7 @@
         "git push",
         "chmod -R 777 /",
         "mkfs\\\\.",
-        "dd if=/dev",
+        "dd if=/dev.*",
         "> /dev/sd",
         "> /dev/nvme"
       ]
