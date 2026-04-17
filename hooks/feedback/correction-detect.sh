@@ -29,7 +29,7 @@ PATTERNS=(
 JOINED=$(IFS='|'; echo "${PATTERNS[*]}")
 
 if echo "$PROMPT" | grep -qiP "$JOINED"; then
-  FLAG="/tmp/kb-correction-$(date +%s).flag"
+  FLAG="/tmp/kb-${USER}-correction-$(date +%s).flag"
   echo "$PROMPT" > "$FLAG"
   # Trigger auto-capture
   SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
