@@ -179,6 +179,7 @@ MIT
 - [Skill Catalog](docs/reference/skill-catalog.md) — all 18 skills with triggers and agent assignments
 - [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
 - [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
+- [Audit Playbook](docs/reference/audit-playbook.md) — invariants, quick health check, deep audit protocol, historical failure patterns
 - [Changelog](docs/reference/CHANGELOG.md) — version history and release notes
 - [Team Onboarding](docs/setup/team-onboarding.md) — get a teammate running in 5 minutes
 - [Install Checklist](docs/setup/kiro-cli-install-checklist.md) — get running in 4 steps

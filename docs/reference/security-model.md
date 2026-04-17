@@ -2,7 +2,7 @@
 
 # Security Model
 
-[Back to README](../../README.md) | Related: [Creating agents](creating-agents.md) | [Troubleshooting](../setup/troubleshooting.md)
+[Back to README](../../README.md) | Related: [Creating agents](creating-agents.md) | [Audit playbook](audit-playbook.md) | [Troubleshooting](../setup/troubleshooting.md)
 
 The base agent uses three defense layers. Each layer catches what the others miss.
 

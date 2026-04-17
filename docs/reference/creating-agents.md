@@ -2,7 +2,7 @@
 
 # Creating Custom Agents
 
-[Back to README](../../README.md) | Related: [CLI install checklist](../setup/kiro-cli-install-checklist.md) | [IDE + WSL2 setup](../setup/kiro-ide-wsl-setup.md)
+[Back to README](../../README.md) | Related: [Audit playbook](audit-playbook.md) | [CLI install checklist](../setup/kiro-cli-install-checklist.md) | [IDE + WSL2 setup](../setup/kiro-ide-wsl-setup.md)
 
 Guide for creating Kiro CLI custom agents. See the
 [official docs](https://kiro.dev/docs/cli/custom-agents/) for the full reference.

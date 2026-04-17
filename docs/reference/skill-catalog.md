@@ -2,7 +2,7 @@
 
 # Skill Catalog
 
-[Back to README](../../README.md) | Related: [Creating agents](creating-agents.md) | [Security model](security-model.md)
+[Back to README](../../README.md) | Related: [Creating agents](creating-agents.md) | [Security model](security-model.md) | [Audit playbook](audit-playbook.md)
 
 Quick reference for all 18 skills — what they do, when they activate, and which agents load them.
 12 skills load on dev-orchestrator; 6 are subagent-only.
