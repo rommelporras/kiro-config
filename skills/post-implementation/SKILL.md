@@ -5,7 +5,7 @@ description: Automated post-implementation workflow. Triggers when the orchestra
 
 ## Trigger
 
-Fires automatically after any implementation subagent (dev-python, dev-typescript, dev-shell, dev-refactor) returns DONE or DONE_WITH_CONCERNS. Do not skip. Do not ask the user.
+Fires automatically after any implementation subagent (dev-python, dev-typescript, dev-shell, dev-refactor, dev-kiro-config, dev-frontend) returns DONE or DONE_WITH_CONCERNS. Do not skip. Do not ask the user.
 
 ## Step 1: Update tracking documents
 

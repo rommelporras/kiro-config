@@ -147,7 +147,8 @@
       ],
       "deniedCommands": [
         "rm -r.*",
-        "rm -f.*r.*",
+        "rm -[a-zA-Z]*r[a-zA-Z]* .*",
+        "rm --force --recursive.*",
         "rm --recursive.*",
         "git push .*",
         "git push",

@@ -42,7 +42,9 @@ distill_check() {
     printf '\n## [%s]\n- %s %s\n' "$kw" "$severity" "$summary" >> "$RULES"
 
     # Mark source episodes as promoted
-    sed -i "s/| active |.*${kw}/\0 [promoted]/" "$EPISODES"
+    awk -v kw="$kw" 'BEGIN{IGNORECASE=1} $0 ~ kw && /\| active \|/ {
+      sub(/\| active \|/, "| promoted |")
+    } 1' "$EPISODES" > "${EPISODES}.tmp" && mv "${EPISODES}.tmp" "$EPISODES"
   done
 }
 
@@ -51,7 +53,7 @@ archive_promoted() {
   local month_file="$ARCHIVE_DIR/episodes-$(date +%Y-%m).md"
   mkdir -p "$ARCHIVE_DIR"
 
-  grep '\[promoted\]\|| resolved |' "$EPISODES" >> "$month_file" 2>/dev/null
-  grep -v '\[promoted\]\|| resolved |' "$EPISODES" > "${EPISODES}.tmp"
+  grep '| promoted |\|| resolved |' "$EPISODES" >> "$month_file" 2>/dev/null
+  grep -v '| promoted |\|| resolved |' "$EPISODES" > "${EPISODES}.tmp"
   mv "${EPISODES}.tmp" "$EPISODES"
 }

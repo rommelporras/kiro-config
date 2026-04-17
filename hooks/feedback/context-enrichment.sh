@@ -48,7 +48,8 @@ while IFS= read -r line; do
     IFS=',' read -ra kws <<< "$CURRENT_KEYWORDS"
     for kw in "${kws[@]}"; do
       kw=$(echo "$kw" | xargs)
-      if echo "$PROMPT" | grep -qiP "\b${kw}\b"; then
+      escaped_kw=$(printf '%s' "$kw" | sed 's/[.[\*^$()+?{|\\]/\\&/g')
+      if echo "$PROMPT" | grep -qiP "\b${escaped_kw}\b"; then
         INJECTED+=("$line")
         break
       fi

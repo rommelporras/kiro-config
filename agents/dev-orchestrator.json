@@ -89,7 +89,10 @@
       "deniedCommands": [
         "chmod -R 777 /",
         "mkfs\\\\.",
-        "dd if/dev",
+        "dd if=/dev.*",
+        "rm -[a-zA-Z]*r[a-zA-Z]* .*",
+        "rm --recursive.*",
+        "rm --force --recursive.*",
         "kubectl apply.*",
         "kubectl create.*",
         "kubectl delete.*",

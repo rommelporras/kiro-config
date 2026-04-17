@@ -20,7 +20,7 @@
         "rm .*",
         "chmod -R 777 /",
         "mkfs\\\\.",
-        "dd if/dev",
+        "dd if=/dev.*",
         "git push.*",
         "git push",
         "kubectl apply.*",
@@ -102,5 +102,19 @@
     "skill://~/.kiro/skills/typescript-audit/SKILL.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md"
   ],
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/bash-write-protect.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/security/block-sed-json.sh",
+        "timeout_ms": 3000
+      }
+    ]
+  },
   "includeMcpJson": false
 }
