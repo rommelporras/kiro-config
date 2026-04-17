@@ -5,6 +5,47 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.6.0] - 2026-04-17
+
+Backlog remediation — closes six deferred findings from the v0.5.1 audit
+backlog. Four safety tightenings, one ergonomics loosening, one
+documentation addition. Zero new features.
+
+### Added
+- `hooks/protect-sensitive.sh` PROTECTED array: `id_dsa`, `.p12`, `.pfx`,
+  `kubeconfig`, `.tfstate` — covers legacy SSH, PKCS#12 keystores, Kubernetes
+  credentials, and Terraform state. Six new test cases in `scripts/test-hooks.sh`.
+- `agents/dev-orchestrator.json` deny list: `aws s3 cp/mv/rm/sync` — parallels
+  the existing hyphenated-action pattern coverage.
+- `agents/prompts/orchestrator.md` — "Subagent timeout and recovery"
+  subsection for stuck-subagent detection and user escalation.
+
+### Changed
+- `agents/dev-docs.json` — replaced blanket `python3? .*`, `node .*`,
+  `npm .*`, `uv .*`, `pip .*` denies with mutating-subcommand-only patterns
+  (enumerative approach). `dev-docs` can now run `python3 --version`,
+  `npm ls`, `pip list`, etc. Mutation-form invocations (`npm install`,
+  `pip install`, `uv run`, etc.) still blocked. `shell` added to
+  `allowedTools` (closes M-03).
+- `agents/dev-orchestrator.json` — `git add .*` tightened to two patterns:
+  `git add [^-.].*` + `git add -- .*`. Blocks `git add -A`, `git add .`,
+  `git add --all` at the platform level. Dotfile staging via
+  `git add -- .env.example`.
+
+### Fixed
+- `hooks/feedback/*.sh` — `/tmp/kb-*` flag paths now namespaced with
+  `$USER`. Prevents cross-user collision on shared hosts.
+
+### Known limitations
+- dev-docs enumerative deny list may miss newly-added mutating subcommands
+  for npm/uv/pip. New candidates will be added as friction surfaces.
+- `~/.kube/config` (basename `config`) is NOT covered by the new
+  kubeconfig pattern — `protect-sensitive.sh` is basename-only.
+- Hybrid deny+allow approach (blanket deny + allowedCommands override)
+  was tested and rejected: Kiro CLI does not support allow-wins precedence
+  for `allowedCommands` vs `autoAllowReadonly` gating. Enumerative deny
+  is the working fallback.
+
 ## [v0.5.1] - 2026-04-17
 
 Post-release hardening — hook false-positive fixes, protection gaps closed

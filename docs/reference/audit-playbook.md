@@ -41,6 +41,7 @@ drifted. Each invariant has a concrete check command.
 | S7 | Every sensitive credential pattern in `scan-secrets.sh` still matches known tokens | manual — see §3.2 test vectors |
 | S8 | Every agent `denyCommands` regex is fully anchored (Kiro CLI uses `\A`/`\z`) — patterns for commands with args must end in `.*` | grep for patterns lacking `.*` suffix (excluding literal-only commands) |
 | S9 | Hook behavior invariants hold (known-safe commands pass, known-dangerous commands block) | `bash scripts/test-hooks.sh` — exits 0 with no failures |
+| S10 | Orchestrator blocks `aws s3` mutating subcommands | `jq '.toolsSettings.execute_bash.deniedCommands | map(select(startswith("aws s3")))' agents/dev-orchestrator.json | jq 'length'` → 4 |
 
 ### 1.2 Accuracy invariants
 
@@ -552,3 +553,4 @@ Case studies from real bugs. Use as pattern-match fuel when auditing.
 
 - **2026-04-17 (v0.5.0 audit):** Initial playbook drafted from Phase 1-3 audit findings and remediation sessions. 14 historical failure patterns documented.
 - **2026-04-17 (post-release hook hardening):** Added §1.5 known-limitations section documenting project-local `dev-kiro-config` design and the rm first-token trade-off. Added S9 invariant + `scripts/test-hooks.sh` for hook behavior regression testing. Added §7.15-7.18 covering hook FP/gap patterns found and fixed post-v0.5.0.
+- **2026-04-17 (v0.6.0 backlog remediation):** Six findings closed from v0.5.1 backlog (H-05, H-11, M-08, M-12, L-01, L-06). Added S10 invariant for aws s3 deny coverage. Hybrid deny+allow approach tested and rejected; enumerative deny adopted.
