@@ -68,7 +68,7 @@ On confirmation:
 gh pr create \
   --title "<title>" \
   --body "<body>" \
-  --base main \
+  --base "$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)" \
   --draft
 ```
 

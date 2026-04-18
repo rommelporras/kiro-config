@@ -132,6 +132,9 @@ Every briefing to a subagent must include these 5 sections:
    - Always include: "verify before completing"
    - New code: "implement with tests"
    - Bug fixes: "debug systematically before fixing"
+   - Python package code (e.g., `sre/eam_sre/`): "implement with TDD —
+     write failing tests first". This overrides the global "no auto tests"
+     rule for packaged code with test suites.
 
 Subagents CANNOT use: web_search, web_fetch, use_aws, grep, glob, introspect.
 Subagents CAN use: read, write, shell, code, plus any MCP tools explicitly listed in their config's tools array.

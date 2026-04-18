@@ -1,7 +1,7 @@
 {
   "name": "dev-typescript",
   "description": "Writes and modifies TypeScript code for Node.js/Express backends. Follows TDD with Vitest, strict TypeScript, and verifies before completing.",
-  "prompt": "file://./prompts/typescript-dev.md",
+  "prompt": "file://./prompts/dev-typescript.md",
   "model": "claude-sonnet-4.6",
   "tools": [
     "read",

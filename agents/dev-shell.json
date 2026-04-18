@@ -1,7 +1,7 @@
 {
   "name": "dev-shell",
   "description": "Writes and modifies Bash scripts, shell one-liners, Makefiles, cron jobs, and system automation.",
-  "prompt": "file://./prompts/shell-dev.md",
+  "prompt": "file://./prompts/dev-shell.md",
   "model": "claude-sonnet-4.6",
   "tools": [
     "read",

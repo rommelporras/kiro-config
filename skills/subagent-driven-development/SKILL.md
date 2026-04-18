@@ -175,7 +175,7 @@ Code reviewer: Approved
 ...
 
 [After all tasks]
-[Dispatch final code-reviewer delegate]
+[Dispatch final dev-reviewer delegate]
 Final reviewer: All requirements met, ready to merge
 
 Done!

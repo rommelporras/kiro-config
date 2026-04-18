@@ -30,6 +30,20 @@
   - Update: tooling.md (Node.js/npm, project-specific venvs)
   - Orchestrator routing: TypeScript + frontend lanes
 
+## Bug Fixes
+
+- [x] **doc-consistency.sh: regex doesn't match actual README/skill-catalog text**
+  - `hooks/doc-consistency.sh` line 29: regex `loads \d+ of \d+ skills` fails because actual text is `loads 14 of the 18 global skills` (has "the" and "global" between the numbers)
+  - Same issue line 43: regex `\d+ of the \d+ skills` fails because actual text is `14 of the 18 global skills` (has "global" before "skills")
+  - Fix: update regexes to `loads \d+ of (the )?\d+ (global )?skills` and `\d+ of the \d+ (global )?skills`
+  - Affects: quick health check (§2 in audit-playbook.md) reports false drift
+
+- [x] **audit-playbook.md A1 check: post-impl trigger list comparison is too broad** — Fixed in v0.6.1 — narrowed grep to trigger line only
+  - A1 compares all `dev-*` agent names in `skills/post-implementation/SKILL.md` against orchestrator lines 8-9
+  - Skill mentions 8 agents (includes dev-reviewer for auto-review dispatch, dev-docs as reference)
+  - Orchestrator lines 8-9 list only 6 implementation agents that trigger post-impl (excludes dev-reviewer and dev-docs — by design)
+  - Fix: either narrow the grep on the skill side to only the trigger condition, or document the expected diff in §1.5 known limitations
+
 ## Dependency chain
 
 ```

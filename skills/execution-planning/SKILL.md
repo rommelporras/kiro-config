@@ -162,6 +162,11 @@ If not, the plan needs more detail.
 - Every plan must have at least one review stage
 - Subtasks in the same stage must not share files
 - The orchestrator handles git operations — never assign commit to a subagent
+- **Load-bearing ordering → atomic dispatch.** When the spec marks task
+  ordering as "load-bearing" or warns that half-done is worse than status
+  quo, dispatch those tasks as a single unit to one subagent. No
+  intermediate test gates between them — the test gate runs once at the
+  end of the atomic unit.
 - If a subtask needs web_search, use_aws, grep, or glob, mark it as
   "orchestrator pre-work" — the orchestrator gathers that data before
   dispatching the subagent

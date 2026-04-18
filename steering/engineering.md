@@ -9,6 +9,10 @@
   step back and rethink — never retry the same failing approach with minor variations.
 - **Minimal, focused changes** — Solve exactly what was asked. No gold-plating,
   no unrequested refactors, no speculative abstractions.
+- **Logs are operational data** — Log entries must be accurate. Never log fake
+  success/failure counts. If a code path doesn't perform the operation, don't
+  log the operation's completion event. Logs get grepped during incidents —
+  false data in logs is worse than missing data.
 
 ## Plan Before Building
 

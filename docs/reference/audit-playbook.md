@@ -8,7 +8,7 @@ failure patterns.
 humans maintaining this repo.
 
 **Companion docs:**
-- `docs/specs/audit-current-workflow.md` — detailed 2000+ line audit findings from v0.5.0 (reference audit)
+- `docs/audit/audit-current-workflow.md` — detailed 2000+ line audit findings from v0.5.0 (reference audit)
 - `docs/improvements/pending.md` — live improvement backlog
 - `docs/reference/creating-agents.md` — agent schema reference
 - `docs/reference/security-model.md` — three-layer defense detail
@@ -47,7 +47,7 @@ drifted. Each invariant has a concrete check command.
 
 | # | Invariant | Check |
 |---|---|---|
-| A1 | Post-implementation skill trigger list matches orchestrator's list | `diff <(grep -oE 'dev-[a-z-]+' skills/post-implementation/SKILL.md \| sort -u) <(sed -n '8,9p' agents/prompts/orchestrator.md \| grep -oE 'dev-[a-z-]+' \| sort -u)` — no diff |
+| A1 | Post-implementation skill trigger list matches orchestrator's list | `diff <(grep 'Fires automatically' skills/post-implementation/SKILL.md \| grep -oE 'dev-[a-z-]+' \| sort -u) <(sed -n '8,11p' agents/prompts/orchestrator.md \| grep -oE 'dev-[a-z-]+' \| sort -u)` — no diff |
 | A2 | Every subagent that claims MCP access in its prompt has `includeMcpJson: true` AND the tool in both `tools` and `allowedTools` | see §3.3 |
 | A3 | `dev-frontend` and `dev-shell` have `test-driven-development` skill in resources | `jq '.resources[]' agents/dev-frontend.json \| grep test-driven && jq '.resources[]' agents/dev-shell.json \| grep test-driven` |
 | A4 | No prompt enumerates design principles (they're in steering) | `! grep -rE 'Rule of Three\|Fail Fast\|KISS over DRY\|Least Knowledge\|Boy-Scout\|Least Astonishment' agents/prompts/*.md` — zero matches |
@@ -120,7 +120,7 @@ jq '.toolsSettings.fs_write.allowedPaths' agents/dev-orchestrator.json | grep -q
   && echo "FAIL S6: orchestrator has overly-broad *.md write"
 
 # A1: Post-impl trigger list sync
-skill_agents=$(grep -oE 'dev-[a-z-]+' skills/post-implementation/SKILL.md | sort -u)
+skill_agents=$(grep 'Fires automatically' skills/post-implementation/SKILL.md | grep -oE 'dev-[a-z-]+' | sort -u)
 orch_agents=$(sed -n '8,11p' agents/prompts/orchestrator.md | grep -oE 'dev-[a-z-]+' | sort -u)
 [ "$skill_agents" = "$orch_agents" ] || echo "FAIL A1: trigger list mismatch"
 
@@ -257,7 +257,7 @@ Quick detection:
 ```bash
 for p in agents/prompts/*.md; do
   size=$(wc -l < "$p")
-  [ "$size" -gt 80 ] && [ "$p" != "agents/prompts/orchestrator.md" ] && [ "$p" != "agents/prompts/code-reviewer.md" ] \
+  [ "$size" -gt 80 ] && [ "$p" != "agents/prompts/orchestrator.md" ] && [ "$p" != "agents/prompts/dev-reviewer.md" ] \
     && echo "LARGE: $p is $size lines — check for duplication"
 done
 ```
