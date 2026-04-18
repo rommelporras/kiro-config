@@ -5,6 +5,8 @@ KIRO_CONFIG_DIR="${KIRO_CONFIG_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && 
 
 total=$(find "${KIRO_CONFIG_DIR}/skills" -name "SKILL.md" | wc -l | tr -d ' ')
 base=$(jq '[.resources[] | select(type == "string" and startswith("skill://"))] | length' "${KIRO_CONFIG_DIR}/agents/base.json")
+agents=$(find "${KIRO_CONFIG_DIR}/agents" "${KIRO_CONFIG_DIR}/.kiro/agents" -name '*.json' 2>/dev/null | wc -l | tr -d ' ')
+hooks=$(find "${KIRO_CONFIG_DIR}/hooks" -name '*.sh' | wc -l | tr -d ' ')
 
 drift=0
 
@@ -26,7 +28,7 @@ check() {
 # README.md — **NN skills** (total)
 check "README.md" '\*\*\d+ skills\*\*' "${total}" "skills"
 # README.md — loads NN of NN skills (base of total)
-found_loads=$(grep -oP 'loads \d+ of \d+ skills' "${KIRO_CONFIG_DIR}/README.md" | grep -oP '\d+' | head -1 || true)
+found_loads=$(grep -oP 'loads \d+ of (the )?\d+ (global )?skills' "${KIRO_CONFIG_DIR}/README.md" | grep -oP '\d+' | head -1 || true)
 if [[ -z "${found_loads}" ]]; then
   echo "DRIFT: README.md — 'loads N of N skills' pattern not found, expected base=${base}"
   drift=1
@@ -40,7 +42,7 @@ check "README.md" 'all \d+ skills' "${total}" "skills"
 # skill-catalog.md — all NN skills (total)
 check "docs/reference/skill-catalog.md" 'all \d+ skills' "${total}" "skills"
 # skill-catalog.md — NN of the NN skills (base of total)
-found_cat=$(grep -oP '\d+ of the \d+ skills' "${KIRO_CONFIG_DIR}/docs/reference/skill-catalog.md" | grep -oP '\d+' | head -1 || true)
+found_cat=$(grep -oP '\d+ of the \d+ (global )?skills' "${KIRO_CONFIG_DIR}/docs/reference/skill-catalog.md" | grep -oP '\d+' | head -1 || true)
 if [[ -z "${found_cat}" ]]; then
   echo "DRIFT: docs/reference/skill-catalog.md — 'N of the N skills' pattern not found, expected base=${base}"
   drift=1
@@ -64,8 +66,13 @@ elif [[ "${welcome_count}" != "${base}" ]]; then
   drift=1
 fi
 
+# README.md — **NN agents**
+check "README.md" '\*\*\d+ agents\*\*' "${agents}" "agents"
+# README.md — **NN hooks**
+check "README.md" '\*\*\d+ hooks\*\*' "${hooks}" "hooks"
+
 if (( drift == 0 )); then
-  echo "Doc consistency: all skill counts match (${total} total, ${base} base)"
+  echo "Doc consistency: all counts match (${total} skills, ${base} base, ${agents} agents, ${hooks} hooks)"
 fi
 
 exit "${drift}"

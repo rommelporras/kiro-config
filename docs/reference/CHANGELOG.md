@@ -5,6 +5,33 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.6.1] - 2026-04-18
+
+Patch release — log accuracy rule, skill step additions, and doc corrections.
+
+### Added
+- `steering/engineering.md` — "Logs are operational data" rule: log entries must be accurate, never log fake success/failure counts
+- `hooks/doc-consistency.sh` — extended to check agent and hook counts (was skill-only)
+- `skills/post-implementation/SKILL.md` — Step 7 "Spec completion check" for marking specs complete after final phase
+- `skills/post-implementation/SKILL.md` — metrics staleness grep in Step 3 (test counts, coverage percentages in docs/)
+- `skills/execution-planning/SKILL.md` — atomic dispatch rule for load-bearing task ordering
+- `agents/prompts/dev-python.md` — "After removing code" section: grep tests for removed symbols, verify argparse help text
+- `agents/prompts/orchestrator.md` — TDD override for packaged code in delegation format
+- `docs/audit/audit-triage-v0.5.1.md` — definitive triage of all 48 audit findings with verification commands
+
+### Fixed
+- `hooks/doc-consistency.sh` — regex patterns updated to match actual README/skill-catalog text ("loads N of the N global skills")
+- `docs/reference/audit-playbook.md` — A1 invariant check narrowed to trigger line only (was matching all `dev-*` mentions in skill file)
+- Prompt file naming inconsistency — renamed 7 prompt files to match agent names (e.g., `docs.md` → `dev-docs.md`), updated all 8 JSON config `file://` refs, and fixed stale `code-reviewer` references in `steering/security.md` and `skills/subagent-driven-development/SKILL.md`
+
+### Changed
+- `docs/improvements/pending.md` — ECS session items moved to resolved.md (pending now empty)
+- `docs/improvements/resolved.md` — 8 resolved items from ECS refactoring session added
+- `docs/TODO.md` — documented doc-consistency.sh regex bug and audit-playbook A1 comparison issue
+- `.kiro/skills/create-pr/SKILL.md` — `--base main` replaced with dynamic default branch detection via `gh repo view`
+- `docs/audit/audit-triage-v0.5.1.md` and `docs/audit/audit-triage-v0.6.0.md` — 8 findings reclassified (7 INTENTIONAL, 1 OBSOLETE); PARTIAL miscounting corrected
+- Audit documents moved from `docs/specs/` to `docs/audit/` — `audit-current-workflow.md`, `audit-triage-v0.5.1.md`, `audit-triage-v0.6.0.md`
+
 ## [v0.6.0] - 2026-04-17
 
 Backlog remediation — closes seven deferred findings from the v0.5.1 audit
@@ -132,7 +159,7 @@ regression suite (33 tests) wired into the playbook's S9 invariant.
 ## [v0.5.0] - 2026-04-17
 
 Major audit remediation release. Addresses 5 CRITICAL, 16 HIGH, and several
-MEDIUM findings from the workflow audit (`docs/specs/audit-current-workflow.md`).
+MEDIUM findings from the workflow audit (`docs/audit/audit-current-workflow.md`).
 
 ### Added
 - Design principles steering document (`steering/design-principles.md`)
@@ -141,7 +168,7 @@ MEDIUM findings from the workflow audit (`docs/specs/audit-current-workflow.md`)
 - Security hooks (scan-secrets, protect-sensitive, bash-write-protect, block-sed-json) on all subagents
 - File-conflict pre-check rule in execution-planning skill
 - Project-level `.kiro/steering/agent-config-review.md` checklist
-- Workflow audit document (`docs/specs/audit-current-workflow.md`) as living reference
+- Workflow audit document (`docs/audit/audit-current-workflow.md`) as living reference
 - `~/.kiro/docs` symlink in setup docs so future installs get the docs directory
 - Auto-capture fallback to `general` keyword bucket (no more silent drops)
 - Systematic-debugging skill on dev-refactor

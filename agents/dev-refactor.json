@@ -1,7 +1,7 @@
 {
   "name": "dev-refactor",
   "description": "Restructures existing code to improve organization, readability, and maintainability without changing behavior.",
-  "prompt": "file://./prompts/refactor.md",
+  "prompt": "file://./prompts/dev-refactor.md",
   "model": "claude-sonnet-4.6",
   "tools": [
     "read",

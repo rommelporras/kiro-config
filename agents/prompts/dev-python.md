@@ -33,6 +33,14 @@ Agent-specific patterns below supplement steering — steering is the authority.
 
 Edit the file AND all dependent files in the same task.
 
+## After removing code
+
+- After removing a function, parameter, or code path, grep ALL test files
+  for references to the removed symbol. Tests that become no-ops (assert
+  something trivially true) are worse than deleted tests.
+- When modifying a CLI flag's behavior, verify the argparse help text
+  matches the new behavior. The `--help` output is a first-class deliverable.
+
 ## Workflow
 
 1. Read existing code patterns before writing new code

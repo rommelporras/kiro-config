@@ -32,6 +32,10 @@ If failures → send back to implementer with full command output (not just "tes
 - For each file modified by the implementer, `grep docs/` for references to that file
 - If any doc references a modified file → flag it
 - If staleness found → dispatch dev-docs to update, or flag for user
+- **Metrics staleness:** After the quality gate, grep `docs/` and `README.md`
+  for test counts and coverage percentages. If they don't match the current
+  numbers from the test run, flag them for update. Common patterns:
+  `\d+ tests`, `\d+%\s*coverage`, `\d+ passed`.
 
 ## Step 4: Auto-review
 
@@ -71,7 +75,17 @@ Append to `~/.kiro/docs/improvements/pending.md`:
 
 If file is inaccessible, log to conversation instead — do not fail silently.
 
-## Step 7: Present results
+## Step 7: Spec completion check
+
+If this task completes the final phase of a spec:
+
+1. Check if all plan checkboxes are `[x]`
+2. Add `Status: COMPLETE (date)` to the spec header with final metrics
+3. Update `docs/TODO.md` to mark the spec section done
+4. Dispatch these as a parallel task alongside the review — don't wait
+   for the user to ask
+
+## Step 8: Present results
 
 - Summary of changes (files modified, key decisions)
 - Review verdict and findings
