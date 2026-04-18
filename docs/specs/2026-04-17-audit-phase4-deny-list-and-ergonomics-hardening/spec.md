@@ -469,3 +469,4 @@ derived from `npm cache --help`, `npm pkg --help`, `uv cache --help`,
 - `allowedCommands`: not present (array not added)
 - `allowedTools` includes `shell`: true
 - M-03 closed as part of H-05 via `shell` addition to `allowedTools`
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

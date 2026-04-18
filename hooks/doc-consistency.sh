@@ -6,7 +6,7 @@ KIRO_CONFIG_DIR="${KIRO_CONFIG_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && 
 total=$(find "${KIRO_CONFIG_DIR}/skills" -name "SKILL.md" | wc -l | tr -d ' ')
 base=$(jq '[.resources[] | select(type == "string" and startswith("skill://"))] | length' "${KIRO_CONFIG_DIR}/agents/base.json")
 agents=$(find "${KIRO_CONFIG_DIR}/agents" "${KIRO_CONFIG_DIR}/.kiro/agents" -name '*.json' 2>/dev/null | wc -l | tr -d ' ')
-hooks=$(find "${KIRO_CONFIG_DIR}/hooks" -name '*.sh' | wc -l | tr -d ' ')
+hooks=$(find "${KIRO_CONFIG_DIR}/hooks" -name '*.sh' -not -path '*/hooks/_lib/*' | wc -l | tr -d ' ')
 
 drift=0
 

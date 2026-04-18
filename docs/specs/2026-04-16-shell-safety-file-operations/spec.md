@@ -153,3 +153,5 @@ Current dev-docs deniedCommands has `"rm .*"` which blocks all rm. Change to:
 - [ ] Orchestrator routes "move this file" and "delete this file" correctly
 - [ ] All existing safety tests still pass (catastrophic patterns blocked)
 - [ ] shellcheck clean on bash-write-protect.sh
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

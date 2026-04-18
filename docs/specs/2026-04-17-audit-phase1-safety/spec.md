@@ -339,3 +339,5 @@ After all changes:
 7. `jq '.toolsSettings.execute_bash.deniedCommands' agents/dev-orchestrator.json | grep 'rm '` → shows rm patterns
 8. For B1: `jq '.hooks' agents/dev-python.json` → shows preToolUse hooks
 9. For B1: `jq '.hooks' agents/dev-reviewer.json` → shows only execute_bash hooks (no fs_write)
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

@@ -81,7 +81,7 @@ Each finding must include all five fields:
 | **Location** | `file:line` |
 | **Severity** | `high` \| `medium` \| `low` |
 | **Effort** | `small` (< 30 min) \| `medium` (1-2 hrs) \| `large` (half day+) |
-| **Agent** | Which agent would fix this: `dev-python`, `dev-typescript`, `dev-refactor`, `dev-docs`, `dev-shell` |
+| **Agent** | Which agent would fix this: `devops-python`, `devops-typescript`, `devops-refactor`, `devops-docs`, `devops-shell` |
 
 ## Report Format
 
@@ -114,4 +114,4 @@ TODO: X | FIXME: Y | HACK: Z
 
 - Run commands, don't guess — show real numbers
 - Present to user for review — never auto-fix
-- When running as part of the refactor pipeline, structured findings feed directly into dev-reviewer's analysis and dev-refactor's execution list
+- When running as part of the refactor pipeline, structured findings feed directly into devops-reviewer's analysis and devops-refactor's execution list

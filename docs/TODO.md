@@ -5,7 +5,7 @@
 - [x] **Spec 1: Shell Safety & File Operations** — `docs/specs/2026-04-16-shell-safety-file-operations/spec.md`
   - bash-write-protect.sh overhaul (mv, selective rm, rm -rf confirmation)
   - Orchestrator routing: file operations lane
-  - dev-docs permission expansion
+  - devops-docs permission expansion
 
 - [x] **Spec 2: Orchestrator & Agent Framework Redesign** — `docs/specs/2026-04-16-orchestrator-agent-framework-redesign/spec.md`
   - Orchestrator prompt rewrite (250 → ~130 lines)
@@ -15,8 +15,8 @@
   - Rewrite: codebase-audit (structured output, project-type detection, doc health)
   - Rewrite: agent-audit (absorb meta-review, improvements/pending.md integration)
   - Enhancement: commit skill (doc reference check)
-  - Upgrade: dev-refactor (TDD skill, execute-findings mode, shared code awareness)
-  - Upgrade: dev-reviewer (codebase scan mode, doc accuracy dimension)
+  - Upgrade: devops-refactor (TDD skill, execute-findings mode, shared code awareness)
+  - Upgrade: devops-reviewer (codebase scan mode, doc accuracy dimension)
   - Fold into prompt: delegation-protocol, aggregation
   - Remove: research-practices, context-docs, project-architecture, meta-review, critical-thinking
   - Framework: project-aware quality gate, pre-dispatch hook
@@ -25,8 +25,8 @@
 
 - [x] **Spec 3: TypeScript & Frontend Stack** — `docs/specs/2026-04-16-typescript-frontend-stack/spec.md`
   - New steering: typescript.md, web-development.md, frontend.md
-  - New agents: dev-typescript, dev-frontend
-  - New skill: typescript-audit (for dev-reviewer)
+  - New agents: devops-typescript, devops-frontend
+  - New skill: typescript-audit (for devops-reviewer)
   - Update: tooling.md (Node.js/npm, project-specific venvs)
   - Orchestrator routing: TypeScript + frontend lanes
 
@@ -40,8 +40,8 @@
 
 - [x] **audit-playbook.md A1 check: post-impl trigger list comparison is too broad** — Fixed in v0.6.1 — narrowed grep to trigger line only
   - A1 compares all `dev-*` agent names in `skills/post-implementation/SKILL.md` against orchestrator lines 8-9
-  - Skill mentions 8 agents (includes dev-reviewer for auto-review dispatch, dev-docs as reference)
-  - Orchestrator lines 8-9 list only 6 implementation agents that trigger post-impl (excludes dev-reviewer and dev-docs — by design)
+  - Skill mentions 8 agents (includes devops-reviewer for auto-review dispatch, devops-docs as reference)
+  - Orchestrator lines 8-9 list only 6 implementation agents that trigger post-impl (excludes devops-reviewer and devops-docs — by design)
   - Fix: either narrow the grep on the skill side to only the trigger condition, or document the expected diff in §1.5 known limitations
 
 ## Dependency chain
@@ -63,5 +63,5 @@ Spec 1 (shell safety) ──┐
 
 - ~~finishing-a-development-branch skill~~ — Project-local to ~/eam/eam-sre/rommel-porras, not global
 - ~~Pipeline agent pattern skill~~ — Removed from scope
-- ~~dev-web agent evaluation~~ — Resolved: split into dev-typescript + dev-frontend
+- ~~dev-web agent evaluation~~ — Resolved: split into devops-typescript + devops-frontend
 - ~~Flask vs FastAPI decision~~ — Resolved: Express.js + TypeScript

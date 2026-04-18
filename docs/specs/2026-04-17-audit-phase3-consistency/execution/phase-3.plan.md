@@ -205,3 +205,5 @@ After all stages pass verification, present results to user for commit approval:
 - **Suggested type:** refactor
 - **Suggested scope:** prompts, skills, docs, agents
 - **Suggested message:** `refactor: deduplicate prompts with steering, fix doc counts, hardcoded paths, and write permissions`
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

@@ -194,3 +194,5 @@ After all changes:
 9. `grep -c 'general' hooks/feedback/auto-capture.sh` → at least 1
 10. `grep 'threshold=5' hooks/_lib/distill.sh` → match
 11. `grep '"dd if=/dev\.\*"' agents/base.json` → match
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

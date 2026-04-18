@@ -1,7 +1,7 @@
 {
-  "name": "dev-refactor",
-  "description": "Restructures existing code to improve organization, readability, and maintainability without changing behavior.",
-  "prompt": "file://./prompts/dev-refactor.md",
+  "name": "devops-shell",
+  "description": "Writes and modifies Bash scripts, shell one-liners, Makefiles, cron jobs, and system automation.",
+  "prompt": "file://./prompts/devops-shell.md",
   "model": "claude-sonnet-4.6",
   "tools": [
     "read",
@@ -116,10 +116,10 @@
   "resources": [
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
+    "skill://~/.kiro/skills/systematic-debugging/SKILL.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
     "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
-    "skill://~/.kiro/skills/test-driven-development/SKILL.md",
-    "skill://~/.kiro/skills/systematic-debugging/SKILL.md"
+    "skill://~/.kiro/skills/test-driven-development/SKILL.md"
   ],
   "hooks": {
     "preToolUse": [

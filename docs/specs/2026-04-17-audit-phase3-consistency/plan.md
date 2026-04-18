@@ -799,3 +799,5 @@ Create the symlink on the current machine so Phase 3's path changes
 ```bash
 ln -sfn ~/personal/kiro-config/docs ~/.kiro/docs
 ```
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

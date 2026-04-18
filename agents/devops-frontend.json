@@ -1,7 +1,7 @@
 {
-  "name": "dev-python",
-  "description": "Writes and modifies Python scripts. Follows TDD, uses boto3 for AWS, argparse for CLIs, and verifies before completing.",
-  "prompt": "file://./prompts/dev-python.md",
+  "name": "devops-frontend",
+  "description": "Writes HTML, CSS, and TypeScript for SPA frontends. Handles Chart.js, accessibility, responsive design. No backend code.",
+  "prompt": "file://./prompts/devops-frontend.md",
   "model": "claude-sonnet-4.6",
   "tools": [
     "read",
@@ -9,14 +9,14 @@
     "shell",
     "code",
     "@context7",
-    "@awslabs.aws-documentation-mcp-server"
+    "@playwright"
   ],
   "allowedTools": [
     "read",
     "write",
     "code",
     "@context7",
-    "@awslabs.aws-documentation-mcp-server"
+    "@playwright"
   ],
   "toolsSettings": {
     "fs_write": {
@@ -111,18 +111,19 @@
         "docker stop.*",
         "docker kill.*",
         "git add.*",
-        "git commit.*"
+        "git commit.*",
+        "python3? .*",
+        "uv .*",
+        "pip .*"
       ]
     }
   },
   "resources": [
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
-    "skill://~/.kiro/skills/test-driven-development/SKILL.md",
-    "skill://~/.kiro/skills/systematic-debugging/SKILL.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
     "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
-    "skill://~/.kiro/skills/python-audit/SKILL.md"
+    "skill://~/.kiro/skills/test-driven-development/SKILL.md"
   ],
   "hooks": {
     "preToolUse": [

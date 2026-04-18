@@ -222,3 +222,5 @@ After all changes:
 6. `jq '.toolsSettings.fs_write.allowedPaths' agents/dev-orchestrator.json` → no `*.md` entry
 7. `grep 'cross-check file lists' skills/execution-planning/SKILL.md` → match
 8. No steering content restated verbatim in any prompt
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

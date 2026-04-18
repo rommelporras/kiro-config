@@ -1,5 +1,5 @@
 {
-  "name": "dev-orchestrator",
+  "name": "devops-orchestrator",
   "description": "Primary agent — converses with user, plans work, delegates implementation to specialist subagents. Never writes code directly.",
   "prompt": "file://./prompts/orchestrator.md",
   "welcomeMessage": "Orchestrator active — I handle planning and conversation directly, and delegate coding to specialist subagents. What are we working on?",
@@ -166,24 +166,26 @@
     },
     "subagent": {
       "availableAgents": [
-        "dev-docs",
-        "dev-python",
-        "dev-shell",
-        "dev-reviewer",
-        "dev-refactor",
-        "dev-kiro-config",
-        "dev-typescript",
-        "dev-frontend"
+        "devops-docs",
+        "devops-python",
+        "devops-shell",
+        "devops-reviewer",
+        "devops-refactor",
+        "devops-kiro-config",
+        "devops-typescript",
+        "devops-frontend",
+        "devops-terraform"
       ],
       "trustedAgents": [
-        "dev-docs",
-        "dev-python",
-        "dev-shell",
-        "dev-reviewer",
-        "dev-refactor",
-        "dev-kiro-config",
-        "dev-typescript",
-        "dev-frontend"
+        "devops-docs",
+        "devops-python",
+        "devops-shell",
+        "devops-reviewer",
+        "devops-refactor",
+        "devops-kiro-config",
+        "devops-typescript",
+        "devops-frontend",
+        "devops-terraform"
       ]
     }
   },

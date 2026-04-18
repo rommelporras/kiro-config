@@ -488,3 +488,5 @@ Expected: one match.
 
 Run: `bash -n hooks/_lib/distill.sh`
 Expected: exits 0.
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

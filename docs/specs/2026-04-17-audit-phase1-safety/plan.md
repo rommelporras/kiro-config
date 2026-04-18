@@ -449,3 +449,5 @@ Expected: `4` (all hooks).
 Run: `for f in agents/*.json .kiro/agents/*.json; do jq empty "$f" && echo "$f OK" || echo "$f BROKEN"; done`
 
 Expected: all files show OK. Zero BROKEN.
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

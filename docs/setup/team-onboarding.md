@@ -73,8 +73,8 @@ Start a `kiro-cli` session and run:
 ```
 
 Expected output:
-- **11 steering files** — `engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`, `typescript.md`, `web-development.md`, `frontend.md`, `design-principles.md`
-- **18 skills** loaded globally
+- **12 steering files** — `engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`, `typescript.md`, `web-development.md`, `frontend.md`, `design-principles.md`, `terraform.md`
+- **19 skills** loaded globally
 - **4 MCP servers** — Context7, AWS Docs, AWS Diagram, Playwright
 
 Also check:
@@ -89,23 +89,24 @@ If anything is missing, see [Troubleshooting](troubleshooting.md).
 ## What you get
 
 ```
-dev-orchestrator   ← default agent: plans, converses, delegates, handles git (ctrl+o)
-    ├── dev-docs         config/docs/markdown editor
-    ├── dev-python       Python specialist (TDD, debugging)
-    ├── dev-shell        Bash/shell specialist
-    ├── dev-typescript   TypeScript/Express backend (TDD with Vitest)
-    ├── dev-frontend     HTML/CSS/TS, Chart.js, accessibility
-    ├── dev-reviewer     read-only code reviewer
-    ├── dev-refactor     restructures code, preserves behavior
-    └── dev-kiro-config  project-local kiro-config editor
+devops-orchestrator   ← default agent: plans, converses, delegates, handles git (ctrl+o)
+    ├── devops-docs         config/docs/markdown editor
+    ├── devops-python       Python specialist (TDD, debugging)
+    ├── devops-shell        Bash/shell specialist
+    ├── devops-typescript   TypeScript/Express backend (TDD with Vitest)
+    ├── devops-frontend     HTML/CSS/TS, Chart.js, accessibility
+    ├── devops-reviewer     read-only code reviewer
+    ├── devops-refactor     restructures code, preserves behavior
+    ├── devops-terraform    read-only Terraform analyst (preflight gate)
+    └── devops-kiro-config  project-local kiro-config editor
 
 base               standalone fallback for general questions
 ```
 
-- **10 agents** — orchestrator + 8 specialists + base fallback
-- **18 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **11 agents** — orchestrator + 9 specialists + base fallback
+- **19 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
 - **11 hooks** — secret scanning, sensitive file protection, bash write protection, sed/awk block on JSON, doc consistency, workspace context injection, session notification, self-learning pipeline (context enrichment, correction detection, auto-capture, distillation)
-- **11 steering docs** — engineering standards injected into every session
+- **12 steering docs** — engineering standards injected into every session
 - **Keyboard shortcut** — press `ctrl+o` in any session to jump to the orchestrator
 
 ## What you'll see during delegation
@@ -120,7 +121,7 @@ Subagents report task status using one of four markers:
 The orchestrator surfaces these when delegation completes, so you'll see them in the conversation when a subagent finishes.
 
 For deeper reading:
-- [Skill Catalog](../reference/skill-catalog.md) — all 18 skills with triggers and agent assignments
+- [Skill Catalog](../reference/skill-catalog.md) — all 19 skills with triggers and agent assignments
 - [Security Model](../reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
 - [Creating Agents](../reference/creating-agents.md) — how to add new specialist agents
 - [Audit Playbook](../reference/audit-playbook.md) — invariants and health checks for maintaining the config over time
@@ -134,8 +135,8 @@ see [Creating Agents](../reference/creating-agents.md).
 `personalize.sh` or edit the agent JSON directly:
 
 ```bash
-# Example: add ~/work/myproject to dev-orchestrator's write paths
-# Edit agents/dev-orchestrator.json → toolsSettings.fs_write.allowedPaths
+# Example: add ~/work/myproject to devops-orchestrator's write paths
+# Edit agents/devops-orchestrator.json → toolsSettings.fs_write.allowedPaths
 ```
 
 Use `jq` for edits — never `sed` on JSON files.

@@ -36,13 +36,13 @@ update_file() {
 echo ""
 echo "Updating agent configs..."
 
-for f in base.json dev-orchestrator.json; do
+for f in base.json devops-orchestrator.json; do
   update_file "${AGENTS_DIR}/${f}" \
     '.toolsSettings.fs_read.allowedPaths = $r | .toolsSettings.fs_write.allowedPaths = $w' \
     --argjson r "${read_paths}" --argjson w "${write_paths}"
 done
 
-for f in dev-docs.json dev-python.json dev-shell.json dev-refactor.json; do
+for f in devops-docs.json devops-python.json devops-shell.json devops-refactor.json; do
   update_file "${AGENTS_DIR}/${f}" \
     '.toolsSettings.fs_write.allowedPaths = $w' \
     --argjson w "${write_paths}"

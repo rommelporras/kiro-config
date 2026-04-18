@@ -228,3 +228,5 @@ PR from `feature/audit-phase4-deny-list-and-ergonomics-hardening` → `main` via
 2. Runtime: orchestrator dispatches dev-docs with "run python3 --version" → succeeds.
 3. `docs/specs/audit-triage-v0.6.0.md` lists 6 newly-CLOSED rows.
 4. `git log --oneline main..v0.6.0` → 5 conventional-commit lines matching the table above.
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

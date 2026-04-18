@@ -56,9 +56,9 @@ For each subtask, determine:
 ### Step 4: Assign agents
 
 Route each subtask using the orchestrator's routing table:
-- Code changes → dev-python, dev-shell, or dev-refactor
-- Config/docs/markdown → dev-docs
-- Review → dev-reviewer
+- Code changes → devops-python, devops-shell, or devops-refactor
+- Config/docs/markdown → devops-docs
+- Review → devops-reviewer
 - Research/web lookups → orchestrator (pre-gather for subagents)
 
 ### Step 5: Build the stage map
@@ -97,7 +97,7 @@ One sentence from the spec.
 ## Stage 1 (parallel)
 
 ### Task 1.1: [name]
-- **Agent:** dev-python
+- **Agent:** devops-python
 - **Objective:** [one sentence]
 - **Files:** create/modify/delete list
 - **Briefing context:** [file paths the agent needs to read]
@@ -106,7 +106,7 @@ One sentence from the spec.
 - **Skill triggers:** "implement with tests", "verify before completing"
 
 ### Task 1.2: [name]
-- **Agent:** dev-docs
+- **Agent:** devops-docs
 - **Objective:** [one sentence]
 - **Files:** create/modify list
 - **Briefing context:** [file paths]
@@ -116,7 +116,7 @@ One sentence from the spec.
 ## Stage 2 (after Stage 1)
 
 ### Task 2.1: [name]
-- **Agent:** dev-reviewer
+- **Agent:** devops-reviewer
 - **Depends on:** Task 1.1, Task 1.2
 - **Objective:** Review all changes from Stage 1
 - **Files to review:** [list from Stage 1]

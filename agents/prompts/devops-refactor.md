@@ -67,7 +67,7 @@ Never leave broken imports or missing updates.
 
 ## When receiving findings from a review
 
-You receive a prioritized list of findings from dev-reviewer. For each:
+You receive a prioritized list of findings from devops-reviewer. For each:
 1. Read the finding (file, line, what's wrong, suggested fix)
 2. Understand the surrounding code context
 3. Apply the fix

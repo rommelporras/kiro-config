@@ -5,7 +5,7 @@ description: Automated post-implementation workflow. Triggers when the orchestra
 
 ## Trigger
 
-Fires automatically after any implementation subagent (dev-python, dev-typescript, dev-shell, dev-refactor, dev-kiro-config, dev-frontend) returns DONE or DONE_WITH_CONCERNS. Do not skip. Do not ask the user.
+Fires automatically after any implementation subagent (devops-python, devops-typescript, devops-shell, devops-refactor, devops-kiro-config, devops-frontend) returns DONE or DONE_WITH_CONCERNS. Do not skip. Do not ask the user.
 
 ## Step 1: Update tracking documents
 
@@ -31,7 +31,7 @@ If failures → send back to implementer with full command output (not just "tes
 
 - For each file modified by the implementer, `grep docs/` for references to that file
 - If any doc references a modified file → flag it
-- If staleness found → dispatch dev-docs to update, or flag for user
+- If staleness found → dispatch devops-docs to update, or flag for user
 - **Metrics staleness:** After the quality gate, grep `docs/` and `README.md`
   for test counts and coverage percentages. If they don't match the current
   numbers from the test run, flag them for update. Common patterns:
@@ -39,7 +39,7 @@ If failures → send back to implementer with full command output (not just "tes
 
 ## Step 4: Auto-review
 
-Dispatch dev-reviewer with:
+Dispatch devops-reviewer with:
 - Files created/modified
 - What the implementation does
 - Implementer's concerns (if any)

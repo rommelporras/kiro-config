@@ -124,3 +124,5 @@ After all stages pass verification, present results to user for commit approval:
 - **Suggested type:** fix
 - **Suggested scope:** agents, skills, hooks
 - **Suggested message:** `fix: add TDD skills, enable selective MCP, fix auto-capture blind spots and ghost references`
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

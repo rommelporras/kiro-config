@@ -1,10 +1,19 @@
 {
-  "name": "dev-kiro-config",
+  "name": "devops-kiro-config",
   "description": "Edits kiro-config agent configs, prompts, hooks, steering, and skills. Project-local — only available in the kiro-config repo.",
-  "prompt": "file://../../agents/prompts/dev-docs.md",
+  "prompt": "file://../../agents/prompts/devops-docs.md",
   "model": "claude-sonnet-4.6",
-  "tools": ["read", "write", "shell", "code"],
-  "allowedTools": ["read", "write", "code"],
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "code"
+  ],
+  "allowedTools": [
+    "read",
+    "write",
+    "code"
+  ],
   "toolsSettings": {
     "fs_write": {
       "allowedPaths": [

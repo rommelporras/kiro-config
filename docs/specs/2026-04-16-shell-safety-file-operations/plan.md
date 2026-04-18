@@ -262,3 +262,5 @@ grep -rn '"rm \.\*"' agents/*.json
 Expected: only dev-reviewer.json matches
 
 - [x] **Step 4: Report completion**
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

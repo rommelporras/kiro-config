@@ -4,7 +4,7 @@
   "mcp.initTimeout": 60,
   "mcp.noInteractiveTimeout": 60,
   "chat.enableCheckpoint": true,
-  "chat.defaultAgent": "dev-orchestrator",
+  "chat.defaultAgent": "devops-orchestrator",
   "chat.enableSubagent": true,
   "chat.ui": "tui",
   "chat.enableThinking": true,
