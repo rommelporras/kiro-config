@@ -1,0 +1,179 @@
+{
+  "name": "devops-terraform",
+  "description": "Read-only Terraform analysis agent. Diagnoses errors, traces variable chains, checks git history, runs terraform plan, and suggests fixes. Never modifies files or infrastructure.",
+  "prompt": "file://./prompts/devops-terraform.md",
+  "model": "claude-sonnet-4.6",
+  "tools": [
+    "read",
+    "shell",
+    "code",
+    "aws"
+  ],
+  "allowedTools": [
+    "read",
+    "code"
+  ],
+  "toolsSettings": {
+    "fs_read": {
+      "allowedPaths": [
+        "~/.kiro",
+        "~/personal",
+        "~/eam"
+      ],
+      "deniedPaths": [
+        "~/.ssh",
+        "~/.aws/credentials",
+        "~/.gnupg",
+        "~/.config/gh",
+        "~/.kiro/settings/cli.json"
+      ]
+    },
+    "execute_bash": {
+      "autoAllowReadonly": true,
+      "allowedCommands": [
+        "terraform init$",
+        "terraform init -backend-config=.*",
+        "terraform plan.*",
+        "terraform validate.*",
+        "terraform fmt -check.*",
+        "terraform fmt --check.*",
+        "terraform workspace list.*",
+        "terraform workspace select .*",
+        "terraform workspace show.*",
+        "terraform state list.*",
+        "terraform state show .*",
+        "terraform show.*",
+        "terraform output.*",
+        "terraform providers$",
+        "terraform providers schema.*",
+        "terraform graph.*",
+        "terraform version.*",
+        "bash .*/mark-preflight\\.sh$",
+        "readlink .*",
+        "find .*"
+      ],
+      "deniedCommands": [
+        "terraform apply.*",
+        "terraform destroy.*",
+        "terraform import.*",
+        "terraform taint.*",
+        "terraform untaint.*",
+        "terraform state rm.*",
+        "terraform state mv.*",
+        "terraform state push.*",
+        "terraform state pull.*",
+        "terraform force-unlock.*",
+        "terraform init -upgrade.*",
+        "terraform init --upgrade.*",
+        "terraform providers lock.*",
+        "terraform console.*",
+        "terraform login.*",
+        "terraform logout.*",
+        "rm .*",
+        "mv .*",
+        "cp .*",
+        "mkdir.*",
+        "touch .*",
+        "tee .*",
+        "chmod -R 777 /",
+        "mkfs\\.",
+        "dd if=/dev.*",
+        "> /dev/sd",
+        "> /dev/nvme",
+        "git add.*",
+        "git commit.*",
+        "git push.*",
+        "git push",
+        "aws .* create-.*",
+        "aws .* delete-.*",
+        "aws .* update-.*",
+        "aws .* put-.*",
+        "aws .* modify-.*",
+        "aws .* start-.*",
+        "aws .* stop-.*",
+        "aws .* terminate-.*",
+        "aws .* run-.*",
+        "aws .* invoke.*",
+        "aws .* register-.*",
+        "aws .* deregister-.*",
+        "aws .* enable-.*",
+        "aws .* disable-.*",
+        "aws .* attach-.*",
+        "aws .* detach-.*",
+        "aws .* associate-.*",
+        "aws .* disassociate-.*",
+        "aws .* tag-.*",
+        "aws .* untag-.*",
+        "aws s3 cp.*",
+        "aws s3 mv.*",
+        "aws s3 rm.*",
+        "aws s3 sync.*",
+        "kubectl apply.*",
+        "kubectl create.*",
+        "kubectl delete.*",
+        "kubectl edit.*",
+        "kubectl patch.*",
+        "kubectl scale.*",
+        "kubectl drain.*",
+        "kubectl cordon.*",
+        "kubectl uncordon.*",
+        "kubectl taint.*",
+        "kubectl exec.*",
+        "kubectl run.*",
+        "kubectl cp.*",
+        "kubectl rollout undo.*",
+        "kubectl rollout restart.*",
+        "kubectl replace.*",
+        "kubectl set.*",
+        "kubectl label.*",
+        "kubectl annotate.*",
+        "helm install.*",
+        "helm upgrade.*",
+        "helm delete.*",
+        "helm uninstall.*",
+        "helm rollback.*",
+        "docker push.*",
+        "docker run.*",
+        "docker build.*",
+        "docker compose up.*",
+        "docker compose down.*",
+        "docker rm.*",
+        "docker rmi.*",
+        "docker stop.*",
+        "docker kill.*"
+      ]
+    },
+    "use_aws": {
+      "autoAllowReadonly": true
+    }
+  },
+  "resources": [
+    "file://~/.kiro/steering/**/*.md",
+    "file://.kiro/steering/**/*.md",
+    "skill://~/.kiro/skills/trace-code/SKILL.md",
+    "skill://~/.kiro/skills/explain-code/SKILL.md",
+    "skill://~/.kiro/skills/systematic-debugging/SKILL.md",
+    "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
+    "skill://~/.kiro/skills/terraform-audit/SKILL.md"
+  ],
+  "hooks": {
+    "preToolUse": [
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/terraform-preflight.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/bash-write-protect.sh",
+        "timeout_ms": 5000
+      },
+      {
+        "matcher": "execute_bash",
+        "command": "bash ~/.kiro/hooks/security/block-sed-json.sh",
+        "timeout_ms": 3000
+      }
+    ]
+  },
+  "includeMcpJson": false
+}

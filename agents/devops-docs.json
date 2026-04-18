@@ -1,7 +1,7 @@
 {
-  "name": "dev-docs",
+  "name": "devops-docs",
   "description": "Edits config files, documentation, and non-code text. Lightweight — no TDD, no linting. Use for markdown, JSON, YAML, TOML, path updates, and bulk replacements.",
-  "prompt": "file://./prompts/dev-docs.md",
+  "prompt": "file://./prompts/devops-docs.md",
   "model": "claude-sonnet-4.6",
   "tools": [
     "read",

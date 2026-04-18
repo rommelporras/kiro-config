@@ -5,6 +5,38 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.7.0] - 2026-04-19
+
+### BREAKING
+- Renamed all `dev-*` agents to `devops-*` to reflect DevOps Consultant team role
+- `settings/cli.json` default agent changed to `devops-orchestrator`
+- Migration: update any local `chat.defaultAgent` overrides from `dev-orchestrator` to `devops-orchestrator`
+
+### Added
+- `devops-terraform` — read-only Terraform analysis agent with hook-enforced preflight gate
+- `terraform-audit` skill — structured Terraform error diagnosis workflow
+- `steering/terraform.md` — general Terraform analysis rules
+- `hooks/terraform-preflight.sh` — hard block on terraform plan/validate/state without preflight confirmation
+- `scripts/mark-preflight.sh` — workspace-scoped preflight marker helper (deny-wins-over-allow workaround)
+- `docs/reference/security-model.md` — "Regex precedence: deny wins over allow" section documenting verified Kiro behavior
+- `knowledge/gotchas.md` — "Kiro Regex Precedence" entry: deny wins over allow when both match
+- eam-terraform knowledge base support in orchestrator (via personalize.sh)
+
+### Changed
+- Architecture diagrams updated in README, creating-agents, team-onboarding to include devops-terraform
+- Skill assignment matrices updated in README and skill-catalog with devops-terraform column + terraform-audit row
+- Feature counts updated across all living docs: 10→11 agents, 18→19 skills, 11→12 steering docs
+- `docs/setup/kiro-cli-install-checklist.md` — updated global/available skills count (18→19)
+- `skills/agent-audit/SKILL.md` baseline updated from v0.5.0 (11/18/11/10) to v0.7.0 (12/19/11/11)
+- `docs/reference/creating-agents.md` — Terraform entry updated to note devops-terraform already covers it
+- `docs/reference/security-model.md` — devops-terraform added to `rm .*` deny block agent list
+- README Infrastructure Read-Only Policy table — Terraform row expanded with init, workspace, show, output, graph
+- Historical docs receive rename footer note instead of text rewrite (preserves historical accuracy)
+- `docs/improvements/pending.md` — captured doc-audit skill proposal from v0.7.0 doc-ripple retrospective
+
+### Fixed
+- `hooks/doc-consistency.sh` — hook count excluded `_lib/distill.sh` (shared library, not a hook); was overcounting by 1
+
 ## [v0.6.1] - 2026-04-18
 
 Patch release — log accuracy rule, skill step additions, and doc corrections.
@@ -417,3 +449,5 @@ First release of kiro-config — opinionated global Kiro CLI configuration with 
 - Base agent (`base.json`) with pre-approved read-only tools and security hooks
 - MCP servers: Context7, AWS Documentation, AWS Diagram
 - Documentation: install checklist, IDE + WSL2 setup, troubleshooting, skill catalog, security model, custom agent guide
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

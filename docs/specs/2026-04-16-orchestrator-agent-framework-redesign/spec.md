@@ -736,3 +736,5 @@ Remove completed/dropped items:
 - [ ] skill-catalog.md and creating-agents.md are updated
 - [ ] README.md counts are accurate
 - [ ] shellcheck clean on any modified hooks
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

@@ -74,7 +74,7 @@ Files outside allowed paths require user approval per operation.
 
 Shell-level blocks in `execute_bash` settings. Defense-in-depth alongside bash-write-protect.sh hook.
 
-**Denied (recursive rm):** Subagents block across flag variants via four patterns — `rm -r.*`, `rm -[a-zA-Z]*r[a-zA-Z]* .*`, `rm --recursive.*`, `rm --force --recursive.*` — while allowing single-file rm. Orchestrator uses the same patterns minus `rm -r.*` (three patterns). `dev-reviewer` and `dev-kiro-config` use the stricter `rm .*` to block every rm invocation.
+**Denied (recursive rm):** Subagents block across flag variants via four patterns — `rm -r.*`, `rm -[a-zA-Z]*r[a-zA-Z]* .*`, `rm --recursive.*`, `rm --force --recursive.*` — while allowing single-file rm. Orchestrator uses the same patterns minus `rm -r.*` (three patterns). `devops-reviewer`, `devops-terraform`, and `devops-kiro-config` use the stricter `rm .*` to block every rm invocation.
 
 **Denied (destructive commands, all agents):** `chmod -R 777 /`, `mkfs.`, `dd if=/dev.*`, `> /dev/sd`, `> /dev/nvme`. The `.*` suffix on `dd` is required because Kiro CLI regex is anchored with `\A`/`\z` — patterns must match the full command string, not a substring.
 
@@ -99,6 +99,14 @@ A single operation can be checked by all three layers. For example, `echo "AKIA.
 2. **Layer 2** checks if `~/.env` is in a denied path
 3. **Layer 1** (`bash-write-protect.sh`) checks for redirect to sensitive file
 4. **Layer 1** (`scan-secrets.sh`) checks content for AWS key pattern
+
+## Regex precedence: deny wins over allow
+
+When a command matches both an `allowedCommands` and `deniedCommands` pattern in the same agent, **deny wins**. Narrow-allow-over-broad-deny does NOT work.
+
+Verified 2026-04-18: `touch .testmark-allowed.txt` (narrow allow) was blocked by `touch .*` (broad deny).
+
+**Workaround:** Use non-overlapping patterns, or wrap the allowed action in a helper script with its own allow entry (e.g., `bash .*/mark-preflight.sh$` instead of `touch .terraform/.preflight-confirmed-*`).
 
 ## AgentSpawn Context
 

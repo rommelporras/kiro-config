@@ -1,7 +1,7 @@
 {
-  "name": "dev-typescript",
-  "description": "Writes and modifies TypeScript code for Node.js/Express backends. Follows TDD with Vitest, strict TypeScript, and verifies before completing.",
-  "prompt": "file://./prompts/dev-typescript.md",
+  "name": "devops-refactor",
+  "description": "Restructures existing code to improve organization, readability, and maintainability without changing behavior.",
+  "prompt": "file://./prompts/devops-refactor.md",
   "model": "claude-sonnet-4.6",
   "tools": [
     "read",
@@ -116,10 +116,10 @@
   "resources": [
     "file://~/.kiro/steering/**/*.md",
     "file://.kiro/steering/**/*.md",
-    "skill://~/.kiro/skills/test-driven-development/SKILL.md",
-    "skill://~/.kiro/skills/systematic-debugging/SKILL.md",
     "skill://~/.kiro/skills/verification-before-completion/SKILL.md",
-    "skill://~/.kiro/skills/receiving-code-review/SKILL.md"
+    "skill://~/.kiro/skills/receiving-code-review/SKILL.md",
+    "skill://~/.kiro/skills/test-driven-development/SKILL.md",
+    "skill://~/.kiro/skills/systematic-debugging/SKILL.md"
   ],
   "hooks": {
     "preToolUse": [

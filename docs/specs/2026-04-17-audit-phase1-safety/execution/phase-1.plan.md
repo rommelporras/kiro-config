@@ -163,3 +163,5 @@ After all stages pass verification, present results to user for commit approval:
 - **Suggested type:** fix
 - **Suggested scope:** agents, hooks, skills
 - **Suggested message:** `fix: patch deny-list patterns, add security hooks to subagents, fix knowledge pipeline bugs`
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

@@ -2089,3 +2089,5 @@ After Round 3 adjustments:
 21. Remaining HIGH items
 22. MEDIUM items (including MISSED-01 double steering load)
 23. LOW items (including MISSED-03 documentation)
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

@@ -5,27 +5,28 @@ Personal Kiro CLI configuration with multi-agent orchestrator, multi-domain stee
 ## Architecture
 
 ```
-User ↔ dev-orchestrator (plans, converses, coordinates, git ops)
-            ├── dev-docs      (edits config, docs, markdown — no TDD)
-            ├── dev-python    (writes Python code, TDD, debugging)
-            ├── dev-shell     (writes Bash/shell, system automation)
-            ├── dev-typescript (writes TypeScript/Express, TDD with Vitest)
-            ├── dev-frontend  (writes HTML/CSS/TS, Chart.js, accessibility)
-            ├── dev-reviewer  (read-only analysis, no write tool)
-            ├── dev-refactor  (restructures code, preserves behavior)
-            └── dev-kiro-config (project-local: kiro-config editing)
+User ↔ devops-orchestrator (plans, converses, coordinates, git ops)
+            ├── devops-docs      (edits config, docs, markdown — no TDD)
+            ├── devops-python    (writes Python code, TDD, debugging)
+            ├── devops-shell     (writes Bash/shell, system automation)
+            ├── devops-typescript (writes TypeScript/Express, TDD with Vitest)
+            ├── devops-frontend  (writes HTML/CSS/TS, Chart.js, accessibility)
+            ├── devops-reviewer  (read-only analysis, no write tool)
+            ├── devops-refactor  (restructures code, preserves behavior)
+            ├── devops-terraform (read-only Terraform analysis, preflight gate)
+            └── devops-kiro-config (project-local: kiro-config editing)
 
 base — standalone fallback for general questions (no orchestration)
 ```
 
-The `dev-orchestrator` is the default agent. It never writes executable code — config and markdown edits are handled directly for small scope (<10 files), everything else is delegated to specialists. Skills are curated per agent (no global wildcard loading).
+The `devops-orchestrator` is the default agent. It never writes executable code — config and markdown edits are handled directly for small scope (<10 files), everything else is delegated to specialists. Skills are curated per agent (no global wildcard loading).
 
 ## Features
 
-- **11 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash, TypeScript, web development, frontend, design principles
-- **18 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
-- **11 hooks** — secret scanning, sensitive file protection, bash write protection, sed/awk block on JSON, doc consistency, workspace context injection, session notification, self-learning pipeline (context enrichment, correction detection, auto-capture, distillation)
-- **10 agents** — dev-orchestrator + 8 dev specialists + base fallback
+- **12 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash, TypeScript, web development, frontend, design principles, terraform
+- **19 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **11 hooks** — secret scanning, sensitive file protection, bash write protection, sed/awk block on JSON, doc consistency, workspace context injection, session notification, terraform preflight gate, self-learning pipeline (context enrichment, correction detection, auto-capture, distillation)
+- **11 agents** — devops-orchestrator + 9 specialists + base fallback
 - **Self-learning knowledge pipeline** — corrections auto-captured, keywords tracked, rules auto-promoted
 - **Knowledge base integration** — semantic search across config with auto-indexing
 - **Infrastructure is read-only** — Kiro writes code in files but never executes mutating infra commands
@@ -34,15 +35,16 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 
 ```
 ├── agents/          # Agent configurations
-│   ├── dev-orchestrator.json  # Default — plans, delegates, git ops
-│   ├── dev-docs.json           # Config/docs editor subagent
-│   ├── dev-python.json        # Python specialist subagent
-│   ├── dev-shell.json         # Shell/Bash specialist subagent
-│   ├── dev-typescript.json    # TypeScript/Express specialist subagent
-│   ├── dev-frontend.json      # Frontend specialist subagent
-│   ├── dev-reviewer.json      # Read-only reviewer subagent
-│   ├── dev-refactor.json      # Refactoring specialist subagent
-│   ├── dev-kiro-config.json   # Project-local kiro-config editor (in .kiro/agents/)
+│   ├── devops-orchestrator.json  # Default — plans, delegates, git ops
+│   ├── devops-docs.json           # Config/docs editor subagent
+│   ├── devops-python.json        # Python specialist subagent
+│   ├── devops-shell.json         # Shell/Bash specialist subagent
+│   ├── devops-typescript.json    # TypeScript/Express specialist subagent
+│   ├── devops-frontend.json      # Frontend specialist subagent
+│   ├── devops-reviewer.json      # Read-only reviewer subagent
+│   ├── devops-refactor.json      # Refactoring specialist subagent
+│   ├── devops-terraform.json    # Read-only Terraform analyst subagent
+│   ├── devops-kiro-config.json   # Project-local kiro-config editor (in .kiro/agents/)
 │   ├── base.json              # Standalone fallback (no orchestration)
 │   └── prompts/               # Markdown prompts for each agent
 ├── hooks/           # Hook scripts
@@ -59,6 +61,7 @@ The `dev-orchestrator` is the default agent. It never writes executable code —
 │   ├── protect-sensitive.sh
 │   ├── bash-write-protect.sh
 │   ├── doc-consistency.sh
+│   ├── terraform-preflight.sh
 │   └── notify.sh
 ├── knowledge/       # Self-evolving knowledge base
 │   ├── rules.md     # Permanent rules (🔴 critical + 🟡 relevant)
@@ -123,28 +126,29 @@ These are shared safety and behavior contracts — changing them weakens the sys
 
 ## Agent Skill Assignments
 
-| Skill | dev-orchestrator | dev-docs | dev-python | dev-shell | dev-typescript | dev-frontend | dev-reviewer | dev-refactor | dev-kiro-config |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| design-and-spec | ✓ | | | | | | | | |
-| writing-plans | ✓ | | | | | | | | |
-| execution-planning | ✓ | | | | | | | | |
-| subagent-driven-development | ✓ | | | | | | | | |
-| dispatching-parallel-agents | ✓ | | | | | | | | |
-| post-implementation | ✓ | | | | | | | | |
-| commit | ✓ | | | | | | | | |
-| push | ✓ | | | | | | | | |
-| explain-code | ✓ | | | | | | | | |
-| agent-audit | ✓ | | | | | | | | |
-| trace-code | ✓ | | | | | | | | |
-| codebase-audit | ✓ | | | | | | | | |
-| test-driven-development | | | ✓ | | ✓ | | | ✓ | |
-| systematic-debugging | | | ✓ | ✓ | ✓ | | | | |
-| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| receiving-code-review | | | ✓ | ✓ | ✓ | ✓ | | ✓ | |
-| python-audit | | | ✓ | | | | ✓ | | |
-| typescript-audit | | | | | | | ✓ | | |
+| Skill | devops-orchestrator | devops-docs | devops-python | devops-shell | devops-typescript | devops-frontend | devops-reviewer | devops-refactor | devops-terraform | devops-kiro-config |
+|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| design-and-spec | ✓ | | | | | | | | | |
+| writing-plans | ✓ | | | | | | | | | |
+| execution-planning | ✓ | | | | | | | | | |
+| subagent-driven-development | ✓ | | | | | | | | | |
+| dispatching-parallel-agents | ✓ | | | | | | | | | |
+| post-implementation | ✓ | | | | | | | | | |
+| commit | ✓ | | | | | | | | | |
+| push | ✓ | | | | | | | | | |
+| explain-code | ✓ | | | | | | | | ✓ | |
+| agent-audit | ✓ | | | | | | | | | |
+| trace-code | ✓ | | | | | | | | ✓ | |
+| codebase-audit | ✓ | | | | | | | | | |
+| test-driven-development | | | ✓ | | ✓ | | | ✓ | | |
+| systematic-debugging | | | ✓ | ✓ | ✓ | | | | ✓ | |
+| verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| receiving-code-review | | | ✓ | ✓ | ✓ | ✓ | | ✓ | | |
+| python-audit | | | ✓ | | | | ✓ | | | |
+| typescript-audit | | | | | | | ✓ | | | |
+| terraform-audit | | | | | | | | | ✓ | |
 
-**base agent** loads 14 of the 18 global skills — all orchestrator skills except dispatching-parallel-agents, execution-planning, subagent-driven-development, and post-implementation, plus the subagent-only skills. See [Skill Catalog](docs/reference/skill-catalog.md) for the full list.
+**base agent** loads 14 of the 19 global skills — all orchestrator skills except dispatching-parallel-agents, execution-planning, subagent-driven-development, and post-implementation, plus the subagent-only skills. See [Skill Catalog](docs/reference/skill-catalog.md) for the full list.
 
 ## Self-Learning Pipeline
 
@@ -179,7 +183,7 @@ Kiro may write infrastructure code in files but **never executes mutating comman
 
 | Tool | Allowed (read-only) | Blocked (mutating) |
 |------|---------------------|--------------------|
-| Terraform | `plan`, `validate`, `fmt`, `state list`, `state show` | `apply`, `destroy`, `import`, `taint` |
+| Terraform | `plan`, `validate`, `fmt`, `init`, `state list/show`, `workspace list/show/select`, `show`, `output`, `graph` | `apply`, `destroy`, `import`, `taint`, `init -upgrade`, `providers lock`, `console` |
 | Helm | `lint`, `template`, `diff`, `list`, `get`, `status` | `install`, `upgrade`, `delete`, `rollback` |
 | kubectl | `get`, `describe`, `logs`, `top`, `explain`, `diff` | `apply`, `delete`, `edit`, `patch`, `scale` |
 | Docker | `inspect`, `images`, `ps`, `scout`, `history` | `push`, `run`, `build`, `compose up` |
@@ -191,7 +195,7 @@ MIT
 
 ## Documentation
 
-- [Skill Catalog](docs/reference/skill-catalog.md) — all 18 skills with triggers and agent assignments
+- [Skill Catalog](docs/reference/skill-catalog.md) — all 19 skills with triggers and agent assignments
 - [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
 - [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
 - [Audit Playbook](docs/reference/audit-playbook.md) — invariants, quick health check, deep audit protocol, historical failure patterns

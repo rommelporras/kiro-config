@@ -121,3 +121,5 @@ for the full table. All 13 counter-audit findings remain CLOSED.
 - **Future maintenance enters via `audit-playbook.md`** — S10 invariant now covers aws s3 deny; `bash scripts/test-hooks.sh` covers new protect-sensitive patterns.
 
 — audit agent
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

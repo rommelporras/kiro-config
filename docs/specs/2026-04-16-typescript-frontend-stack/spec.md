@@ -410,3 +410,5 @@ is a consumer. This avoids conflicts.
 - [ ] New agents appear in skill-catalog.md matrix
 - [ ] shellcheck clean on any modified hooks
 - [ ] Agent-audit passes with no inconsistencies after all changes
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.

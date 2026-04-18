@@ -12,15 +12,16 @@ Guide for creating Kiro CLI custom agents. See the
 This config uses a multi-agent orchestrator pattern:
 
 ```
-User ↔ dev-orchestrator (plans, converses, coordinates)
-            ├── dev-docs      (edits config, docs, markdown)
-            ├── dev-python    (writes Python code)
-            ├── dev-shell     (writes Bash/shell code)
-            ├── dev-typescript (writes TypeScript/Express)
-            ├── dev-frontend  (writes HTML/CSS/TS frontends)
-            ├── dev-reviewer  (read-only analysis)
-            ├── dev-refactor  (restructures code)
-            └── dev-kiro-config (project-local: kiro-config editing)
+User ↔ devops-orchestrator (plans, converses, coordinates)
+            ├── devops-docs      (edits config, docs, markdown)
+            ├── devops-python    (writes Python code)
+            ├── devops-shell     (writes Bash/shell code)
+            ├── devops-typescript (writes TypeScript/Express)
+            ├── devops-frontend  (writes HTML/CSS/TS frontends)
+            ├── devops-reviewer  (read-only analysis)
+            ├── devops-refactor  (restructures code)
+            ├── devops-terraform (read-only Terraform analysis)
+            └── devops-kiro-config (project-local: kiro-config editing)
 ```
 
 The orchestrator is the default agent. It never writes executable code — config
@@ -31,7 +32,7 @@ delegated to specialists. The user never swaps agents manually.
 
 | Signal | Action |
 |---|---|
-| New language/domain (Go, Rust, Terraform) | Create a specialist subagent |
+| New language/domain (Go, Rust, etc.) — note: Terraform is covered by devops-terraform | Create a specialist subagent |
 | New review type (security audit, perf review) | Create a read-only reviewer |
 | Project-specific workflow | Create a project-local agent |
 
@@ -137,7 +138,7 @@ Always inherit these when creating new agents:
 1. **Hooks** — `scan-secrets.sh`, `protect-sensitive.sh`, `bash-write-protect.sh`, `block-sed-json.sh`
 2. **Self-learning hooks** — `context-enrichment.sh`, `correction-detect.sh` (orchestrator only)
 3. **Denied paths** — `~/.ssh`, `~/.aws/credentials`, `~/.gnupg`, `~/.config/gh`
-4. **Denied commands** — `"rm -r.*"`, `"rm -[a-zA-Z]*r[a-zA-Z]* .*"`, `"rm --recursive.*"`, `"rm --force --recursive.*"` (blocks recursive rm across flag variants; dev-reviewer and dev-kiro-config keep the full `"rm .*"` block instead), `chmod -R 777 /`, `mkfs.`, `"dd if=/dev.*"` (the `.*` suffix is required — Kiro CLI regex is anchored with `\A`/`\z`, so patterns must match the full command string)
+4. **Denied commands** — `"rm -r.*"`, `"rm -[a-zA-Z]*r[a-zA-Z]* .*"`, `"rm --recursive.*"`, `"rm --force --recursive.*"` (blocks recursive rm across flag variants; devops-reviewer and devops-kiro-config keep the full `"rm .*"` block instead), `chmod -R 777 /`, `mkfs.`, `"dd if=/dev.*"` (the `.*` suffix is required — Kiro CLI regex is anchored with `\A`/`\z`, so patterns must match the full command string)
 5. **Global steering** — `"file://~/.kiro/steering/**/*.md"` in resources
 6. **Agent-audit compatibility** — new agents should be added to the agent-audit skill's review scope (it reads all `agents/*.json` and `agents/prompts/` files automatically)
 
@@ -188,12 +189,12 @@ Cap retries at 2. If still failing after 2 attempts, escalate to the user.
 
 | Agent type | Examples | Scope |
 |---|---|---|
-| Cross-language | dev-reviewer, dev-refactor | Work on any language — focus on structure, patterns, quality |
-| Language-specific | dev-python, dev-shell | Deep language expertise — TDD, linting, type checking |
+| Cross-language | devops-reviewer, devops-refactor | Work on any language — focus on structure, patterns, quality |
+| Language-specific | devops-python, devops-shell | Deep language expertise — TDD, linting, type checking |
 
 Cross-language agents should not run language-specific quality tools (ruff, mypy, shellcheck). Delegate quality checks to the language-specific agent.
 
-### Project-local agents (dev-kiro-config pattern)
+### Project-local agents (devops-kiro-config pattern)
 
 Some projects need elevated permissions that would be unsafe to grant globally. Create a project-local agent:
 
@@ -202,7 +203,7 @@ Some projects need elevated permissions that would be unsafe to grant globally. 
 3. Register it in the orchestrator's `availableAgents` list
 4. The orchestrator routes project-specific tasks to it; falls back gracefully when unavailable in other projects
 
-Example: `dev-kiro-config` has write access to `agents/`, `hooks/`, `steering/`, `skills/` within the kiro-config repo — permissions that would be too broad for a global agent.
+Example: `devops-kiro-config` has write access to `agents/`, `hooks/`, `steering/`, `skills/` within the kiro-config repo — permissions that would be too broad for a global agent.
 
 ## Tips
 

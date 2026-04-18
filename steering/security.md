@@ -34,5 +34,5 @@
 - **Subagent protection is via deny lists** — `deniedCommands` and `deniedPaths`
   in each agent's `toolsSettings` enforce boundaries.
 - **Code-reviewer has no write tool** — enforced at the config level, not just prompt.
-- **Always route through dev-reviewer** before committing new scripts or
+- **Always route through devops-reviewer** before committing new scripts or
   implementations touching 3+ files.

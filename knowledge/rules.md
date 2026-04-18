@@ -8,7 +8,7 @@
 - 🔴 Always add --no-cli-pager and --output json when subagents run AWS CLI via shell.
 
 ## [subagent,delegate,config,markdown,json,yaml,docs]
-- 🟡 Do NOT dispatch dev-python for non-code file edits (markdown, JSON, YAML, config updates, path replacements). Use dev-docs or dev-kiro-config.
+- 🟡 Do NOT dispatch devops-python for non-code file edits (markdown, JSON, YAML, config updates, path replacements). Use devops-docs or devops-kiro-config.
 - 🟡 Minimize dispatch count — group related edits into fewer, larger dispatches. Each dispatch has initialization overhead.
 
 ## [commit,push,git]

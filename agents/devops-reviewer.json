@@ -1,7 +1,7 @@
 {
-  "name": "dev-reviewer",
+  "name": "devops-reviewer",
   "description": "Reviews code for quality, security, patterns, and correctness. Read-only — analyzes and reports but never modifies code.",
-  "prompt": "file://./prompts/dev-reviewer.md",
+  "prompt": "file://./prompts/devops-reviewer.md",
   "model": "claude-sonnet-4.6",
   "tools": [
     "read",

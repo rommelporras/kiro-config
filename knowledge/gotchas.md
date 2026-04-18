@@ -41,5 +41,10 @@ Operational lessons learned. Updated manually or by the agent-audit skill.
 - Subagents must NEVER commit or push when modifying global config. The orchestrator handles all git operations.
 
 ## Orchestrator Sequential Edit Anti-Pattern
-- When agent-audit or similar analysis produces 3+ text edits across multiple files, dispatch dev-docs with all edits in one briefing. Don't do sequential strReplace calls from the orchestrator — each is a round-trip that adds up.
-- The '<10 files do it directly' rule was too generous. 1-2 quick edits = direct. 3+ edits = dev-docs.
+- When agent-audit or similar analysis produces 3+ text edits across multiple files, dispatch devops-docs with all edits in one briefing. Don't do sequential strReplace calls from the orchestrator — each is a round-trip that adds up.
+- The '<10 files do it directly' rule was too generous. 1-2 quick edits = direct. 3+ edits = devops-docs.
+
+## Kiro Regex Precedence (allow vs deny)
+- When a command matches both an `allowedCommands` and `deniedCommands` pattern in the same agent, **deny wins**. Narrow-allow-over-broad-deny does NOT work.
+- Use non-overlapping patterns, or wrap the allowed action in a helper script with its own allow entry (e.g., `bash .*/mark-preflight.sh$` instead of `touch .terraform/.preflight-confirmed-*`).
+- Verified 2026-04-18: `touch .testmark-allowed.txt` (narrow allow) was blocked by `touch .*` (broad deny) on scratch-precedence agent.

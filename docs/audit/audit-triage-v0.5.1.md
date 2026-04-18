@@ -207,3 +207,5 @@ Items where my earlier audit reasoning was weak or wrong — useful for future c
 - **Future maintenance enters via `audit-playbook.md`** — `bash scripts/test-hooks.sh` catches hook regressions; quick-check script covers count drift and invariants.
 
 — audit agent
+
+> Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.
