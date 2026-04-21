@@ -127,7 +127,7 @@ Cross-reference documentation files against source-of-truth config files:
 - Flag any mismatch (file listed but missing, or file exists but unlisted)
 
 **Feature count verification:**
-- For each count in the Features section (e.g., "N steering docs", "N skills", "N hooks", "N agents"), verify the number against the actual filesystem. Current baseline as of v0.7.0: 12 steering docs, 19 skills, 11 hooks, 11 agents.
+- For each count in the Features section (e.g., "N steering docs", "N skills", "N hooks", "N agents"), verify the number against the actual filesystem. Current baseline as of v0.7.0: 12 steering docs, 20 skills, 11 hooks, 11 agents.
 - Flag any count that doesn't match
 
 ### Phase 9: Check for staleness

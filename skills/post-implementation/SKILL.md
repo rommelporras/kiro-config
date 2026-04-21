@@ -36,6 +36,8 @@ If failures → send back to implementer with full command output (not just "tes
   for test counts and coverage percentages. If they don't match the current
   numbers from the test run, flag them for update. Common patterns:
   `\d+ tests`, `\d+%\s*coverage`, `\d+ passed`.
+- **Numeric drift check:** Run `bash ~/.kiro/hooks/doc-consistency.sh`. If it reports DRIFT, flag the drifted files for update (dispatch devops-docs or include in doc-drift findings if the skill is active).
+- **Doc-drift detection:** If `git status --porcelain` shows created or deleted files, invoke the doc-drift skill (auto mode). The skill checks whether changes are in tracked categories and runs detection if so. If no `docs-structure.md` exists in the project, skip — doc-drift auto mode requires it.
 
 ## Step 4: Auto-review
 

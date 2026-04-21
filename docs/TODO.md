@@ -30,6 +30,12 @@
   - Update: tooling.md (Node.js/npm, project-specific venvs)
   - Orchestrator routing: TypeScript + frontend lanes
 
+- [x] **Spec: doc-drift skill** — `docs/specs/2026-04-20-doc-drift-skill/spec.md`
+  - Tier 0: design-and-spec ripple awareness
+  - Tier 1: doc-consistency.sh steering count + post-implementation wire-up
+  - Tier 2: doc-drift skill with 3 parallel specialists
+  - .kiro/steering/docs-structure.md for kiro-config
+
 ## Bug Fixes
 
 - [x] **doc-consistency.sh: regex doesn't match actual README/skill-catalog text**

@@ -48,6 +48,7 @@ Have strong opinions, held loosely — push back with conviction, change your mi
 
 ## Convergence (both modes)
 
+0. **Ripple check** — list which existing docs enumerate the artifact category being added (agents, skills, hooks, steering). Include those docs in the spec's "Files to Update" section. If unsure, grep `docs/` and `README.md` for artifact names from the category.
 1. Write spec to `docs/specs/YYYY-MM-DD-<topic>/spec.md`
 2. Ask user to review: "Spec written to `<path>`. Review it and let me know if you want changes before we move to planning."
 3. Wait for approval. Make changes if requested, then re-ask.

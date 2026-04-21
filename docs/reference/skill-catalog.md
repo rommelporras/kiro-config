@@ -4,8 +4,8 @@
 
 [Back to README](../../README.md) | Related: [Creating agents](creating-agents.md) | [Security model](security-model.md) | [Audit playbook](audit-playbook.md)
 
-Quick reference for all 19 skills — what they do, when they activate, and which agents load them.
-12 skills load on devops-orchestrator; 7 are subagent-only.
+Quick reference for all 20 skills — what they do, when they activate, and which agents load them.
+12 skills load on devops-orchestrator; 8 are subagent-only.
 
 ## Workflow chain
 
@@ -32,6 +32,7 @@ Each skill activates independently by description matching. The chain is optiona
 | **agent-audit** | devops-orchestrator | Audits agents, prompts, skills, and knowledge for gaps and inconsistencies. Reads `docs/improvements/pending.md`. Proposes changes. | "agent-audit", "audit agents", "review config" |
 | **trace-code** | devops-orchestrator | Deep code flow tracing from entry point to output with file:line references. | "trace this", "map the code flow", "what files are involved in" |
 | **codebase-audit** | devops-orchestrator | Periodic health check: git churn, complexity, coverage, deps, TODOs. Structured findings with severity/effort/agent. | "health check", "technical debt", "codebase audit" |
+| **doc-drift** | devops-orchestrator | Detects documentation drift after structural changes. Dispatches 3 parallel specialists (structural/tabular, prose/content, metadata/numeric) to audit docs against tracked categories (agents, skills, hooks, steering). Auto-triggers from post-implementation when tracked-category files change; also on-demand. | "audit my docs", "check doc drift", "docs out of date" |
 
 ### Git operations
 
@@ -56,8 +57,8 @@ Each skill activates independently by description matching. The chain is optiona
 
 | Skill | Agent(s) | What it does | Activates when you say... |
 |---|---|---|---|
-| **test-driven-development** | devops-python, devops-typescript, devops-refactor | Enforces RED-GREEN-REFACTOR. Blocks code written before tests. | "implement with tests" |
-| **systematic-debugging** | devops-python, devops-shell | 4 phases: investigation → pattern analysis → hypothesis → implementation. Blocks guessing. | "debug this", "why is this failing" |
+| **test-driven-development** | devops-python, devops-shell, devops-typescript, devops-frontend, devops-refactor | Enforces RED-GREEN-REFACTOR. Blocks code written before tests. | "implement with tests" |
+| **systematic-debugging** | devops-python, devops-shell, devops-typescript, devops-refactor, devops-terraform | 4 phases: investigation → pattern analysis → hypothesis → implementation. Blocks guessing. | "debug this", "why is this failing" |
 | **verification-before-completion** | devops-python, devops-shell, devops-reviewer, devops-refactor | Gate before success claims: identify → run → read → verify → claim. | "verify everything works" |
 | **receiving-code-review** | devops-python, devops-shell, devops-refactor | Processes review feedback with technical rigor. Push back when suggestions are wrong. | "here's feedback on my code" |
 | **python-audit** | devops-python, devops-reviewer | Runs ruff, mypy, pytest. Reports quality metrics. | "audit code", "python audit" |
@@ -79,17 +80,18 @@ Each skill activates independently by description matching. The chain is optiona
 | agent-audit | ✓ | | | | | | | | | |
 | trace-code | ✓ | | | | | | | | ✓ | |
 | codebase-audit | ✓ | | | | | | | | | |
-| test-driven-development | | | ✓ | | ✓ | | | ✓ | | |
-| systematic-debugging | | | ✓ | ✓ | ✓ | | | | ✓ | |
+| test-driven-development | | | ✓ | ✓ | ✓ | ✓ | | ✓ | | |
+| systematic-debugging | | | ✓ | ✓ | ✓ | | | ✓ | ✓ | |
 | verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | receiving-code-review | | | ✓ | ✓ | ✓ | ✓ | | ✓ | | |
 | python-audit | | | ✓ | | | | ✓ | | | |
 | typescript-audit | | | | | | | ✓ | | | |
 | terraform-audit | | | | | | | | | ✓ | |
+| doc-drift | ✓ | | | | | | | | | |
 
-**Totals:** devops-orchestrator: 12, devops-docs: 1, devops-python: 5, devops-shell: 3, devops-typescript: 4, devops-frontend: 2, devops-reviewer: 3, devops-refactor: 3, devops-terraform: 5, devops-kiro-config: 1
+**Totals:** devops-orchestrator: 13, devops-docs: 1, devops-python: 5, devops-shell: 4, devops-typescript: 4, devops-frontend: 3, devops-reviewer: 3, devops-refactor: 4, devops-terraform: 5, devops-kiro-config: 1
 
-**base agent** loads 14 of the 19 global skills — all orchestrator skills except dispatching-parallel-agents, execution-planning, subagent-driven-development, and post-implementation, plus the subagent-only skills. See `agents/base.json` for the full list.
+**base agent** loads 14 of the 20 global skills — all orchestrator skills except dispatching-parallel-agents, execution-planning, subagent-driven-development, and post-implementation, plus the subagent-only skills. See `agents/base.json` for the full list.
 
 ## Automated workflows
 
@@ -146,3 +148,4 @@ Each skill addresses a specific failure mode:
 | "It should work" without evidence | verification-before-completion |
 | Blindly accepting bad review feedback | receiving-code-review |
 | Terraform errors diagnosed by guessing | terraform-audit |
+| Documentation drifting after structural changes | doc-drift |
