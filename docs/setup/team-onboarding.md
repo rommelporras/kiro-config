@@ -74,7 +74,7 @@ Start a `kiro-cli` session and run:
 
 Expected output:
 - **12 steering files** — `engineering.md`, `tooling.md`, `universal-rules.md`, `python-boto3.md`, `security.md`, `aws-cli.md`, `shell-bash.md`, `typescript.md`, `web-development.md`, `frontend.md`, `design-principles.md`, `terraform.md`
-- **19 skills** loaded globally
+- **20 skills** loaded globally
 - **4 MCP servers** — Context7, AWS Docs, AWS Diagram, Playwright
 
 Also check:
@@ -104,7 +104,7 @@ base               standalone fallback for general questions
 ```
 
 - **11 agents** — orchestrator + 9 specialists + base fallback
-- **19 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **20 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
 - **11 hooks** — secret scanning, sensitive file protection, bash write protection, sed/awk block on JSON, doc consistency, workspace context injection, session notification, self-learning pipeline (context enrichment, correction detection, auto-capture, distillation)
 - **12 steering docs** — engineering standards injected into every session
 - **Keyboard shortcut** — press `ctrl+o` in any session to jump to the orchestrator
@@ -121,7 +121,7 @@ Subagents report task status using one of four markers:
 The orchestrator surfaces these when delegation completes, so you'll see them in the conversation when a subagent finishes.
 
 For deeper reading:
-- [Skill Catalog](../reference/skill-catalog.md) — all 19 skills with triggers and agent assignments
+- [Skill Catalog](../reference/skill-catalog.md) — all 20 skills with triggers and agent assignments
 - [Security Model](../reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
 - [Creating Agents](../reference/creating-agents.md) — how to add new specialist agents
 - [Audit Playbook](../reference/audit-playbook.md) — invariants and health checks for maintaining the config over time

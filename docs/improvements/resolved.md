@@ -43,3 +43,7 @@ Items addressed from pending.md. Audit trail.
 - Fix: Updated `sre/eam_sre/bounce/cli.py:155` help text to match new behavior. Also added argparse check rule to `agents/prompts/dev-python.md`.
 
 > Note: as of v0.7.0, dev-* agents were renamed to devops-*. See docs/specs/2026-04-18-devops-terraform-and-rename/spec.md.
+
+## 2026-04-20 — doc-audit proposal superseded by doc-drift skill
+- Original: Feature proposal for `doc-audit` skill with parallel specialist agents
+- Fix: Superseded by `docs/specs/2026-04-20-doc-drift-skill/spec.md` — implemented as `doc-drift` skill with 3 parallel specialists, auto/on-demand trigger, and `docs-structure.md` steering.

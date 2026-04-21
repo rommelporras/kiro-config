@@ -204,6 +204,7 @@
     "skill://~/.kiro/skills/explain-code/SKILL.md",
     "skill://~/.kiro/skills/commit/SKILL.md",
     "skill://~/.kiro/skills/push/SKILL.md",
+    "skill://~/.kiro/skills/doc-drift/SKILL.md",
     {
       "type": "knowledgeBase",
       "source": "file://~/.kiro",

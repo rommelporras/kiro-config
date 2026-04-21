@@ -5,6 +5,40 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.8.0] - 2026-04-20
+
+### Added
+- `doc-drift` skill — detects documentation drift after structural changes, dispatches 3 parallel specialist reviewers (structural/tabular, prose/content, metadata/numeric), auto-fixes numeric/structural drift, presents prose changes for approval
+- `.kiro/steering/docs-structure.md` — kiro-config's project-local enumeration steering file declaring tracked categories and which docs enumerate them (10 enumeration docs tracked)
+- `skills/design-and-spec/SKILL.md` — Step 0 "Ripple check" in convergence phase: list docs that enumerate the artifact category being added
+- `skills/post-implementation/SKILL.md` — "Numeric drift check" step: runs `doc-consistency.sh` after every implementation
+- `skills/post-implementation/SKILL.md` — "Doc-drift detection" step: invokes doc-drift skill when tracked-category files are created/deleted
+- `hooks/doc-consistency.sh` — steering file count check (closes M-13 from audit-triage-v0.5.1)
+- Run stats logging at `~/.kiro/logs/doc-drift.md` (not committed) with enhanced format: steering path, docs checked, discovery pass results, drift age
+
+### Changed
+- Feature counts updated across all living docs: 19→20 skills
+- README structure tree comment fixed: was "11 persistent context docs" (stale since v0.7.0), now "12 steering docs"
+- `skills/agent-audit/SKILL.md` baseline updated from v0.7.0 (12/19/11/11) to v0.8.0 (12/20/11/11)
+- `agents/devops-orchestrator.json` — doc-drift skill added to resources
+- `agents/prompts/orchestrator.md` — "doc drift, check my docs, audit docs" added to DO NOT delegate triggers
+- `docs/improvements/pending.md` — doc-audit proposal removed (superseded)
+- `docs/improvements/resolved.md` — doc-audit proposal marked superseded by doc-drift spec
+- `skills/doc-drift/SKILL.md` — discovery pass strengthened: marked MANDATORY, requires dedicated "Steering File Updates" section in output, reports "none found" when clean
+- `skills/doc-drift/SKILL.md` — parallel dispatch instruction strengthened: "This is not optional", requires per-specialist labeled output sections
+- `skills/doc-drift/SKILL.md` — on-demand verification added: runs `doc-consistency.sh` after fixes (post-impl Step 4 doesn't fire in on-demand mode)
+- `docs-structure.md` location: moved from global `steering/` to project-local `.kiro/steering/` (global steering loads into every session — wrong for project-specific data)
+
+### Fixed
+- `docs/setup/team-onboarding.md` — 3 stale "19 skills" references (should be 20; caught by doc-drift on first run)
+- `docs/setup/kiro-cli-install-checklist.md` — steering count said 11, actual is 12 (missing `terraform.md` from v0.7.0; caught by doc-drift)
+- `README.md` — TDD and systematic-debugging skill matrix rows had incorrect agent assignments (caught by doc-drift on second run)
+- `docs/reference/skill-catalog.md` — TDD and systematic-debugging descriptions and matrix rows updated to match actual agent configs (caught by doc-drift)
+- `.kiro/steering/docs-structure.md` — added `docs/reference/audit-playbook.md` and `docs/setup/troubleshooting.md` (discovered by doc-drift discovery pass as unlisted enumeration docs)
+
+### Verified
+- Skill name collision test: global skill (explicit `skill://` reference) wins over project-local (`.kiro/skills/`) with same name. No error, no dual-fire.
+
 ## [v0.7.0] - 2026-04-19
 
 ### BREAKING

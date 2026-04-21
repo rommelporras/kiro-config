@@ -24,7 +24,7 @@ The `devops-orchestrator` is the default agent. It never writes executable code 
 ## Features
 
 - **12 steering docs** — engineering, tooling, universal rules, AWS CLI, security, Python/boto3, Shell/Bash, TypeScript, web development, frontend, design principles, terraform
-- **19 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
+- **20 skills** — curated per agent: planning, delegation, TDD, debugging, code review, and more
 - **11 hooks** — secret scanning, sensitive file protection, bash write protection, sed/awk block on JSON, doc consistency, workspace context injection, session notification, terraform preflight gate, self-learning pipeline (context enrichment, correction detection, auto-capture, distillation)
 - **11 agents** — devops-orchestrator + 9 specialists + base fallback
 - **Self-learning knowledge pipeline** — corrections auto-captured, keywords tracked, rules auto-promoted
@@ -70,11 +70,12 @@ The `devops-orchestrator` is the default agent. It never writes executable code 
 │   └── archive/     # Monthly archives
 ├── scripts/         # Setup and maintenance
 ├── settings/        # CLI settings (cli.json, mcp.json)
-├── skills/          # 18 agent skills (curated per agent)
+├── skills/          # 20 agent skills (curated per agent)
 │   ├── agent-audit/
 │   ├── design-and-spec/
+│   ├── doc-drift/
 │   └── ...
-├── steering/        # 11 persistent context docs (includes design-principles.md)
+├── steering/        # 12 steering docs
 └── docs/            # Reference and setup docs
 ```
 
@@ -140,15 +141,16 @@ These are shared safety and behavior contracts — changing them weakens the sys
 | agent-audit | ✓ | | | | | | | | | |
 | trace-code | ✓ | | | | | | | | ✓ | |
 | codebase-audit | ✓ | | | | | | | | | |
-| test-driven-development | | | ✓ | | ✓ | | | ✓ | | |
-| systematic-debugging | | | ✓ | ✓ | ✓ | | | | ✓ | |
+| test-driven-development | | | ✓ | ✓ | ✓ | ✓ | | ✓ | | |
+| systematic-debugging | | | ✓ | ✓ | ✓ | | | ✓ | ✓ | |
 | verification-before-completion | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | receiving-code-review | | | ✓ | ✓ | ✓ | ✓ | | ✓ | | |
 | python-audit | | | ✓ | | | | ✓ | | | |
 | typescript-audit | | | | | | | ✓ | | | |
 | terraform-audit | | | | | | | | | ✓ | |
+| doc-drift | ✓ | | | | | | | | | |
 
-**base agent** loads 14 of the 19 global skills — all orchestrator skills except dispatching-parallel-agents, execution-planning, subagent-driven-development, and post-implementation, plus the subagent-only skills. See [Skill Catalog](docs/reference/skill-catalog.md) for the full list.
+**base agent** loads 14 of the 20 global skills — all orchestrator skills except dispatching-parallel-agents, execution-planning, subagent-driven-development, and post-implementation, plus the subagent-only skills. See [Skill Catalog](docs/reference/skill-catalog.md) for the full list.
 
 ## Self-Learning Pipeline
 
@@ -195,7 +197,7 @@ MIT
 
 ## Documentation
 
-- [Skill Catalog](docs/reference/skill-catalog.md) — all 19 skills with triggers and agent assignments
+- [Skill Catalog](docs/reference/skill-catalog.md) — all 20 skills with triggers and agent assignments
 - [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
 - [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
 - [Audit Playbook](docs/reference/audit-playbook.md) — invariants, quick health check, deep audit protocol, historical failure patterns

@@ -92,7 +92,8 @@ with user first. Single-file rm within allowed paths is safe.
 ### → Handle directly (DO NOT delegate)
 Triggers: explain, what is, how does, should I, compare, plan, design, brainstorm,
 spec out, define requirements, commit, push, agent-audit, trace, map code flow,
-health check, codebase audit, restructure repo, create context docs, set up AI knowledge base, execution plan
+health check, codebase audit, restructure repo, create context docs, set up AI knowledge base, execution plan,
+doc drift, check my docs, audit docs
 
 ## Workflow Definitions
 

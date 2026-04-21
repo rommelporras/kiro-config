@@ -7,6 +7,7 @@ total=$(find "${KIRO_CONFIG_DIR}/skills" -name "SKILL.md" | wc -l | tr -d ' ')
 base=$(jq '[.resources[] | select(type == "string" and startswith("skill://"))] | length' "${KIRO_CONFIG_DIR}/agents/base.json")
 agents=$(find "${KIRO_CONFIG_DIR}/agents" "${KIRO_CONFIG_DIR}/.kiro/agents" -name '*.json' 2>/dev/null | wc -l | tr -d ' ')
 hooks=$(find "${KIRO_CONFIG_DIR}/hooks" -name '*.sh' -not -path '*/hooks/_lib/*' | wc -l | tr -d ' ')
+steering=$(find "${KIRO_CONFIG_DIR}/steering" -name '*.md' | wc -l | tr -d ' ')
 
 drift=0
 
@@ -70,9 +71,11 @@ fi
 check "README.md" '\*\*\d+ agents\*\*' "${agents}" "agents"
 # README.md — **NN hooks**
 check "README.md" '\*\*\d+ hooks\*\*' "${hooks}" "hooks"
+# README.md — **NN steering docs**
+check "README.md" '\*\*\d+ steering docs\*\*' "${steering}" "steering docs"
 
 if (( drift == 0 )); then
-  echo "Doc consistency: all counts match (${total} skills, ${base} base, ${agents} agents, ${hooks} hooks)"
+  echo "Doc consistency: all counts match (${total} skills, ${base} base, ${agents} agents, ${hooks} hooks, ${steering} steering)"
 fi
 
 exit "${drift}"
