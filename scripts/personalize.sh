@@ -1,77 +1,113 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-[[ "${TRACE:-}" == "1" ]] && set -x
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+LOCAL_PATHS="${REPO_DIR}/.local-paths"
 
-KIRO_CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-AGENTS_DIR="${KIRO_CONFIG_DIR}/agents"
+# --- Load or prompt for config ---
+if [[ -f "${LOCAL_PATHS}" ]]; then
+  # shellcheck source=/dev/null
+  source "${LOCAL_PATHS}"
+  echo "Loaded config from .local-paths — re-applying paths..."
+else
+  echo "Where do your projects live? (space-separated, e.g. ~/projects ~/work)"
+  read -r -p "> " raw_paths
 
-# --- Collect project paths ---
-echo "Where do your projects live? (space-separated paths, e.g. ~/projects ~/work)"
-read -r -p "> " raw_paths
+  [[ -z "${raw_paths}" ]] && { echo "ERROR: no paths provided" >&2; exit 1; }
 
+  user_paths_input="${raw_paths}"
+
+  echo "Path to your kiro-config clone (Enter for: ${REPO_DIR}):"
+  read -r -p "> " kiro_input
+  kiro_input="${kiro_input:-${REPO_DIR}}"
+
+  # Expand ~ in kiro path
+  KIRO_CONFIG_PATH="${kiro_input/#\~/$HOME}"
+  PROJECT_PATHS="${user_paths_input}"
+
+  printf 'PROJECT_PATHS="%s"\nKIRO_CONFIG_PATH="%s"\n' \
+    "${PROJECT_PATHS}" "${KIRO_CONFIG_PATH}" > "${LOCAL_PATHS}"
+  echo "Saved to .local-paths"
+fi
+
+# --- Build path arrays from PROJECT_PATHS ---
 user_paths=()
-for p in ${raw_paths}; do
-  expanded="${p/#\~/$HOME}"
-  [[ ! -d "${expanded}" ]] && echo "  WARNING: '${expanded}' does not exist yet"
+for p in ${PROJECT_PATHS}; do
   user_paths+=("${p}")
 done
 
-(( ${#user_paths[@]} == 0 )) && { echo "ERROR: no paths provided" >&2; exit 1; }
+(( ${#user_paths[@]} == 0 )) && { echo "ERROR: PROJECT_PATHS is empty" >&2; exit 1; }
 
-# Build JSON arrays via jq
+# Build JSON arrays
 read_paths="$(printf '%s\n' "${user_paths[@]}" | jq -Rn '["~/.kiro"] + [inputs] + ["./**"]')"
 write_paths="$(printf '%s\n' "${user_paths[@]}" | jq -Rn '[inputs | . + "/**"] + ["./**"]')"
+write_paths_with_docs="$(printf '%s\n' "${user_paths[@]}" | jq -Rn '["docs/**"] + [inputs | . + "/**"] + ["./**"]')"
+read_paths_bare="$(printf '%s\n' "${user_paths[@]}" | jq -Rn '["~/.kiro"] + [inputs]')"
+kiro_write_paths="$(jq -n --arg p "${KIRO_CONFIG_PATH}/**" '[$p]')"
 
-# --- Update agent JSON files ---
+AGENTS_DIR="${REPO_DIR}/agents"
+
+# --- Helper ---
 update_file() {
   local file="$1" filter="$2"; shift 2
   local tmp; tmp="$(mktemp)"
   trap 'rm -f "${tmp}"' RETURN
   jq "$@" "${filter}" "${file}" > "${tmp}"
   mv "${tmp}" "${file}"
-  echo "  updated: $(basename "${file}")"
+  echo "  updated: ${file#"${REPO_DIR}/"}"
 }
 
 echo ""
 echo "Updating agent configs..."
 
-for f in base.json devops-orchestrator.json; do
+# jq filter strings — $r and $w are jq --argjson variables, not shell variables
+# shellcheck disable=SC2016
+filter_rw='.toolsSettings.fs_read.allowedPaths = $r | .toolsSettings.fs_write.allowedPaths = $w'
+# shellcheck disable=SC2016
+filter_w='.toolsSettings.fs_write.allowedPaths = $w'
+# shellcheck disable=SC2016
+filter_r='.toolsSettings.fs_read.allowedPaths = $r'
+
+# Read + Write: base.json
+update_file "${AGENTS_DIR}/base.json" \
+  "${filter_rw}" --argjson r "${read_paths}" --argjson w "${write_paths}"
+
+# Read + Write: devops-orchestrator.json (keeps docs/**)
+update_file "${AGENTS_DIR}/devops-orchestrator.json" \
+  "${filter_rw}" --argjson r "${read_paths}" --argjson w "${write_paths_with_docs}"
+
+# Write-only agents
+for f in devops-docs.json devops-python.json devops-shell.json \
+          devops-refactor.json devops-typescript.json devops-frontend.json; do
   update_file "${AGENTS_DIR}/${f}" \
-    '.toolsSettings.fs_read.allowedPaths = $r | .toolsSettings.fs_write.allowedPaths = $w' \
-    --argjson r "${read_paths}" --argjson w "${write_paths}"
+    "${filter_w}" --argjson w "${write_paths}"
 done
 
-for f in devops-docs.json devops-python.json devops-shell.json devops-refactor.json; do
-  update_file "${AGENTS_DIR}/${f}" \
-    '.toolsSettings.fs_write.allowedPaths = $w' \
-    --argjson w "${write_paths}"
-done
+# Read-only: devops-terraform.json
+update_file "${AGENTS_DIR}/devops-terraform.json" \
+  "${filter_r}" --argjson r "${read_paths_bare}"
+
+# Project-local: .kiro/agents/devops-kiro-config.json
+update_file "${REPO_DIR}/.kiro/agents/devops-kiro-config.json" \
+  "${filter_w}" --argjson w "${kiro_write_paths}"
 
 # --- Update setup-knowledge.sh ---
-echo ""
-echo "Path to your main project repo (for knowledge base, or press Enter to skip):"
-read -r -p "> " project_repo
-
-echo "Path to your kiro-config clone (press Enter for: ${KIRO_CONFIG_DIR}):"
-read -r -p "> " kiro_path
-kiro_path="${kiro_path:-${KIRO_CONFIG_DIR}}"
-kiro_path="${kiro_path/#\~/$HOME}"
-
-knowledge_script="${KIRO_CONFIG_DIR}/scripts/setup-knowledge.sh"
+first_path="${user_paths[0]}"
+knowledge_script="${REPO_DIR}/scripts/setup-knowledge.sh"
 tmp="$(mktemp)"
 trap 'rm -f "${tmp}"' EXIT
 
-cp "${knowledge_script}" "${tmp}"
-if [[ -n "${project_repo}" ]]; then
-  project_repo="${project_repo/#\~/$HOME}"
-  sed -i "s|~/eam/eam-sre/rommel-porras|${project_repo}|g" "${tmp}"
-fi
-sed -i "s|~/personal/kiro-config|${kiro_path}|g" "${tmp}"
+# NOTE: sed replacement is one-shot — only works against the original author's
+# hardcoded paths. Re-running with different paths won't find the original strings.
+sed \
+  -e "s|~/eam/eam-sre/rommel-porras|${first_path}|g" \
+  -e "s|~/personal/kiro-config|${KIRO_CONFIG_PATH}|g" \
+  "${knowledge_script}" > "${tmp}"
 mv "${tmp}" "${knowledge_script}"
 echo "  updated: scripts/setup-knowledge.sh"
 
 echo ""
 echo "Done."
-echo "  fs_read.allowedPaths  : ${read_paths}"
-echo "  fs_write.allowedPaths : ${write_paths}"
+echo "  PROJECT_PATHS     : ${PROJECT_PATHS}"
+echo "  KIRO_CONFIG_PATH  : ${KIRO_CONFIG_PATH}"

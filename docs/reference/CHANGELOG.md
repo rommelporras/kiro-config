@@ -5,6 +5,25 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.9.0] - 2026-04-24
+
+### Added
+- `docs/usage/` directory — usage guide split into 4 focused docs:
+  - `how-it-works.md` — mental model, agent roster, delegation flow, what's automatic
+  - `workflows.md` — cookbook with 10 copy-paste workflows (feature lifecycle, bug fix, review, refactor, trace, terraform, full-stack, health check, doc drift, quick question)
+  - `tips.md` — getting better results, power user patterns, common mistakes, gotchas from `knowledge/gotchas.md`
+  - `commands.md` — CLI commands, keyboard shortcuts, skill triggers, MCP servers, knowledge base
+  - `README.md` — index pointing to how-it-works.md as starting point
+- `docs/reference/customizing.md` — how to extend and adapt the config (allowedPaths, project-local steering/agents, adding skills, self-learning, maintenance)
+- `GETTING-STARTED.md` — setup guide with AI-readable personalization section for agent-assisted onboarding
+- `setup.sh` — auto-detects clone location, creates `~/.kiro/` symlinks, backs up existing dirs. Idempotent.
+- `scripts/personalize.sh` reworked — saves user paths to `.local-paths` (gitignored), silent re-apply on subsequent runs after `git pull`
+- `.local-paths` added to `.gitignore`
+
+### Changed
+- `USAGE-GUIDE.md` — converted to redirect pointing to `docs/usage/` (preserves existing links)
+- `README.md` — Setup section updated with `setup.sh` + `personalize.sh` flow; Documentation section updated with usage docs and customizing.md links
+
 ## [v0.8.0] - 2026-04-20
 
 ### Added
