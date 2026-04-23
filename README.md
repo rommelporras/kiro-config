@@ -81,27 +81,30 @@ The `devops-orchestrator` is the default agent. It never writes executable code 
 
 ## Setup
 
-```bash
-# Symlink into ~/.kiro
-for dir in steering agents skills settings hooks docs; do
-  ln -sfn /path/to/kiro-config/$dir ~/.kiro/$dir
-done
+See [GETTING-STARTED.md](GETTING-STARTED.md) for the full setup walkthrough, or the quick version:
 
-# Configure knowledge bases (run inside kiro-cli)
-bash scripts/setup-knowledge.sh
+```bash
+git clone https://github.com/rommelporras/kiro-config.git ~/your/path/kiro-config
+cd ~/your/path/kiro-config
+./setup.sh                    # symlink into ~/.kiro
+./scripts/personalize.sh      # set your project paths
 ```
+
+Then see [USAGE-GUIDE.md](USAGE-GUIDE.md) for how to use the orchestrator, trigger skills, and common workflows.
 
 ## Personalizing for Your Setup
 
-This config ships with paths like `~/personal` and `~/eam` that are specific to the original author. Run the setup script from your clone directory to replace them with yours:
+This config ships with paths like `~/personal` and `~/eam` that are specific to the original author. Run the setup script to replace them with yours:
 
 ```bash
-bash ~/your/path/kiro-config/scripts/personalize.sh
+./scripts/personalize.sh
 ```
 
-The script interactively updates `fs_read.allowedPaths` and `fs_write.allowedPaths` in all agent configs plus the knowledge base paths in `scripts/setup-knowledge.sh`.
+The script interactively updates `fs_read.allowedPaths` and `fs_write.allowedPaths` in all agent configs plus the knowledge base paths in `scripts/setup-knowledge.sh`. See [GETTING-STARTED.md](GETTING-STARTED.md) for the full personalization guide.
 
 **Setup walkthroughs:**
+- [Getting Started](GETTING-STARTED.md) — setup + AI-assisted personalization guide
+- [Usage Guide](USAGE-GUIDE.md) — how to use the orchestrator, skills, and workflows
 - [Install Checklist](docs/setup/kiro-cli-install-checklist.md) — Kiro CLI install, clone, symlink, verify
 - [Team Onboarding](docs/setup/team-onboarding.md) — full 4-step setup for teammates (~5 minutes)
 - [Troubleshooting](docs/setup/troubleshooting.md) — steering not loading, broken symlinks, hook false positives
@@ -197,6 +200,9 @@ MIT
 
 ## Documentation
 
+- [Getting Started](GETTING-STARTED.md) — setup in 4 steps
+- **Usage Guide** — [How It Works](docs/usage/how-it-works.md) · [Workflows](docs/usage/workflows.md) · [Tips](docs/usage/tips.md) · [Commands](docs/usage/commands.md)
+- [Customizing](docs/reference/customizing.md) — how to extend and adapt the config
 - [Skill Catalog](docs/reference/skill-catalog.md) — all 20 skills with triggers and agent assignments
 - [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
 - [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
