@@ -11,60 +11,24 @@ Get this kiro-config working on your machine. Takes ~5 minutes.
 
 ## Step 1: Clone
 
-Pick a location that suits your directory layout. Use SSH if you have GitHub
-SSH keys configured, otherwise HTTPS works without setup:
-
 ```bash
-# SSH (requires GitHub SSH keys):
-git clone git@github.com:rommelporras/kiro-config.git ~/your/path/kiro-config
-
-# HTTPS (works everywhere):
 git clone https://github.com/rommelporras/kiro-config.git ~/your/path/kiro-config
+cd ~/your/path/kiro-config
 ```
 
-The path you choose here is used in the next step — keep it in mind.
+## Step 2: Symlink and personalize
 
-## Step 2: Symlink
-
-Wire the config into `~/.kiro`:
+Wire the config into `~/.kiro` and set your project paths:
 
 ```bash
-# Back up any existing Kiro defaults (all 6 directories the loop will replace)
-for dir in steering agents skills settings hooks docs; do
-  [ -e ~/.kiro/$dir ] && [ ! -L ~/.kiro/$dir ] && mv ~/.kiro/$dir ~/.kiro/$dir.bak
-done
-
-# Symlink — replace ~/your/path/kiro-config with your actual clone path
-for dir in steering agents skills settings hooks docs; do
-  ln -sfn ~/your/path/kiro-config/$dir ~/.kiro/$dir
-done
+./setup.sh
+./scripts/personalize.sh
 ```
 
-The `[ ! -L ]` check skips existing symlinks so re-runs don't clobber valid links.
+`setup.sh` creates `~/.kiro` symlinks. `personalize.sh` prompts for your project
+directories and updates all agent configs.
 
-## Step 3: Personalize
-
-The config ships with paths (`~/personal`, `~/eam`) specific to the original author.
-Run the setup script to replace them with yours:
-
-```bash
-bash ~/your/path/kiro-config/scripts/personalize.sh
-```
-
-(Run from the clone path — `scripts/` is not symlinked into `~/.kiro/` because
-it's a one-shot setup utility, not a runtime resource.)
-
-The script will ask for:
-- Your clone path (where you ran `git clone` in Step 1)
-- Your project root(s) — directories where agents should be allowed to read/write
-
-It updates:
-- All agent configs (`allowedPaths` in `fs_read` and `fs_write`) — controls where agents can read and write files
-- Knowledge base paths in `scripts/setup-knowledge.sh`
-
-If you need to add more trusted paths later, re-run `personalize.sh` or edit the relevant agent JSON directly — update `toolsSettings.fs_read.allowedPaths` and `toolsSettings.fs_write.allowedPaths`.
-
-## Step 4: Verify
+## Step 3: Verify
 
 Start a `kiro-cli` session and run:
 
@@ -148,6 +112,44 @@ project-specific steering, skills, or agent overrides that only apply in that di
 
 ```bash
 cd ~/your/path/kiro-config && git pull
+./scripts/personalize.sh   # re-applies your paths from .local-paths
 ```
 
 Symlinks mean changes take effect on the next `kiro-cli` session — no re-linking needed.
+
+## Exploring the config
+
+Ask Kiro to help you understand the system:
+
+```
+Explain the agent architecture — what does each agent do?
+```
+
+```
+What steering docs are loaded and what do they enforce?
+```
+
+```
+Walk me through the security model — what's blocked and why?
+```
+
+```
+What skills are available and how do I trigger them?
+```
+
+## Key docs
+
+| Doc | What it covers |
+|-----|---------------|
+| [How It Works](../usage/how-it-works.md) | Agent architecture, hooks, steering, skills |
+| [Workflows](../usage/workflows.md) | Common task patterns and delegation flows |
+| [Tips](../usage/tips.md) | Practical usage tips |
+| [Commands](../usage/commands.md) | Slash commands and keyboard shortcuts |
+| [Customizing](../reference/customizing.md) | Adapting the config to your setup |
+| [Team Onboarding](team-onboarding.md) | Full setup walkthrough |
+| [Install Checklist](kiro-cli-install-checklist.md) | Kiro CLI installation |
+| [Troubleshooting](troubleshooting.md) | Common issues and fixes |
+| [Security Model](../reference/security-model.md) | 3-layer defense: hooks, denied paths, denied commands |
+| [Skill Catalog](../reference/skill-catalog.md) | All skills with triggers |
+| [Creating Agents](../reference/creating-agents.md) | How to add new specialist agents |
+| [IDE + WSL2 Setup](kiro-ide-wsl-setup.md) | Kiro IDE on WSL2 |

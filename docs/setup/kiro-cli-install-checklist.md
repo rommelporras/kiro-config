@@ -33,23 +33,15 @@ kiro-cli doctor
 ## 2. Clone and symlink
 
 ```bash
-git clone https://github.com/rommelporras/kiro-config.git ~/personal/kiro-config
-
-# Back up existing Kiro defaults (all 6 directories the loop will replace)
-for dir in steering agents skills settings hooks docs; do
-  [ -e ~/.kiro/$dir ] && [ ! -L ~/.kiro/$dir ] && mv ~/.kiro/$dir ~/.kiro/$dir.bak
-done
-
-# Symlink into ~/.kiro/
-for dir in steering agents skills settings hooks docs; do
-  ln -sfn ~/personal/kiro-config/$dir ~/.kiro/$dir
-done
+git clone https://github.com/rommelporras/kiro-config.git ~/your/path/kiro-config
+cd ~/your/path/kiro-config
+./setup.sh
 ```
 
 That's it. Settings (`cli.json`), hooks, steering, skills, and agent config are all
 included in the symlinks — no manual `kiro-cli settings` commands needed.
 
-> **If you're using paths other than `~/personal` or `~/eam`:** run `bash ~/personal/kiro-config/scripts/personalize.sh` to update agent allowedPaths to your project directories. See [Team Onboarding → Step 3](team-onboarding.md#step-3-personalize) for details.
+> **Personalize paths:** run `./scripts/personalize.sh` to update agent allowedPaths to your project directories. See [Team Onboarding → Step 2](team-onboarding.md#step-2-personalize) for details.
 
 ## 3. Set AWS profile (if using AWS MCP servers)
 
@@ -100,17 +92,19 @@ still require approval — press `t` to trust a tool for the session.
 - **Read:** `~/.kiro`, `~/personal`, `~/eam`
 - **Write:** `~/personal`, `~/eam`
 
-> Customize paths in `agents/base.json` → `toolsSettings` to match your directory layout.
+> Customize paths by running `personalize.sh` or editing `agents/base.json` → `toolsSettings` directly.
 
 ## Updating
 
-Pull the latest config:
+Pull the latest and re-personalize:
 
 ```bash
-cd ~/personal/kiro-config && git pull
+cd ~/your/path/kiro-config && git pull
+./scripts/personalize.sh   # re-applies your paths from .local-paths
 ```
 
-Symlinks mean changes take effect on the next `kiro-cli` session — no re-linking needed.
+`.local-paths` is gitignored, so your paths survive pulls. Re-running `personalize.sh`
+reads `.local-paths` silently and re-applies without prompting.
 
 ## Kiro IDE (optional)
 

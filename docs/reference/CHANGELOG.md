@@ -5,6 +5,20 @@ All notable changes to this project will be documented here.
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.10.0] - 2026-04-24
+
+### Added
+- `.kiro/sync-from-eam-sre.md` — sync rules for eam-sre → personal repo workflow. Defines sanitization rules, file classification (safe/needs-adaptation/skip), and internal reference substitution table. Not a script — a prompt file the eam-sre agent reads on demand.
+
+### Changed
+- `GETTING-STARTED.md` — rewritten with better intro, "What it does" summary, dual personalization options (AI-assisted + manual), `.local-paths` quick path for agents, "How to use it" examples, "Where to learn more" table, cosmetic notes section
+- `README.md` — Documentation section reorganized (reference docs first, usage docs grouped at end), setup walkthrough descriptions updated
+- `docs/setup/team-onboarding.md` — simplified to 3 steps using `setup.sh`, added "Exploring the config" prompts and "Key docs" table
+- `docs/setup/kiro-cli-install-checklist.md` — simplified step 2 to use `setup.sh`, streamlined updating section
+- `docs/setup/troubleshooting.md` — genericized symlink re-creation path
+- `.kiro/steering/docs-structure.md` — added 4 usage/reference docs to enumeration table
+- `docs/reference/CHANGELOG.md` — removed GitHub URL from v0.1.0 heading
+
 ## [v0.9.0] - 2026-04-24
 
 ### Added
@@ -491,7 +505,7 @@ Multi-agent orchestrator, self-learning knowledge system, curated skill assignme
 - Dead `section_cap_enforce()` stub from `distill.sh`
 - Removed misplaced skill assignments: explain-code from dev-python/dev-reviewer/dev-refactor, test-driven-development from dev-shell, python-audit from dev-refactor
 
-## [v0.1.0](https://github.com/rommelporras/kiro-config/releases/tag/v0.1.0) - 2026-03-26
+## [v0.1.0] - 2026-03-26
 
 First release of kiro-config — opinionated global Kiro CLI configuration with 11 workflow skills, 3-layer security, and engineering steering.
 
