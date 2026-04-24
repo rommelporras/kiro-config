@@ -104,9 +104,8 @@ The script interactively updates `fs_read.allowedPaths` and `fs_write.allowedPat
 
 **Setup walkthroughs:**
 - [Getting Started](GETTING-STARTED.md) — setup + AI-assisted personalization guide
-- [Usage Guide](USAGE-GUIDE.md) — how to use the orchestrator, skills, and workflows
 - [Install Checklist](docs/setup/kiro-cli-install-checklist.md) — Kiro CLI install, clone, symlink, verify
-- [Team Onboarding](docs/setup/team-onboarding.md) — full 4-step setup for teammates (~5 minutes)
+- [Team Onboarding](docs/setup/team-onboarding.md) — full 3-step setup for teammates (~5 minutes)
 - [Troubleshooting](docs/setup/troubleshooting.md) — steering not loading, broken symlinks, hook false positives
 
 ### What NOT to change
@@ -200,9 +199,6 @@ MIT
 
 ## Documentation
 
-- [Getting Started](GETTING-STARTED.md) — setup in 4 steps
-- **Usage Guide** — [How It Works](docs/usage/how-it-works.md) · [Workflows](docs/usage/workflows.md) · [Tips](docs/usage/tips.md) · [Commands](docs/usage/commands.md)
-- [Customizing](docs/reference/customizing.md) — how to extend and adapt the config
 - [Skill Catalog](docs/reference/skill-catalog.md) — all 20 skills with triggers and agent assignments
 - [Creating Agents](docs/reference/creating-agents.md) — how to add new specialist agents
 - [Security Model](docs/reference/security-model.md) — 3-layer defense: hooks, denied paths, denied commands
@@ -211,5 +207,10 @@ MIT
 - [Team Onboarding](docs/setup/team-onboarding.md) — get a teammate running in 5 minutes
 - [Install Checklist](docs/setup/kiro-cli-install-checklist.md) — get running in 4 steps
 - [Troubleshooting](docs/setup/troubleshooting.md) — common issues and fixes
+- [How It Works](docs/usage/how-it-works.md) — mental model, agent roster, delegation flow
+- [Workflows](docs/usage/workflows.md) — cookbook with real prompts for common tasks
+- [Tips](docs/usage/tips.md) — getting better results, common mistakes, gotchas
+- [Commands](docs/usage/commands.md) — CLI commands, keyboard shortcuts, skill triggers
+- [Customizing](docs/reference/customizing.md) — how to extend and adapt the config
 - [IDE + WSL2 Setup](docs/setup/kiro-ide-wsl-setup.md) — Kiro IDE on WSL2 with Open Remote extension
 - [Personal Setup](docs/setup/rommel-porras-setup.md) — chezmoi integration and dotfiles layout

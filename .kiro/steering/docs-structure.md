@@ -19,6 +19,10 @@
 | docs/setup/troubleshooting.md | steering file list, hook references |
 | docs/reference/CHANGELOG.md | delivered artifacts per version |
 | skills/agent-audit/SKILL.md | baseline counts (agents, skills, steering, hooks) |
+| docs/usage/how-it-works.md | agent roster table, delegation statuses |
+| docs/usage/workflows.md | workflow list with prompts |
+| docs/usage/commands.md | CLI commands table, skill triggers table, MCP servers table |
+| docs/reference/customizing.md | what to change vs not change, extension patterns |
 
 ## Discovery
 Scan all *.md files not listed above for potential enumerations.
